@@ -62,6 +62,8 @@ class Journal:
 
     def annotate(self, **fields: Any) -> None:
         """Out-of-kernel observations (latency marks, executor notes). Not replayed."""
+        if "kind" in fields:
+            raise ValueError("'kind' is reserved in journal records")
         self._write({"kind": "note", **fields})
 
     def close(self) -> None:
