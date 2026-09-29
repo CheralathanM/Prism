@@ -1,0 +1,7 @@
+# Local Whisper STT for the gemini_local stack (CPU). These are the versions already installed
+# alongside the FDB-v3 harness's NeMo ASR; nothing extra is needed if nemo_toolkit[asr] is present.
+# Install CPU-only torch first to avoid multi-GB CUDA wheels:
+#   pip install torch==2.14.0 --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements-local-stt.txt
+torch==2.14.0
+transformers==5.17.0

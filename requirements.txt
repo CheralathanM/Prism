@@ -1,12 +1,15 @@
-# Agent runtime (versions verified installed and tested in Phase 3)
+# Agent runtime (versions verified installed and tested)
 livekit-agents[openai,silero]==1.8.3
 livekit-plugins-openai==1.8.3
 livekit-plugins-silero==1.8.3
 livekit==1.1.18
 livekit-api==1.2.1
-openai==2.54.0
+openai==2.54.0  # SDK only; the gemini_local stack uses it against Google's OpenAI-compatible endpoint
+httpx==0.28.1   # Gemini TTS REST client
 python-dotenv==1.2.3
 numpy==2.5.3
 
 # Tests
 pytest==8.3.3
+
+# Local Whisper STT (gemini_local stack) needs torch + transformers: see requirements-local-stt.txt

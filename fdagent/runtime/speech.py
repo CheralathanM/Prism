@@ -57,6 +57,9 @@ class SpeechChannel:
                 if not self._interrupt_requested:
                     raise
                 interrupted = True
+            except Exception as e:
+                # A TTS/transport failure loses this utterance but must not kill the channel.
+                self._mark(name="speech_failed", speech_kind=a.kind, error=f"{type(e).__name__}: {e}")
             finally:
                 self._interrupt_requested = False
             self._post(AgentSpeechEnded(interrupted=interrupted))
