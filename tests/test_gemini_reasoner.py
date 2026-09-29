@@ -75,7 +75,7 @@ def test_request_shape_and_typed_parsing():
     [c] = draft.calls
     assert (c.tool, c.args) == ("find_rooms", {"town": "Eastvale", "beds": 3, "budget": 1100.0})
     kw = client.requests[0]
-    assert kw["model"] == DEFAULT_GEMINI_PLANNER_MODEL == "gemini-3.8-flash"
+    assert kw["model"] == DEFAULT_GEMINI_PLANNER_MODEL == "gemini-3.5-flash-lite"
     assert kw["temperature"] == 0 and kw["reasoning_effort"] == "low"
     assert kw["response_format"] == {"type": "json_object"}
     # The planner is never offered tools and never sends an unsupported seed.
@@ -131,11 +131,19 @@ def test_agent_settings_default_to_zero_cost_stack():
 
     s = AgentSettings.from_env({})
     assert (s.stack, s.gemini_planner_model, s.gemini_tts_model, s.whisper_model) == (
-        "gemini_local", "gemini-3.8-flash", "gemini-3.8-flash-lite-tts", "openai/whisper-small.en")
+        "gemini_local", "gemini-3.5-flash-lite", "gemini-3.8-flash-lite-tts", "openai/whisper-tiny.en")
+    # The previous default stays selectable through the environment override.
+    assert AgentSettings.from_env({"FDAGENT_GEMINI_PLANNER_MODEL": "gemini-3.8-flash"}).gemini_planner_model == "gemini-3.8-flash"
     assert "OPENAI_API_KEY" not in required_env(s) and "GOOGLE_API_KEY" in required_env(s)
     assert "OPENAI_API_KEY" in required_env(AgentSettings.from_env({"FDAGENT_STACK": "openai"}))
     with pytest.raises(ValueError):
         AgentSettings.from_env({"FDAGENT_STACK": "mystery"})
+
+
+def test_planner_model_override_reaches_the_request():
+    client = FakeGemini(lambda p, kw: {"keep": [], "new_calls": [], "reply": "Hi"})
+    run(GeminiReasoner(TOOLS_X, client=client, model="gemini-3.8-flash").propose(req()))
+    assert client.requests[0]["model"] == "gemini-3.8-flash"
 
 
 # ── the kernel is the only dispatcher ──────────────────────────────────────

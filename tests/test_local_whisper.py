@@ -37,6 +37,15 @@ class FakePipe:
         return {"text": f"  {self.text} "}
 
 
+def test_default_model_is_tiny_en_and_agent_default_matches():
+    from fdagent.voice import livekit_agent
+
+    assert DEFAULT_WHISPER_MODEL == "openai/whisper-tiny.en"
+    assert livekit_agent.DEFAULT_WHISPER_MODEL == DEFAULT_WHISPER_MODEL
+    assert livekit_agent.AgentSettings.from_env({"FDAGENT_WHISPER_MODEL": "openai/whisper-base.en"}).whisper_model \
+        == "openai/whisper-base.en"
+
+
 def test_conversion_resamples_to_16k_mono_float32():
     for rate, channels in ((48000, 1), (24000, 1), (48000, 2), (16000, 1)):
         out = frames_to_float32_16k(tone(0.5, rate, channels))

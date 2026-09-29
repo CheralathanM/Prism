@@ -24,7 +24,10 @@ from .openai_reasoner import PlanParseError, build_messages, parse_plan
 log = logging.getLogger(__name__)
 
 GEMINI_OPENAI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
-DEFAULT_GEMINI_PLANNER_MODEL = "gemini-3.8-flash"  # stable; free tier per ai.google.dev pricing
+# Free tier per ai.google.dev pricing. flash-lite chosen for latency (measured ~1.1 s vs
+# 16.8 s + 503 "high demand" for gemini-3.8-flash on the free tier); gemini-3.8-flash
+# remains supported via FDAGENT_GEMINI_PLANNER_MODEL.
+DEFAULT_GEMINI_PLANNER_MODEL = "gemini-3.5-flash-lite"
 DEFAULT_REASONING_EFFORT = "low"  # Gemini 3 models cannot disable thinking; keep it small
 
 

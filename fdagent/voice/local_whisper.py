@@ -18,7 +18,9 @@ from livekit import rtc
 from livekit.agents import stt, utils
 from livekit.agents.types import NOT_GIVEN, APIConnectOptions, NotGivenOr
 
-DEFAULT_WHISPER_MODEL = "openai/whisper-small.en"
+# tiny.en: 0% WER on a measured benchmark request turn, 1.7 s vs 3.9 s (base.en) / 7.7 s (small.en)
+# on this CPU. Override with FDAGENT_WHISPER_MODEL (e.g. openai/whisper-base.en) for harder audio.
+DEFAULT_WHISPER_MODEL = "openai/whisper-tiny.en"
 TARGET_RATE = 16000
 
 PipelineFactory = Callable[[str, str], Any]

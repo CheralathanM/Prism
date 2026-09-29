@@ -45,7 +45,7 @@ from fdagent.voice.ingress import IngressBridge
 log = logging.getLogger("fdagent.livekit")
 REPO_ROOT = Path(__file__).resolve().parents[2]
 STACKS = ("gemini_local", "openai")
-DEFAULT_WHISPER_MODEL = "openai/whisper-small.en"  # mirrors voice.local_whisper (avoids importing it eagerly)
+DEFAULT_WHISPER_MODEL = "openai/whisper-tiny.en"  # mirrors voice.local_whisper (avoids importing it eagerly)
 
 
 @dataclass(frozen=True)
