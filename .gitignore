@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+.env.local
+third_party/
+results/**/audio/
+*.wav
+
+# Organizer material (kept locally, not redistributed)
+*.docx
+
