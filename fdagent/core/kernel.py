@@ -83,6 +83,9 @@ class SessionKernel:
         actions = self._handlers[type(env.event)](env.event)
         actions += reconcile(self.state, self.config, self.ids, self._note)
         actions += self._after_reconcile()
+        for a in actions:
+            if isinstance(a, Speak):
+                self.state.conversation.append({"role": "agent", "text": a.text, "kind": a.kind})
 
         if self.journal is not None:
             self.journal.record(env, self._decisions, actions)
@@ -98,6 +101,7 @@ class SessionKernel:
                 {
                     "key": dc.key,
                     "tool": dc.tool,
+                    "occurrence": dc.occurrence,
                     "args": op.args if op else dc.args,
                     "status": op.status.value if op else ("invalid" if dc.key in s.invalid else "planned"),
                     "result": op.result if op else None,
@@ -109,6 +113,7 @@ class SessionKernel:
                 "session_id": s.session_id,
                 "generation": s.generation,
                 "transcript": [t["text"] for t in s.transcript],
+                "conversation": s.conversation,
                 "calls": calls,
                 "orphan_effects": s.orphan_effects,
                 "tools": sorted(s.tools),
@@ -167,6 +172,7 @@ class SessionKernel:
         cue = correction_cue(text)
         self._bump_generation("transcript", correction_cue=cue)
         s.transcript.append({"generation": s.generation, "text": text})
+        s.conversation.append({"role": "user", "text": text})
         return [self._request_reasoning("transcript")]
 
     def _on_turn_ended(self, ev: UserTurnEnded) -> list[Action]:
@@ -258,7 +264,7 @@ class SessionKernel:
                 self._note("proposal_duplicate_collapsed", index=i, key=key)
                 continue
             deps = tuple(k for j in c.depends_on if (k := keys[j]) is not None)
-            desired[key] = DesiredCall(key, c.tool, args, deps, ev.generation, i)
+            desired[key] = DesiredCall(key, c.tool, args, deps, ev.generation, i, c.occurrence)
 
         before = list(s.desired)
         s.desired = desired

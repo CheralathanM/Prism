@@ -55,6 +55,7 @@ class SessionRuntime:
         self._sink = speech_sink
         self._reasoning: asyncio.Task | None = None
         self._runner: asyncio.Task | None = None
+        self._mark_listeners: list[Callable[[dict[str, Any]], None]] = []
         self.steps = 0
         self.failure: BaseException | None = None
         # Components needing a running loop are created in start().
@@ -86,10 +87,19 @@ class SessionRuntime:
     def post(self, event: Event) -> Envelope:
         return self.inbox.put(event)
 
+    def add_mark_listener(self, fn: Callable[[dict[str, Any]], None]) -> None:
+        self._mark_listeners.append(fn)
+
     def mark(self, **fields: Any) -> None:
         """Latency / observability mark (journal note, not replayed)."""
+        fields = {"t": self._clock(), "wall": time.time(), **fields}
         if self.kernel.journal:
-            self.kernel.journal.annotate(t=self._clock(), wall=time.time(), **fields)
+            self.kernel.journal.annotate(**fields)
+        for fn in self._mark_listeners:
+            try:
+                fn(fields)
+            except Exception:  # telemetry must never break the conversation
+                log.exception("mark listener failed")
 
     async def idle(self, settle_s: float = 0.02, timeout_s: float = 5.0) -> None:
         """Test/debug helper: wait until the inbox stays empty for ``settle_s``."""

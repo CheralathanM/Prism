@@ -185,22 +185,22 @@ def test_T7_many_events_while_slow_reasoner_runs():
     """INVARIANT 1/2: the kernel keeps processing events while reasoning is outstanding;
     a slow, outdated proposal cannot drive tools."""
     h = Harness()
-    h.user_says("I need a flight to Rome", end_turn=False)
+    h.user_says("I need a flight to Lisbon", end_turn=False)
     req1 = h.latest_request()
-    h.send(UserTranscript("no wait, Milan"))
-    h.send(UserTranscript("on June 3"))
+    h.send(UserTranscript("no wait, Porto"))
+    h.send(UserTranscript("on May 11"))
     h.send(UserTurnEnded())
     h.stabilize()
     req3 = h.latest_request()
     assert req3.request_id != req1.request_id
-    assert req3.snapshot["transcript"][-2:] == ["no wait, Milan", "on June 3"]
+    assert req3.snapshot["transcript"][-2:] == ["no wait, Porto", "on May 11"]
 
-    acts = h.propose([PC("search_flights", {"destination": "Rome", "date": "June 1"})], request=req1)
+    acts = h.propose([PC("search_flights", {"destination": "Lisbon", "date": "May 9"})], request=req1)
     assert not h.dispatches(acts)
     assert h.decisions("proposal_rejected")[-1]["reason"] == "superseded_request"
 
-    [d] = h.dispatches(h.propose([PC("search_flights", {"destination": "Milan", "date": "June 3"})], request=req3))
-    assert d.args["destination"] == "Milan"
+    [d] = h.dispatches(h.propose([PC("search_flights", {"destination": "Porto", "date": "May 11"})], request=req3))
+    assert d.args["destination"] == "Porto"
     assert len(h.dispatches()) == 1
 
 

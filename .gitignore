@@ -11,3 +11,7 @@ results/**/audio/
 # Organizer material (kept locally, not redistributed)
 *.docx
 
+
+# Per-room journals from local runs (curated runs go under results/<run_id>/)
+results/journals/
+

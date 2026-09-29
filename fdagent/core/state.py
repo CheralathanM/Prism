@@ -29,6 +29,8 @@ class SessionState:
     stable: bool = False  # current generation passed the stability window
     transcript: list[dict[str, Any]] = field(default_factory=list)  # {"generation", "text"}
     partial: str = ""
+    # Interleaved user segments and agent speech, in kernel order (context for the planner).
+    conversation: list[dict[str, Any]] = field(default_factory=list)
 
     # Plan (from the latest admitted reasoner proposal)
     desired: dict[str, DesiredCall] = field(default_factory=dict)

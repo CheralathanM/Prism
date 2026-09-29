@@ -68,6 +68,7 @@ class DesiredCall:
     depends_on: tuple[str, ...]  # dependency keys
     generation: int
     index: int  # position in the proposal (chain order)
+    occurrence: int = 0
 
 
 @dataclass

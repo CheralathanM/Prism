@@ -58,15 +58,15 @@ def test_R2_events_keep_flowing_while_reasoner_is_slow():
         rt = make_runtime(reasoner=reasoner, backend=backend)
         await rt.start()
         t0 = time.monotonic()
-        say(rt, "I need a flight to Rome", end=False)
-        rt.post(UserTranscript("no wait, Milan"))
+        say(rt, "I need a flight to Lisbon", end=False)
+        rt.post(UserTranscript("no wait, Porto"))
         rt.post(UserTurnEnded())
         await until(lambda: rt.steps >= 4)
         assert time.monotonic() - t0 < 0.1  # processed while req-1 still "thinking"
         await until(lambda: len(backend.started) == 1)
-        rt.post(ReasonerProposal("req-1", 1, (PC("search_flights", {"destination": "Rome", "date": "May 3"}),)))
+        rt.post(ReasonerProposal("req-1", 1, (PC("search_flights", {"destination": "Lisbon", "date": "May 3"}),)))
         await rt.idle()
-        assert [a["destination"] for _, a in backend.started] == ["Milan"]
+        assert [a["destination"] for _, a in backend.started] == ["Porto"]
         assert marks(rt, "reasoning_cancelled")
         assert decisions(rt, "proposal_rejected")[-1]["reason"] == "superseded_request"
         await rt.aclose()

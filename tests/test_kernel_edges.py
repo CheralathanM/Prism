@@ -85,7 +85,7 @@ def test_timeout_on_state_change_is_not_auto_retried():
 
 def test_key_normalisation():
     assert desired_call_key("t", {"city": " New  York", "n": 2}) == desired_call_key("t", {"city": "new york", "n": 2.0})
-    assert desired_call_key("t", {"city": "Rome"}) != desired_call_key("t", {"city": "Milan"})
+    assert desired_call_key("t", {"city": "Lisbon"}) != desired_call_key("t", {"city": "Porto"})
     assert desired_call_key("t", {"a": 1}, occurrence=1) != desired_call_key("t", {"a": 1})
 
 

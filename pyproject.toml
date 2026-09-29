@@ -3,11 +3,14 @@ name = "fdagent"
 version = "0.1.0"
 description = "Interruptible real-time voice agent: async intelligence, deterministic state (FDB-v3 / LiveKit)"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "livekit-agents[openai,silero]==1.8.3",
+    "openai==2.54.0",
+    "python-dotenv==1.2.3",
+]
 
 [project.optional-dependencies]
 dev = ["pytest==8.3.3"]
-# Voice/benchmark deps are pinned in Phase 3 after they are installed and verified.
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

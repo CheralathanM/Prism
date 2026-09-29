@@ -18,7 +18,7 @@ from fdagent.runtime.reasoner import Draft
 
 from .harness import TOOLS
 
-CITIES = ("Delhi", "Mumbai", "Rome", "Milan", "Oslo")
+CITIES = ("Delhi", "Mumbai", "Lisbon", "Porto", "Oslo")
 
 
 class CityReasoner:

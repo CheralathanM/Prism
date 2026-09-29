@@ -1,4 +1,4 @@
-﻿"""Speech egress: one ordered playout channel per session.
+"""Speech egress: one ordered playout channel per session.
 
 Utterances play strictly in order. ``stop()`` (barge-in) interrupts the current utterance
 and drops anything queued. Playout start/end are reported back as events so the kernel
@@ -15,8 +15,9 @@ from fdagent.core.events import AgentSpeechEnded, AgentSpeechStarted, Event
 
 
 class SpeechSink(Protocol):
-    async def say(self, text: str) -> None:
-        """Play ``text``; return when playout finished. Cancellation = interrupted."""
+    async def say(self, text: str) -> bool | None:
+        """Play ``text``; return when playout finished. Return True if the transport
+        interrupted playout on its own (e.g. LiveKit barge-in). Cancellation = interrupted."""
         ...
 
 
@@ -48,7 +49,7 @@ class SpeechChannel:
             self._current = asyncio.create_task(self._sink.say(a.text))
             interrupted = False
             try:
-                await self._current
+                interrupted = bool(await self._current)
             except asyncio.CancelledError:
                 # Cancelling the worker (shutdown, or asyncio.run cleanup) also cancels the
                 # awaited utterance. Only an explicit stop() counts as barge-in; anything
