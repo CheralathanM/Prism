@@ -24,6 +24,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
+import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Mapping
@@ -121,8 +122,70 @@ def _vad():
     return silero.VAD.load(min_speech_duration=0.05, min_silence_duration=0.55)
 
 
-async def build_stack(settings: AgentSettings, journal: Journal) -> tuple[Any, AgentSession, Any]:
-    """Return (reasoner, session, speech_sink) for the configured provider stack."""
+def _transcriber(model_id: str):
+    from fdagent.voice.local_whisper import get_transcriber
+
+    return get_transcriber(model_id)
+
+
+# ── process prewarm (LiveKit setup_fnc) ─────────────────────────────────────
+PREWARM_KEY = "fdagent_prewarmed"
+
+
+@dataclass(frozen=True)
+class Prewarmed:
+    """Expensive, reusable resources loaded once per worker process, before any job.
+
+    Sharing: on Linux each job runs in its own pre-started process, so nothing is shared
+    between rooms. With the thread executor (Windows) jobs share the process: the Silero
+    VAD is designed for this (each session opens its own stream) and the Whisper
+    transcriber is a locked process-wide cache. Per-room objects (LocalWhisperSTT wrapper,
+    AgentSession, planner, TTS client) are still built in the entrypoint; they are cheap.
+    """
+
+    stack: str
+    whisper_model: str | None
+    vad: Any
+    whisper: Any  # WhisperTranscriber with weights loaded, or None for the openai stack
+    load_s: float
+
+
+def load_prewarmed(settings: AgentSettings, vad_loader=None, transcriber_loader=None) -> Prewarmed:
+    t0 = time.monotonic()
+    vad = (vad_loader or _vad)()
+    whisper = None
+    if settings.stack == "gemini_local":
+        whisper = (transcriber_loader or _transcriber)(settings.whisper_model)
+        whisper.load()  # imports transformers/torch and loads weights
+        import openai  # noqa: F401  (SDK used by the Gemini planner; import cost paid here, not per room)
+    return Prewarmed(settings.stack, settings.whisper_model if whisper else None, vad, whisper,
+                     round(time.monotonic() - t0, 2))
+
+
+def prewarm_process(proc: agents.JobProcess) -> None:
+    """LiveKit ``setup_fnc``: runs once in each idle worker process before it takes a job."""
+    pw = load_prewarmed(AgentSettings.from_env())
+    proc.userdata[PREWARM_KEY] = pw
+    log.info("fdagent prewarm complete pid=%s stack=%s whisper=%s load_s=%s", os.getpid(), pw.stack,
+             pw.whisper_model, pw.load_s)
+
+
+async def resolve_prewarmed(userdata: Mapping[str, Any], settings: AgentSettings) -> Prewarmed:
+    """Use the process's preloaded resources; fall back to a (logged) cold load if absent."""
+    pw = userdata.get(PREWARM_KEY)
+    wanted = settings.whisper_model if settings.stack == "gemini_local" else None
+    if isinstance(pw, Prewarmed) and pw.stack == settings.stack and pw.whisper_model == wanted:
+        return pw
+    log.warning("fdagent: no matching prewarmed resources in this process; cold-loading in the entrypoint")
+    return await asyncio.to_thread(load_prewarmed, settings)
+
+
+def build_stack(settings: AgentSettings, journal: Journal, prewarmed: Prewarmed,
+                session_factory=None) -> tuple[Any, Any, Any]:
+    """Return (reasoner, session, speech_sink) for the configured provider stack.
+
+    Never loads models: VAD and Whisper come from ``prewarmed``."""
+    session_factory = session_factory or AgentSession
     warn = lambda w: journal.annotate(name="reasoner_warning", warning=w)  # noqa: E731
     session_kw = dict(allow_interruptions=True, min_endpointing_delay=0.5, max_endpointing_delay=5.0)
 
@@ -134,10 +197,9 @@ async def build_stack(settings: AgentSettings, journal: Journal) -> tuple[Any, A
 
         reasoner = GeminiReasoner(FDB_TOOL_SPECS, model=settings.gemini_planner_model,
                                   reasoning_effort=settings.gemini_reasoning_effort, on_warning=warn)
-        whisper = LocalWhisperSTT(model_id=settings.whisper_model)
-        await asyncio.to_thread(whisper.prewarm)  # load weights before the first utterance
+        whisper = LocalWhisperSTT(transcriber=prewarmed.whisper)  # lightweight per-room wrapper
         # No TTS plugin: speech is pre-rendered by Gemini TTS and played via session.say(audio=...).
-        session = AgentSession(vad=_vad(), stt=whisper, **session_kw)
+        session = session_factory(vad=prewarmed.vad, stt=whisper, **session_kw)
         sink = PrerenderedSpeechSink(session, GeminiTTS(model=settings.gemini_tts_model, voice=settings.gemini_voice))
         return reasoner, session, sink
 
@@ -147,12 +209,24 @@ async def build_stack(settings: AgentSettings, journal: Journal) -> tuple[Any, A
     from fdagent.voice.speech_sink import LiveKitSpeechSink
 
     reasoner = OpenAIReasoner(FDB_TOOL_SPECS, model=settings.reasoner_model, seed=settings.seed, on_warning=warn)
-    session = AgentSession(vad=_vad(), stt=openai.STT(model=settings.stt_model, language="en"),
-                           tts=openai.TTS(model=settings.tts_model, voice=settings.tts_voice), **session_kw)
+    session = session_factory(vad=prewarmed.vad, stt=openai.STT(model=settings.stt_model, language="en"),
+                              tts=openai.TTS(model=settings.tts_model, voice=settings.tts_voice), **session_kw)
     return reasoner, session, LiveKitSpeechSink(session)
 
 
-server = AgentServer()
+def server_options(env: Mapping[str, str] | None = None) -> dict[str, Any]:
+    """Worker options. Each idle process holds its own Whisper copy, so keep the pool small
+    (LiveKit's production default is 18), and allow setup_fnc enough time to load models
+    (LiveKit's default initialize timeout of 10 s is shorter than a cold Whisper load)."""
+    env = os.environ if env is None else env
+    return dict(
+        setup_fnc=prewarm_process,
+        num_idle_processes=int(env.get("FDAGENT_IDLE_PROCESSES", "2")),
+        initialize_process_timeout=float(env.get("FDAGENT_PROCESS_INIT_TIMEOUT_S", "180")),
+    )
+
+
+server = AgentServer(**server_options())
 
 
 @server.rtc_session()
@@ -162,12 +236,14 @@ async def entrypoint(ctx: agents.JobContext) -> None:
     if missing:
         raise RuntimeError(f"missing environment variables for stack {settings.stack!r}: {missing}")
     room = ctx.room.name
+    log.info("fdagent job start room=%s pid=%s", room, os.getpid())
     FdbMockBackend.seed(settings.seed)
 
     journal = Journal(Path(settings.journal_dir) / f"{room}.jsonl")
     kernel = SessionKernel(room, list(FDB_TOOL_SPECS), settings.kernel_config(), journal=journal,
                            settings=asdict(settings))
-    reasoner, session, sink = await build_stack(settings, journal)
+    prewarmed = await resolve_prewarmed(ctx.proc.userdata, settings)
+    reasoner, session, sink = build_stack(settings, journal, prewarmed)
 
     runtime = SessionRuntime(kernel, reasoner, FdbMockBackend(room, latency_profile=settings.latency_profile), sink)
     heartbeat = FdbLatencyLog(room)
@@ -180,6 +256,7 @@ async def entrypoint(ctx: agents.JobContext) -> None:
     ctx.add_shutdown_callback(runtime.aclose)
     log.info("fdagent joining room %s (%s)", room, asdict(settings))
     await session.start(room=ctx.room, agent=KernelDrivenAgent())
+    runtime.mark(name="session_started", room=room)
 
 
 def main() -> None:
