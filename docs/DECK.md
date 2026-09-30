@@ -85,13 +85,14 @@ Covered by kernel scenario tests T1–T10, runtime race tests and journal-replay
 - `start_navigation` runs **exactly once**, for the harbour. The final answer gives the new ETA.
 - **No core changes.** The extension adds 2 tool specs, a mock car backend and a scripted planner.
   `--planner gemini` swaps in the real planner.
-- `python -m fdagent.extensions.incar.demo`; regression test `tests/test_incar_extension.py`.
+- Browser UI: `python -m fdagent.extensions.incar.ui`. Console: `python -m fdagent.extensions.incar.demo`.
+  Tests: `tests/test_incar_extension.py`, `tests/test_incar_ui.py`.
 
 ---
 
 # 7 · Validation and results (local, unofficial)
 
-- **Tests:** 172 passed, 2 skipped (Windows). The suite covers kernel scenarios, races, adapters,
+- **Tests:** 173 passed, 2 skipped (Windows). The suite covers kernel scenarios, races, adapters,
   integrity checks and the extension. Journal replay is identical.
 - **Six-case validation:** pipeline correct **6/6**; exact match **4/6**. Both failures are STT
   errors ("PO999" was heard as "P0999", and "Seoul" as "soil").
@@ -106,8 +107,9 @@ Covered by kernel scenario tests T1–T10, runtime race tests and journal-replay
 
 # 8 · Demo, limitations and future work
 
-**Demo:** a live LiveKit Playground session (normal request, correction, barge-in) plus the in-car
-console demo and a journal replay. See `docs/DEMO.md`.
+**Demo:** the browser demo UI (`python -m fdagent.extensions.incar.ui`) is a live view of the real
+kernel journal. It shows the museum → harbour barge-in, the superseded route, a single navigation
+start and an identical journal replay. Optional: a live LiveKit Playground session. See `docs/DEMO.md`.
 
 **Limitations**
 - CPU Whisper `base.en` is the bottleneck. It mishears IDs and rare names and takes 2.5–8 s per turn.

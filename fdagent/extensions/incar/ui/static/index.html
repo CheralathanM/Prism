@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>In-car Full-Duplex Demo</title>
+<style>
+:root {
+  --bg: #f4f5f7; --card: #ffffff; --ink: #16181d; --muted: #616a78; --line: #dde1e7;
+  --user: #e8f0fe; --user-ink: #0b3d91; --agent: #f1f3f5;
+  --ok: #1e7f4f; --ok-bg: #e3f4ea; --warn: #9a5b00; --warn-bg: #fff2d9;
+  --bad: #b3261e; --bad-bg: #fde7e6; --info: #1a56b8; --info-bg: #e5eefc; --idle-bg: #eef0f3;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111317; --card: #1a1d23; --ink: #e8eaee; --muted: #9aa3b2; --line: #2c313a;
+    --user: #1d2c47; --user-ink: #bcd3ff; --agent: #23272f;
+    --ok: #6fd39c; --ok-bg: #16301f; --warn: #f2c26b; --warn-bg: #33280f;
+    --bad: #ff8a80; --bad-bg: #3a1a18; --info: #8fb5ff; --info-bg: #182640; --idle-bg: #23272f;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 14px 20px;
+  border-bottom: 1px solid var(--line); background: var(--card); }
+h1 { font-size: 20px; margin: 0 12px 0 0; }
+button, input[type=text] { font: inherit; font-size: 15px; border-radius: 8px; border: 1px solid var(--line);
+  padding: 7px 12px; background: var(--card); color: var(--ink); }
+button { cursor: pointer; }
+button.primary { background: var(--ink); color: var(--card); border-color: var(--ink); font-weight: 600; }
+button.interrupt { border-color: var(--bad); color: var(--bad); font-weight: 600; }
+button:disabled { opacity: .45; cursor: default; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.sep { width: 1px; height: 26px; background: var(--line); }
+#status { font-size: 13px; color: var(--muted); padding: 6px 20px; border-bottom: 1px solid var(--line); }
+#status b { color: var(--ink); font-weight: 600; }
+main { display: grid; grid-template-columns: 1.15fr 1fr 1.1fr; gap: 16px; padding: 16px 20px; }
+@media (max-width: 1000px) { main { grid-template-columns: 1fr; } }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; }
+.card h2 { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+.col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+#convo { display: flex; flex-direction: column; gap: 10px; min-height: 420px; max-height: 72vh; overflow-y: auto; }
+.msg { border-radius: 10px; padding: 8px 12px; max-width: 92%; }
+.msg .who { font-size: 12px; font-weight: 700; letter-spacing: .05em; color: var(--muted); display: flex; gap: 8px; }
+.msg .text { font-size: 19px; }
+.msg.user { background: var(--user); color: var(--user-ink); align-self: flex-end; }
+.msg.agent { background: var(--agent); align-self: flex-start; }
+.msg.agent.interrupted .text { text-decoration: line-through; opacity: .6; }
+.tag { font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 99px; text-transform: uppercase; letter-spacing: .04em; }
+.tag.speaking { background: var(--info-bg); color: var(--info); }
+.tag.interrupted { background: var(--bad-bg); color: var(--bad); }
+.tag.spoken { background: var(--ok-bg); color: var(--ok); }
+.tag.queued { background: var(--idle-bg); color: var(--muted); }
+#state { font-size: 30px; font-weight: 700; padding: 18px 14px; border-radius: 10px; text-align: center;
+  background: var(--idle-bg); transition: background-color .2s; }
+#state[data-s="Listening"] { background: var(--idle-bg); }
+#state[data-s="Planning"], #state[data-s="Executing tool"] { background: var(--info-bg); color: var(--info); }
+#state[data-s="Speaking"] { background: var(--ok-bg); color: var(--ok); }
+#state[data-s="Interrupted"], #state[data-s="Cancelling previous action"] { background: var(--bad-bg); color: var(--bad); }
+#state[data-s="Completed"] { background: var(--ok-bg); color: var(--ok); }
+#timeline { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; font-size: 12px; }
+#timeline span { background: var(--idle-bg); padding: 2px 8px; border-radius: 99px; color: var(--muted); }
+#gen { margin-top: 8px; font-size: 13px; color: var(--muted); }
+#irq-head { font-size: 26px; font-weight: 800; letter-spacing: .04em; color: var(--muted); }
+#irq.active #irq-head { color: var(--bad); }
+#irq.active { border-color: var(--bad); box-shadow: 0 0 0 2px var(--bad-bg); }
+#irq ol { margin: 8px 0 0; padding-left: 22px; font-size: 16px; }
+#irq li { margin: 4px 0; }
+#irq li.superseded, #irq li.rejected { color: var(--bad); }
+#irq li.admitted { color: var(--ok); }
+#tools { font: 14px/1.4 ui-monospace, "Cascadia Mono", Consolas, monospace; max-height: 46vh; overflow-y: auto; }
+.call { border-left: 4px solid var(--line); padding: 6px 10px; margin-bottom: 8px; background: var(--idle-bg); border-radius: 0 8px 8px 0; }
+.call.superseded { border-color: var(--bad); }
+.call.superseded .label { text-decoration: line-through; }
+.call.done { border-color: var(--ok); }
+.call.running { border-color: var(--info); }
+.call .label { font-weight: 700; word-break: break-word; }
+.call .hist { color: var(--muted); font-size: 13px; }
+.call .hist .bad { color: var(--bad); font-weight: 600; }
+.call .hist .good { color: var(--ok); font-weight: 600; }
+.gate { color: var(--muted); font-size: 12px; margin: -4px 0 8px 14px; }
+#vehicle { font-size: 22px; font-weight: 700; }
+#vehicle small { display: block; font-size: 13px; color: var(--muted); font-weight: 400; }
+.t { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+#banner { display: none; padding: 8px 20px; background: var(--info-bg); color: var(--info); font-weight: 600; }
+</style>
+</head>
+<body>
+<header>
+  <h1>In-car full-duplex demo</h1>
+  <div class="controls">
+    <button class="primary" id="run">Run demo</button>
+    <span class="sep"></span>
+    <button id="say1">Say: “Take me to the museum”</button>
+    <button class="interrupt" id="say2">Interrupt: “Actually, go to the harbour instead”</button>
+    <input type="text" id="free" placeholder="Or type what the driver says…" size="24">
+    <button id="send">Send</button>
+    <span class="sep"></span>
+    <button id="reset">Reset session</button>
+    <button id="clear">Clear view</button>
+    <button id="replay">Replay last journal</button>
+    <label><input type="checkbox" id="voice" checked> Voice</label>
+  </div>
+</header>
+<div id="status">Connecting…</div>
+<div id="banner"></div>
+<main>
+  <section class="card">
+    <h2>Conversation</h2>
+    <div id="convo"></div>
+  </section>
+  <div class="col">
+    <section class="card">
+      <h2>Agent state</h2>
+      <div id="state" data-s="Listening">Listening</div>
+      <div id="timeline"></div>
+      <div id="gen">generation 0</div>
+    </section>
+    <section class="card" id="irq">
+      <h2>Full-duplex interruption</h2>
+      <div id="irq-head">No interruption yet</div>
+      <ol id="irq-steps"></ol>
+    </section>
+  </div>
+  <div class="col">
+    <section class="card">
+      <h2>Vehicle</h2>
+      <div id="vehicle">Not navigating<small>navigation starts: 0</small></div>
+    </section>
+    <section class="card">
+      <h2>Tool execution log</h2>
+      <div id="tools"></div>
+    </section>
+  </div>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const ts = (t) => (t === undefined || t === null) ? "" : `+${Number(t).toFixed(2)}s`;
+let msgs = {}, calls = {}, gatesSeen = new Set(), stateQueue = [], stateTimer = null;
+
+function clearView() {
+  $("convo").innerHTML = ""; $("tools").innerHTML = ""; $("timeline").innerHTML = ""; $("irq-steps").innerHTML = "";
+  $("irq-head").textContent = "No interruption yet"; $("irq").classList.remove("active");
+  $("vehicle").innerHTML = "Not navigating<small>navigation starts: 0</small>";
+  $("gen").textContent = "generation 0"; setStateNow("Listening");
+  msgs = {}; calls = {}; gatesSeen = new Set(); stateQueue = [];
+}
+function setStateNow(s) { const el = $("state"); el.textContent = s; el.dataset.s = s; }
+// Keep every state on screen for a moment so fast transitions stay visible.
+function pushState(s) {
+  stateQueue.push(s);
+  if (!stateTimer) drain();
+}
+function drain() {
+  if (!stateQueue.length) { stateTimer = null; return; }
+  setStateNow(stateQueue.shift());
+  stateTimer = setTimeout(drain, stateQueue.length ? 650 : 0);
+}
+function scroll(el) { el.scrollTop = el.scrollHeight; }
+
+function speak(text) {
+  if (!$("voice").checked || !window.speechSynthesis) return;
+  const u = new SpeechSynthesisUtterance(text); u.rate = 1.05; speechSynthesis.speak(u);
+}
+function hush() { if (window.speechSynthesis) speechSynthesis.cancel(); }
+
+function addMsg(role, text, t, id) {
+  const d = document.createElement("div");
+  d.className = `msg ${role}`;
+  d.innerHTML = `<div class="who">${role === "user" ? "DRIVER" : "AGENT"} <span class="t">${ts(t)}</span>` +
+    (role === "agent" ? ` <span class="tag queued">queued</span>` : "") + `</div><div class="text">${esc(text)}</div>`;
+  $("convo").appendChild(d); scroll($("convo"));
+  if (id !== undefined) msgs[id] = d;
+}
+function agentStatus(ev) {
+  const d = msgs[ev.id]; if (!d) return;
+  const tag = d.querySelector(".tag"); tag.className = `tag ${ev.status}`; tag.textContent = ev.status;
+  d.classList.toggle("interrupted", ev.status === "interrupted");
+  if (ev.status === "speaking") speak(ev.text);
+  if (ev.status === "interrupted") hush();
+}
+function toolEvent(ev) {
+  let c = calls[ev.call_id];
+  if (!c) {
+    c = document.createElement("div"); c.className = "call running";
+    c.innerHTML = `<div class="label">${esc(ev.label)}${ev.state_changing ? " <span class='tag interrupted'>state change</span>" : ""}</div><div class="hist"></div>`;
+    $("tools").appendChild(c); calls[ev.call_id] = c;
+  }
+  const bad = ["superseded", "late result rejected", "cancel requested", "failed"].includes(ev.status);
+  const good = ["completed", "navigation started"].includes(ev.status);
+  const line = document.createElement("div");
+  line.innerHTML = `<span class="t">${ts(ev.t)}</span> → <span class="${bad ? "bad" : good ? "good" : ""}">${esc(ev.status)}</span>` +
+    (ev.result && ev.result.eta_minutes !== undefined ? ` (ETA ${ev.result.eta_minutes} min, ${esc(ev.result.route_id)})` : "") +
+    (ev.reason ? ` (${esc(ev.reason)})` : "");
+  c.querySelector(".hist").appendChild(line);
+  if (ev.status === "superseded" || ev.status === "late result rejected") c.className = "call superseded";
+  else if (good && !c.classList.contains("superseded")) c.className = "call done";
+  scroll($("tools"));
+}
+function gateEvent(ev) {
+  const k = ev.tool + ev.reason; if (gatesSeen.has(k)) return; gatesSeen.add(k);
+  const g = document.createElement("div"); g.className = "gate";
+  g.textContent = `${ts(ev.t)} gate held ${ev.tool}: ${ev.reason === "waiting_dependency" ? "waiting for its dependency" : "waiting for the driver's intent to settle"}`;
+  $("tools").appendChild(g);
+}
+function interruptEvent(ev) {
+  const box = $("irq"); box.classList.add("active"); $("irq-head").textContent = "INTERRUPTED";
+  const li = document.createElement("li"); li.className = ev.step;
+  li.innerHTML = `${esc(ev.text)} <span class="t">${ts(ev.t)}</span>`; $("irq-steps").appendChild(li);
+}
+function timeline(ev) {
+  const s = document.createElement("span"); s.textContent = `${ts(ev.t)} ${ev.state}`; $("timeline").appendChild(s);
+}
+function handle(ev) {
+  switch (ev.type) {
+    case "reset": clearView(); hush(); $("banner").style.display = ev.mode === "replay" ? "block" : "none";
+      if (ev.mode === "replay") $("banner").textContent = "Replaying the last journal (events re-rendered from the recorded kernel journal)…"; break;
+    case "user": addMsg("user", ev.text, ev.t); break;
+    case "agent": addMsg("agent", ev.text, ev.t, ev.id); break;
+    case "agent_status": agentStatus(ev); break;
+    case "state": pushState(ev.state); timeline(ev); break;
+    case "generation": $("gen").textContent = `generation ${ev.generation}`; break;
+    case "interrupt": interruptEvent(ev); break;
+    case "tool": toolEvent(ev); break;
+    case "gate": gateEvent(ev); break;
+    case "vehicle": $("vehicle").innerHTML = `Navigating to the ${esc(ev.navigating_to)}` +
+      `<small>ETA ${ev.eta_minutes ?? "?"} min · navigation starts: ${ev.navigation_starts}</small>`; break;
+    case "replay": if (ev.phase === "done") $("banner").textContent =
+      `Replay of ${ev.journal}: ${ev.steps} kernel steps re-executed, ${ev.identical ? "decisions and actions identical ✓" : ev.mismatches + " mismatches ✗"}`; break;
+    case "error": $("banner").style.display = "block"; $("banner").textContent = ev.text; break;
+  }
+}
+
+async function post(path, body) {
+  const r = await fetch(path, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body || {})});
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok && j.error) { $("banner").style.display = "block"; $("banner").textContent = j.error; }
+  refresh();
+  return j;
+}
+$("run").onclick = () => post("/api/run");
+$("say1").onclick = () => post("/api/say", {text: "Take me to the museum, please."});
+$("say2").onclick = () => post("/api/say", {text: "Actually, go to the harbour instead."});
+$("send").onclick = () => { const v = $("free").value.trim(); if (v) { post("/api/say", {text: v}); $("free").value = ""; } };
+$("free").onkeydown = (e) => { if (e.key === "Enter") $("send").onclick(); };
+$("reset").onclick = () => post("/api/reset");
+$("clear").onclick = () => { clearView(); hush(); };
+$("replay").onclick = () => post("/api/replay");
+
+async function refresh() {
+  try {
+    const s = await (await fetch("/api/status")).json();
+    const x = s.session;
+    const busy = !!s.busy;
+    for (const id of ["run", "say1", "say2", "send", "replay"]) $(id).disabled = busy;
+    $("status").innerHTML = x
+      ? `Session <b>${esc(x.session_id)}</b> · planner <b>${esc(x.planner)}</b> · ${x.running ? "<b>running</b>" : "closed"}` +
+        `${busy ? ` · <b>${esc(s.busy)} in progress</b>` : ""} · generation <b>${x.generation}</b> · journal <b>${esc(x.journal)}</b> (${x.records} records)` +
+        ` · navigation started: <b>${x.navigation_log.length ? esc(x.navigation_log.join(", ")) : "none"}</b>`
+      : `No session yet · planner <b>${esc(s.planner)}</b>${busy ? ` · <b>${esc(s.busy)} in progress</b>` : ""}` +
+        `${s.last_journal ? ` · last journal <b>${esc(s.last_journal)}</b>` : ""} · press <b>Run demo</b> or say something`;
+  } catch (e) { $("status").textContent = "Server not reachable"; }
+}
+const es = new EventSource("/api/events");
+es.onmessage = (m) => handle(JSON.parse(m.data));
+setInterval(refresh, 700); refresh();
+</script>
+</body>
+</html>

@@ -134,6 +134,42 @@ python -m pytest -q tests/test_incar_extension.py                            # r
 
 Demo script for the video: [docs/DEMO.md](docs/DEMO.md). Slide deck (8 slides, Marp): [docs/DECK.md](docs/DECK.md).
 
+## Demo UI (browser, local, no keys needed)
+
+```bash
+python -m fdagent.extensions.incar.ui          # open http://127.0.0.1:8765
+python -m fdagent.extensions.incar.ui --planner gemini   # optional: live Gemini planner (key stays server side)
+```
+
+A thin view over the **real** in-car session: the server runs the unchanged `SessionKernel`,
+`SessionRuntime`, tool executor and speech channel, and streams the kernel journal to the browser
+(Server-Sent Events). The page contains no agent logic; everything shown is a journal record
+translated by `fdagent/extensions/incar/ui/view.py`. It binds to localhost only, and nothing new is
+installed (it uses aiohttp, which ships with LiveKit Agents). Four areas:
+
+- **Conversation**: driver and agent turns with timestamps. Agent lines are marked
+  queued → speaking → spoken, or **interrupted** (struck through).
+- **Agent state**: Listening, Planning, Speaking, Interrupted, Cancelling previous action, Executing
+  tool, Completed, with a timeline of every transition.
+- **Full-duplex interruption**: barge-in → previous response cancelled → new intent admitted → old
+  action superseded → late result rejected.
+- **Tool execution log**: each real dispatch with its status history (dispatched / completed /
+  superseded / cancel requested / late result rejected / navigation started) and gate holds. There
+  is also a vehicle card showing the destination, the ETA and the number of navigation starts.
+
+Controls:
+- **Run demo** runs the scripted flow: the museum request, then the harbour interruption while the
+  agent is speaking.
+- **Say** and **Interrupt** do the same steps by hand; a free-text box accepts any utterance.
+- **Reset session**, **Clear view**, and **Replay last journal**. Replay re-executes the recorded
+  journal through a fresh kernel, reports whether its decisions and actions are identical, and
+  re-renders the journal.
+- **Voice** reads agent lines aloud with the browser's built-in speech synthesis and stops
+  immediately on interruption.
+
+Session journals go to `results/ui_journals/` (gitignored). By default the museum route has a
+5 s mock latency (`--route-delay`), which leaves time to interrupt by hand.
+
 ## Tests
 
 ```bash
@@ -141,7 +177,7 @@ python -m pytest -q                                            # unit, race, ada
 FDAGENT_RUN_STT_REGRESSION=1 python -m pytest -q tests/test_stt_regression.py   # needs local models
 ```
 
-Current: 172 passed, 2 skipped (Windows). `tests/test_integrity.py` fails if benchmark scenario IDs or expected argument values appear in agent
+Current: 173 passed, 2 skipped (Windows). `tests/test_integrity.py` fails if benchmark scenario IDs or expected argument values appear in agent
 code or tests.
 
 ## Known limitations

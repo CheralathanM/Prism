@@ -9,7 +9,8 @@
 | One-command reproduction script (install check, configure, run, evaluate) | ✅ | scripts/reproduce.sh (+ fetch_fdb.sh, fetch_piper_voice.sh) |
 | Benchmark results and run logs (scores, seeds, configuration) | ⚠️ partial | RESULTS.md, results/submission/ — 34/100 recordings, unofficial exact-match scoring |
 | Extension use case (end to end, clearly marked) | ✅ | fdagent/extensions/incar/, README.md → Extension, tests/test_incar_extension.py |
-| Demo video (3–5 min) | ⚠️ script ready; video to be recorded by the team | docs/DEMO.md |
+| Demo UI (browser view of the live kernel journal) | ✅ tested (tests/test_incar_ui.py + manual browser smoke test: Run demo, manual interrupt, replay, light/dark, narrow width) | fdagent/extensions/incar/ui/, README.md → Demo UI |
+| Demo video (3–5 min) | ⚠️ script ready (UI-based, docs/DEMO.md); video to be recorded by the team | docs/DEMO.md |
 | Slide deck (≤ 8 slides) | ✅ Markdown/Marp source (export to PDF/PPTX with `npx @marp-team/marp-cli docs/DECK.md --pdf`) | docs/DECK.md |
 | Tests | ✅ | tests/ (Windows and Linux suites) |
 | No benchmark answers in source/tests | ✅ | tests/test_integrity.py |

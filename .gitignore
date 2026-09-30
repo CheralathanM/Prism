@@ -21,3 +21,6 @@ results/local_smoke/
 
 # Reproduction runs (agent logs may contain service URLs; curate into results/submission/)
 results/runs/
+
+# Demo UI session journals (regenerated on every run)
+results/ui_journals/

@@ -1,80 +1,71 @@
 # Demo guide (3–5 min video)
 
-No custom UI: the live part uses the LiveKit Agents Playground, the extension part is a console demo.
-Everything below runs on the zero-cost stack (local Whisper STT, local Piper TTS, Gemini free-tier
-planner, LiveKit Cloud Build plan).
+The whole recommended video runs on one laptop with **no API keys**. It uses the browser demo UI
+over the real kernel and runtime, and the scripted planner is deterministic. An optional live-voice
+segment uses the LiveKit agent on the zero-cost stack (local Whisper STT, local Piper TTS, Gemini
+free-tier planner, LiveKit Cloud Build plan).
 
 ## 0. Before recording
 
 ```bash
-. ~/fdagent-venv/bin/activate            # Linux/WSL (Windows: .venv\Scripts\activate)
+python -m fdagent.extensions.incar.ui        # then open http://127.0.0.1:8765 (full screen, zoom ~110 %)
+```
+
+Tick **Voice** if you want the agent's lines spoken aloud; the browser voices them locally.
+Do one dry run first (**Run demo**), then press **Reset session**.
+
+## 1. Recommended 3–5 minute sequence
+
+| Time | Show | Say / do |
+|---|---|---|
+| 0:00–0:40 | Architecture slide (deck slide 3), then the UI | "Every model and tool runs asynchronously, but one deterministic kernel is the only thing allowed to change state. This page is just a live view of that kernel's journal." Point at the four areas. |
+| 0:40–1:00 | **Say: “Take me to the museum”** | Agent state goes **Planning**, then **Speaking**. The tool log shows `plan_route(destination="museum") → dispatched`, plus a gate hold on `start_navigation` (waiting for its dependency). |
+| 1:00–1:15 | Let the agent start "Okay, planning a route to the museum." | The museum route is slow (5 s mock latency), so it is still running. |
+| 1:15–1:30 | **Interrupt: “Actually, go to the harbour instead”** while it is speaking | The state flips to **Interrupted** and the agent's line is struck through as INTERRUPTED. The interruption panel turns red. |
+| 1:30–2:00 | Interruption panel | Read the steps: speech stopped → new intent admitted (generation, correction cue "actually") → previous response cancelled → **old action superseded**. |
+| 2:00–2:30 | Tool log | `plan_route(museum)`: superseded, cancel requested. `plan_route(harbour)`: completed. `start_navigation(route_id="R-harbour")`: navigation started. A few seconds later the museum route finishes anyway and shows **late result rejected**; it is never applied. |
+| 2:30–2:50 | Vehicle card and conversation | "Navigating to the harbour · ETA … · navigation starts: **1**". Final agent line: "Navigating to the harbour. You'll arrive in about … minutes." State: **Completed**. |
+| 2:50–3:20 | **Replay last journal** | The banner reads "… kernel steps re-executed, decisions and actions identical ✓", and the whole session re-renders from the journal. |
+| 3:20–4:30 | Optional: live voice (section 2), or the results slide | Only verified numbers: 34/100 partial and unofficial; infrastructure failures listed separately. |
+| 4:30–5:00 | Limitations / future work slide | |
+
+If you are late with the interrupt, the flow is still correct but less visual: no barge-in, but the
+museum route is still superseded, provided it was still running. Press **Reset session** and redo
+it, or just use **Run demo**, which interrupts automatically 1.2 s into the agent's sentence.
+
+## 2. Optional: live voice with the LiveKit agent (FDB-v3 tools)
+
+```bash
 python -m fdagent.voice.livekit_agent dev
 ```
 
-Open https://agents-playground.livekit.io, connect to the same LiveKit project, and wait for the
-agent to join the room (models are prewarmed before the job starts). The demo agent exposes the
-FDB-v3 tool set with the in-process mock backend.
+Open https://agents-playground.livekit.io, connect to the same LiveKit project, and talk to the
+agent. It uses the FDB-v3 tool set with the in-process mock backend.
 
-## 1. Normal request → tool execution → final spoken answer (live, ~1 min)
+- Ask an ordinary one-tool request. Tool calls appear in `/tmp/agent_tool_calls.log`, and the final
+  answer comes only after the tool succeeded.
+- Correct yourself mid-sentence ("…Friday — no, Saturday") and talk over the agent. It stops
+  immediately, and only the corrected value is dispatched.
+- Replay the room journal:
 
-Say an ordinary request that needs one tool (any product/flight/account question you like).
-Show:
+  ```bash
+  python -m fdagent.core.replay results/journals/<room>.jsonl
+  ```
 
-- the agent's short progress line while the tool runs ("Okay, one moment." is only spoken if the
-  work takes long),
-- the tool call in `/tmp/agent_tool_calls.log` (one line, dispatched exactly once),
-- the final spoken answer, which is only produced after the tool **succeeded**.
-
-## 2. User correction + barge-in (live, ~1 min)
-
-Start a request, then correct yourself mid-sentence ("…on Friday — no, sorry, Saturday"), and talk
-over the agent while it is answering. Show:
-
-- the agent stops talking immediately (barge-in → `StopSpeaking`),
-- only the corrected value is dispatched (the earlier plan is superseded, never executed),
-- speech queued for the older turn is discarded, not played late.
-
-Then open the room journal and replay it:
-
-```bash
-python -m fdagent.core.replay results/journals/<room>.jsonl     # prints "OK — replay identical"
-```
-
-Point out the `barge_in`, `superseded` and `result_rejected` decisions in the JSONL.
-
-## 3. Extension: in-car destination change (console, ~1 min)
+## 3. Console variant of the extension (no browser)
 
 ```bash
 python -m fdagent.extensions.incar.demo --journal results/incar_demo.jsonl
 python -m fdagent.core.replay results/incar_demo.jsonl
 ```
 
-Expected output (scripted, deterministic planner; timings approximate):
+Prints the same museum → harbour flow: navigation started exactly once (harbour), 1 superseded
+operation, 1 stale result rejected, 1 barge-in.
 
-```text
-[ 0.00s] DRIVER says: Take me to the museum, please.
-[ 0.31s] AGENT says: Okay, planning a route to the museum.
-[ 0.94s] DRIVER says: Actually, go to the harbour instead.
-[ 0.94s] AGENT interrupted (barge-in)
-[ 1.31s] AGENT says: Navigating to the harbour. You'll arrive in about 19 minutes.
+## What the demo proves
 
-tool calls executed : plan_route(museum), plan_route(harbour), start_navigation(R-harbour)
-navigation started  : ['harbour']  (exactly once, corrected destination only)
-superseded ops      : 1   stale results rejected: 1
-barge-ins           : 1
-```
-
-What it proves: the same kernel, tool protocol, supersession, result admission and speech channel
-handle a new domain with **no core changes**. Only two tool specs, a mock backend and a scripted
-planner were added. The slow museum route finishes *after* the correction; its result is rejected,
-so navigation to the museum never starts.
-
-Variants:
-
-- `--planner gemini` uses the real Gemini planner (free tier, `GOOGLE_API_KEY`) instead of the scripted one.
-- `--speak-dir out/` also renders each utterance to WAV with the local Piper voice.
-
-## 4. Close (~30 s)
-
-Show `python -m pytest -q` (172 passed, 2 skipped) and the RESULTS.md headline, which is partial and
-unofficial (see the deck).
+- The same kernel, tool protocol, supersession, result admission and speech channel handle a new
+  domain with **no core changes**. The extension adds two tool specs, a mock backend, a scripted
+  planner and a view.
+- The UI shows the real journal. Nothing on screen is hard-coded, and a replay renders exactly the
+  same events.
