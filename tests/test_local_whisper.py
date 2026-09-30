@@ -37,13 +37,13 @@ class FakePipe:
         return {"text": f"  {self.text} "}
 
 
-def test_default_model_is_tiny_en_and_agent_default_matches():
+def test_default_model_is_base_en_and_agent_default_matches():
     from fdagent.voice import livekit_agent
 
-    assert DEFAULT_WHISPER_MODEL == "openai/whisper-tiny.en"
+    assert DEFAULT_WHISPER_MODEL == "openai/whisper-base.en"
     assert livekit_agent.DEFAULT_WHISPER_MODEL == DEFAULT_WHISPER_MODEL
-    assert livekit_agent.AgentSettings.from_env({"FDAGENT_WHISPER_MODEL": "openai/whisper-base.en"}).whisper_model \
-        == "openai/whisper-base.en"
+    assert livekit_agent.AgentSettings.from_env({"FDAGENT_WHISPER_MODEL": "openai/whisper-tiny.en"}).whisper_model \
+        == "openai/whisper-tiny.en"
 
 
 def test_conversion_resamples_to_16k_mono_float32():

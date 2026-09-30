@@ -131,7 +131,7 @@ def test_agent_settings_default_to_zero_cost_stack():
 
     s = AgentSettings.from_env({})
     assert (s.stack, s.gemini_planner_model, s.gemini_tts_model, s.whisper_model) == (
-        "gemini_local", "gemini-3.5-flash-lite", "gemini-3.8-flash-lite-tts", "openai/whisper-tiny.en")
+        "gemini_local", "gemini-3.5-flash-lite", "gemini-3.8-flash-lite-tts", "openai/whisper-base.en")
     # The previous default stays selectable through the environment override.
     assert AgentSettings.from_env({"FDAGENT_GEMINI_PLANNER_MODEL": "gemini-3.8-flash"}).gemini_planner_model == "gemini-3.8-flash"
     assert "OPENAI_API_KEY" not in required_env(s) and "GOOGLE_API_KEY" in required_env(s)

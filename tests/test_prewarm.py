@@ -33,32 +33,47 @@ def _forbid_cold_loading(monkeypatch):
 
     monkeypatch.setattr(la, "_vad", boom)
     monkeypatch.setattr(la, "_transcriber", boom)
+    monkeypatch.setattr(la, "_piper", boom)
     monkeypatch.setattr(la, "load_prewarmed", boom)
     monkeypatch.setattr(lw, "get_transcriber", boom)
     monkeypatch.setattr(lw, "_transformers_pipeline", boom)
 
 
-def _prewarmed(stack="gemini_local", model=la.DEFAULT_WHISPER_MODEL):
-    return la.Prewarmed(stack, model if stack == "gemini_local" else None, vad=object(),
-                        whisper=FakeTranscriber(model) if stack == "gemini_local" else None, load_s=0.0)
+class FakePiper:
+    stream_sample_rate = 22050
+
+    async def synthesize(self, text):  # pragma: no cover - not exercised here
+        raise AssertionError
 
 
-def test_setup_fnc_loads_vad_and_whisper_once_into_userdata(monkeypatch):
+def _prewarmed(stack="gemini_local", model=la.DEFAULT_WHISPER_MODEL, tts_backend="piper"):
+    local = stack == "gemini_local"
+    return la.Prewarmed(stack, model if local else None, vad=object(),
+                        whisper=FakeTranscriber(model) if local else None, load_s=0.0,
+                        tts_backend=tts_backend if local else None,
+                        piper=FakePiper() if local and tts_backend == "piper" else None)
+
+
+def test_setup_fnc_loads_vad_and_whisper_once_into_userdata(monkeypatch, tmp_path):
     vads, transcribers = [], []
     monkeypatch.setattr(la, "_vad", lambda: vads.append(object()) or vads[-1])
     monkeypatch.setattr(la, "_transcriber", lambda m: transcribers.append(FakeTranscriber(m)) or transcribers[-1])
+    monkeypatch.setattr(la, "limit_torch_threads", lambda n: None)
+    pipers = []
+    monkeypatch.setattr(la, "_piper", lambda path: pipers.append(FakePiper()) or pipers[-1])
     proc = SimpleNamespace(userdata={})
-    la.prewarm_process(proc)
+    la.prewarm_process(proc, registry=la.ActiveJobRegistry(tmp_path))
     pw = proc.userdata[la.PREWARM_KEY]
     assert pw.vad is vads[0] and len(vads) == 1
     assert pw.whisper is transcribers[0] and pw.whisper.loads == 1  # weights loaded here, before any job
-    assert (pw.stack, pw.whisper_model) == ("gemini_local", "openai/whisper-tiny.en")
+    assert (pw.stack, pw.whisper_model) == ("gemini_local", la.DEFAULT_WHISPER_MODEL)
+    assert pw.tts_backend == "piper" and pw.piper is pipers[0] and len(pipers) == 1  # local TTS voice preloaded
 
 
 def test_server_is_configured_with_prewarm_small_pool_and_long_init_timeout():
     opts = la.server_options({})
     assert opts["setup_fnc"] is la.prewarm_process
-    assert opts["num_idle_processes"] == 2 and opts["initialize_process_timeout"] == 180.0
+    assert opts["num_idle_processes"] == 2 and opts["initialize_process_timeout"] == 900.0
     over = la.server_options({"FDAGENT_IDLE_PROCESSES": "1", "FDAGENT_PROCESS_INIT_TIMEOUT_S": "60"})
     assert (over["num_idle_processes"], over["initialize_process_timeout"]) == (1, 60.0)
 
@@ -72,7 +87,8 @@ def test_build_stack_reuses_prewarmed_resources_without_loading(monkeypatch):
     [kw] = made
     assert kw["vad"] is pw.vad
     assert kw["stt"]._transcriber is pw.whisper  # per-room wrapper around the shared, loaded weights
-    assert "tts" not in kw  # speech is pre-rendered by Gemini TTS
+    assert "tts" not in kw  # speech is synthesized by the TTS backend and played via session.say(audio=...)
+    assert sink._tts is pw.piper  # default backend: the preloaded local Piper voice
     assert pw.whisper.loads == 0  # nothing (re)loaded on the room path
 
 
@@ -87,7 +103,7 @@ def test_resolve_prefers_prewarmed_and_logs_cold_fallback(monkeypatch, caplog):
     with caplog.at_level("WARNING", logger="fdagent.livekit"):
         assert asyncio.run(la.resolve_prewarmed({}, settings)) is sentinel
         # a prewarm for a different Whisper model does not match either
-        other = _prewarmed(model="openai/whisper-base.en")
+        other = _prewarmed(model="openai/whisper-small.en")
         assert asyncio.run(la.resolve_prewarmed({la.PREWARM_KEY: other}, settings)) is sentinel
     assert sum("cold-loading" in r.message for r in caplog.records) == 2
 
@@ -101,6 +117,7 @@ def test_room_entrypoint_performs_no_cold_model_loading(monkeypatch, tmp_path):
         monkeypatch.setenv(k, "test-placeholder")
     monkeypatch.delenv("FDAGENT_STACK", raising=False)
     monkeypatch.setenv("FDAGENT_JOURNAL_DIR", str(tmp_path))
+    monkeypatch.setenv("FDAGENT_RUNTIME_DIR", str(tmp_path / "rt"))
 
     started, shutdown = [], []
 
@@ -119,12 +136,18 @@ def test_room_entrypoint_performs_no_cold_model_loading(monkeypatch, tmp_path):
     ctx = SimpleNamespace(room=SimpleNamespace(name="eval-prewarm1"), proc=SimpleNamespace(userdata={la.PREWARM_KEY: pw}),
                           add_shutdown_callback=shutdown.append)
 
+    registry = la.ActiveJobRegistry(tmp_path / "rt" / "fdagent-active-jobs")
+    active_during_job = []
+
     async def main():
         await la.entrypoint(ctx)
+        active_during_job.extend(registry.active())
         for cb in shutdown:
             await cb()
 
     asyncio.run(main())
+    assert len(active_during_job) == 1 and active_during_job[0].endswith("eval-prewarm1")
+    assert registry.active() == []  # unregistered at shutdown
     [(session, room, agent)] = started
     assert session.kw["vad"] is pw.vad and session.kw["stt"]._transcriber is pw.whisper
     assert set(session.handlers) == {"user_state_changed", "user_input_transcribed", "agent_state_changed"}

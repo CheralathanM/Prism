@@ -13,12 +13,12 @@ import base64
 import io
 import json
 import wave
-from dataclasses import dataclass
 from typing import Any, AsyncIterator, Awaitable, Callable
 
 import httpx
 
 from .gemini_reasoner import gemini_api_key
+from .tts_base import PcmAudio, TTSError, TTSStreamNotStarted
 
 INTERACTIONS_URL = "https://generativelanguage.googleapis.com/v1beta/interactions"
 DEFAULT_GEMINI_TTS_MODEL = "gemini-3.8-flash-lite-tts"  # stable; free tier per ai.google.dev pricing
@@ -27,19 +27,7 @@ RAW_PCM_RATE = 24000  # documented format for headerless audio/l16 output
 _RETRIABLE_STATUS = {429, 500, 502, 503, 504}
 
 
-class TTSError(RuntimeError):
-    pass
-
-
-class TTSStreamNotStarted(TTSError):
-    """Streaming failed before any audio was produced; callers may fall back to unary."""
-
-
-@dataclass(frozen=True)
-class PcmAudio:
-    data: bytes  # little-endian int16
-    sample_rate: int
-    channels: int = 1
+__all__ = ["GeminiTTS", "PcmAudio", "TTSError", "TTSStreamNotStarted", "decode_audio_response", "iter_sse_audio"]
 
 
 def decode_audio_response(obj: dict[str, Any]) -> PcmAudio:
@@ -97,6 +85,8 @@ async def iter_sse_audio(lines: AsyncIterator[str]) -> AsyncIterator[bytes]:
 
 
 class GeminiTTS:
+    stream_sample_rate = RAW_PCM_RATE  # streamed audio/l16 chunks
+
     def __init__(
         self,
         api_key: str | None = None,

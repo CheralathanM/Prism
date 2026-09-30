@@ -42,11 +42,19 @@ from fdagent.providers.openai_reasoner import DEFAULT_MODEL
 from fdagent.runtime.loop import SessionRuntime
 from fdagent.voice.fdb_heartbeat import FdbLatencyLog
 from fdagent.voice.ingress import IngressBridge
+from fdagent.voice.job_registry import ActiveJobRegistry
 
 log = logging.getLogger("fdagent.livekit")
 REPO_ROOT = Path(__file__).resolve().parents[2]
 STACKS = ("gemini_local", "openai")
-DEFAULT_WHISPER_MODEL = "openai/whisper-tiny.en"  # mirrors voice.local_whisper (avoids importing it eagerly)
+TTS_BACKENDS = ("piper", "gemini")
+
+
+def _choice(value: str, allowed: tuple[str, ...], name: str) -> str:
+    if value not in allowed:
+        raise ValueError(f"{name} must be one of {allowed}, got {value!r}")
+    return value
+DEFAULT_WHISPER_MODEL = "openai/whisper-base.en"  # mirrors voice.local_whisper (avoids importing it eagerly)
 
 
 @dataclass(frozen=True)
@@ -59,9 +67,13 @@ class AgentSettings:
     gemini_reasoning_effort: str = DEFAULT_REASONING_EFFORT
     gemini_tts_model: str = DEFAULT_GEMINI_TTS_MODEL
     gemini_voice: str = DEFAULT_GEMINI_VOICE
+    tts_backend: str = "piper"  # "piper" (local, default; no quota) | "gemini" (optional, free-tier quota)
+    piper_voice: str = ""  # path to a Piper .onnx voice; "" = local_piper_tts.DEFAULT_PIPER_VOICE
     tts_streaming: bool = True
     tts_prebuffer_ms: int = 200
     whisper_model: str = DEFAULT_WHISPER_MODEL
+    torch_threads: int = 4  # cap per process; keeps VAD/audio loop responsive (0 = torch default)
+    prewarm_max_wait_s: float = 600.0  # how long a replacement worker defers loading behind active jobs
     # openai stack (optional)
     reasoner_model: str = DEFAULT_MODEL
     stt_model: str = "whisper-1"  # same as the official cascaded template
@@ -87,9 +99,13 @@ class AgentSettings:
             gemini_reasoning_effort=env.get("FDAGENT_GEMINI_REASONING_EFFORT", d.gemini_reasoning_effort),
             gemini_tts_model=env.get("FDAGENT_GEMINI_TTS_MODEL", d.gemini_tts_model),
             gemini_voice=env.get("FDAGENT_GEMINI_VOICE", d.gemini_voice),
+            tts_backend=_choice(env.get("FDAGENT_TTS_BACKEND", d.tts_backend), TTS_BACKENDS, "FDAGENT_TTS_BACKEND"),
+            piper_voice=env.get("FDAGENT_PIPER_VOICE", d.piper_voice),
             tts_streaming=env.get("FDAGENT_TTS_STREAMING", "1") not in ("0", "false", "False"),
             tts_prebuffer_ms=int(env.get("FDAGENT_TTS_PREBUFFER_MS", d.tts_prebuffer_ms)),
             whisper_model=env.get("FDAGENT_WHISPER_MODEL", d.whisper_model),
+            torch_threads=int(env.get("FDAGENT_TORCH_THREADS", d.torch_threads)),
+            prewarm_max_wait_s=float(env.get("FDAGENT_PREWARM_MAX_WAIT_S", d.prewarm_max_wait_s)),
             reasoner_model=env.get("FDAGENT_REASONER_MODEL", d.reasoner_model),
             stt_model=env.get("FDAGENT_STT_MODEL", d.stt_model),
             tts_model=env.get("FDAGENT_TTS_MODEL", d.tts_model),
@@ -152,33 +168,66 @@ class Prewarmed:
     vad: Any
     whisper: Any  # WhisperTranscriber with weights loaded, or None for the openai stack
     load_s: float
+    tts_backend: str | None = None  # "piper" when a local voice was preloaded
+    piper: Any = None  # PiperTTS with its voice loaded (stateless per call; safe to share)
 
 
-def load_prewarmed(settings: AgentSettings, vad_loader=None, transcriber_loader=None) -> Prewarmed:
+def limit_torch_threads(n: int) -> None:
+    """Cap PyTorch intra-op threads in this process so Whisper inference/loading cannot starve
+    voice detection and the audio loop of CPU. No-op if torch is unavailable."""
+    if n <= 0:
+        return
+    try:
+        import torch
+    except ImportError:
+        return
+    torch.set_num_threads(n)
+
+
+def _piper(voice_path: str):
+    from fdagent.providers.local_piper_tts import PiperTTS
+
+    tts = PiperTTS(model_path=voice_path or None)
+    tts.load()
+    return tts
+
+
+def load_prewarmed(settings: AgentSettings, vad_loader=None, transcriber_loader=None, piper_loader=None) -> Prewarmed:
     t0 = time.monotonic()
     vad = (vad_loader or _vad)()
-    whisper = None
+    whisper = piper = None
     if settings.stack == "gemini_local":
+        limit_torch_threads(settings.torch_threads)
         whisper = (transcriber_loader or _transcriber)(settings.whisper_model)
         whisper.load()  # imports transformers/torch and loads weights
         import openai  # noqa: F401  (SDK used by the Gemini planner; import cost paid here, not per room)
+        if settings.tts_backend == "piper":
+            piper = (piper_loader or _piper)(settings.piper_voice)  # fails loudly if the voice is missing
     return Prewarmed(settings.stack, settings.whisper_model if whisper else None, vad, whisper,
-                     round(time.monotonic() - t0, 2))
+                     round(time.monotonic() - t0, 2), "piper" if piper else None, piper)
 
 
-def prewarm_process(proc: agents.JobProcess) -> None:
-    """LiveKit ``setup_fnc``: runs once in each idle worker process before it takes a job."""
-    pw = load_prewarmed(AgentSettings.from_env())
+def prewarm_process(proc: agents.JobProcess, registry: ActiveJobRegistry | None = None) -> None:
+    """LiveKit ``setup_fnc``: runs once in each idle worker process before it takes a job.
+
+    A replacement worker spawned while a job is running waits until no job is active before
+    loading models, so its CPU-heavy setup never overlaps a live conversation."""
+    settings = AgentSettings.from_env()
+    waited = (registry or ActiveJobRegistry()).wait_until_idle(max_wait_s=settings.prewarm_max_wait_s)
+    pw = load_prewarmed(settings)
     proc.userdata[PREWARM_KEY] = pw
-    log.info("fdagent prewarm complete pid=%s stack=%s whisper=%s load_s=%s", os.getpid(), pw.stack,
-             pw.whisper_model, pw.load_s)
+    log.info("fdagent prewarm complete pid=%s stack=%s whisper=%s load_s=%s waited_for_jobs_s=%s", os.getpid(),
+             pw.stack, pw.whisper_model, pw.load_s, waited)
 
 
 async def resolve_prewarmed(userdata: Mapping[str, Any], settings: AgentSettings) -> Prewarmed:
     """Use the process's preloaded resources; fall back to a (logged) cold load if absent."""
     pw = userdata.get(PREWARM_KEY)
-    wanted = settings.whisper_model if settings.stack == "gemini_local" else None
-    if isinstance(pw, Prewarmed) and pw.stack == settings.stack and pw.whisper_model == wanted:
+    local = settings.stack == "gemini_local"
+    wanted = settings.whisper_model if local else None
+    wanted_tts = "piper" if local and settings.tts_backend == "piper" else None
+    if (isinstance(pw, Prewarmed) and pw.stack == settings.stack and pw.whisper_model == wanted
+            and pw.tts_backend == wanted_tts):
         return pw
     log.warning("fdagent: no matching prewarmed resources in this process; cold-loading in the entrypoint")
     return await asyncio.to_thread(load_prewarmed, settings)
@@ -206,10 +255,15 @@ def build_stack(settings: AgentSettings, journal: Journal, prewarmed: Prewarmed,
                                   reasoning_effort=settings.gemini_reasoning_effort, on_warning=warn,
                                   on_attempt=attempt)
         whisper = LocalWhisperSTT(transcriber=prewarmed.whisper)  # lightweight per-room wrapper
-        # No TTS plugin: speech comes from Gemini TTS (streamed) and plays via session.say(audio=...).
+        # No TTS plugin: speech is synthesized by the selected backend (local Piper by default,
+        # Gemini optionally), streamed, and played via session.say(audio=...).
         session = session_factory(vad=prewarmed.vad, stt=whisper, **session_kw)
-        sink = PrerenderedSpeechSink(session, GeminiTTS(model=settings.gemini_tts_model, voice=settings.gemini_voice),
-                                     streaming=settings.tts_streaming, prebuffer_ms=settings.tts_prebuffer_ms)
+        if settings.tts_backend == "piper":
+            tts = prewarmed.piper
+        else:
+            tts = GeminiTTS(model=settings.gemini_tts_model, voice=settings.gemini_voice)
+        sink = PrerenderedSpeechSink(session, tts, streaming=settings.tts_streaming,
+                                     prebuffer_ms=settings.tts_prebuffer_ms)
         return reasoner, session, sink
 
     from livekit.plugins import openai
@@ -225,13 +279,14 @@ def build_stack(settings: AgentSettings, journal: Journal, prewarmed: Prewarmed,
 
 def server_options(env: Mapping[str, str] | None = None) -> dict[str, Any]:
     """Worker options. Each idle process holds its own Whisper copy, so keep the pool small
-    (LiveKit's production default is 18), and allow setup_fnc enough time to load models
-    (LiveKit's default initialize timeout of 10 s is shorter than a cold Whisper load)."""
+    (LiveKit's production default is 18). setup_fnc may first wait for active jobs to finish
+    (see prewarm_process) and then load models, so the initialize timeout must cover both
+    (LiveKit's 10 s default is shorter than a cold Whisper load alone)."""
     env = os.environ if env is None else env
     return dict(
         setup_fnc=prewarm_process,
         num_idle_processes=int(env.get("FDAGENT_IDLE_PROCESSES", "2")),
-        initialize_process_timeout=float(env.get("FDAGENT_PROCESS_INIT_TIMEOUT_S", "180")),
+        initialize_process_timeout=float(env.get("FDAGENT_PROCESS_INIT_TIMEOUT_S", "900")),
     )
 
 
@@ -246,6 +301,14 @@ async def entrypoint(ctx: agents.JobContext) -> None:
         raise RuntimeError(f"missing environment variables for stack {settings.stack!r}: {missing}")
     room = ctx.room.name
     log.info("fdagent job start room=%s pid=%s", room, os.getpid())
+    # Mark this job active so replacement workers defer their model loading until it ends.
+    registry = ActiveJobRegistry()
+    job_key = registry.register(f"{os.getpid()}-{room}")
+
+    async def _unregister() -> None:
+        registry.unregister(job_key)
+
+    ctx.add_shutdown_callback(_unregister)
     FdbMockBackend.seed(settings.seed)
 
     journal = Journal(Path(settings.journal_dir) / f"{room}.jsonl")

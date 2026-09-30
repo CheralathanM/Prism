@@ -18,9 +18,10 @@ from livekit import rtc
 from livekit.agents import stt, utils
 from livekit.agents.types import NOT_GIVEN, APIConnectOptions, NotGivenOr
 
-# tiny.en: 0% WER on a measured benchmark request turn, 1.7 s vs 3.9 s (base.en) / 7.7 s (small.en)
-# on this CPU. Override with FDAGENT_WHISPER_MODEL (e.g. openai/whisper-base.en) for harder audio.
-DEFAULT_WHISPER_MODEL = "openai/whisper-tiny.en"
+# base.en: on the local synthetic regression set (numbers, IDs, dates, names; clean and Opus
+# round-trip) it heard 9-10/10 key values vs 8-9/10 for tiny.en, fixing spoken-ID errors, at ~2.7 s
+# for a 6 s turn with a 4-thread cap on this CPU (tiny.en ~1.5 s). Override: FDAGENT_WHISPER_MODEL.
+DEFAULT_WHISPER_MODEL = "openai/whisper-base.en"
 TARGET_RATE = 16000
 
 PipelineFactory = Callable[[str, str], Any]

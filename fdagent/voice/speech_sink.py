@@ -73,7 +73,7 @@ class PrerenderedSpeechSink:
         return await self._play(text, self._frames(audio))
 
     async def _say_streaming(self, text: str) -> bool:
-        from fdagent.providers.gemini_tts import TTSError, TTSStreamNotStarted
+        from fdagent.providers.tts_base import TTSError, TTSStreamNotStarted
 
         chunks = self._tts.stream(text)
         try:
@@ -100,7 +100,8 @@ class PrerenderedSpeechSink:
         audio gracefully (what was delivered still plays) and is reported via ``failure``."""
         from livekit import rtc
 
-        rate, ch = self._stream_rate, 1
+        # The backend declares its stream rate (Gemini 24 kHz, Piper 22.05 kHz); default otherwise.
+        rate, ch = int(getattr(self._tts, "stream_sample_rate", None) or self._stream_rate), 1
         frame_bytes = max(1, rate * self._frame_ms // 1000) * 2 * ch
         prebuffer = rate * self._prebuffer_ms // 1000 * 2 * ch
         buf = bytearray(first)

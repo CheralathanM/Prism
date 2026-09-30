@@ -1,7 +1,9 @@
-# Local Whisper STT for the gemini_local stack (CPU). These are the versions already installed
-# alongside the FDB-v3 harness's NeMo ASR; nothing extra is needed if nemo_toolkit[asr] is present.
+# Local models for the zero-cost gemini_local stack (CPU): Whisper STT + Piper TTS.
+# torch/transformers are the versions already installed alongside the FDB-v3 harness's NeMo ASR.
 # Install CPU-only torch first to avoid multi-GB CUDA wheels:
 #   pip install torch==2.14.0 --index-url https://download.pytorch.org/whl/cpu
 #   pip install -r requirements-local-stt.txt
+#   bash scripts/fetch_piper_voice.sh        # default voice: en_US-lessac-medium (~63 MB)
 torch==2.14.0
 transformers==5.17.0
+piper-tts==1.8.0  # NOTE: licensed GPL-3.0-or-later (used as an unmodified dependency, not vendored)
