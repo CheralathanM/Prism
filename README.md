@@ -171,7 +171,7 @@ Controls:
   Turning the mic on switches Voice off, so the mic can't hear the agent; re-tick Voice only with
   headphones. As a second guard, recognised text that mostly repeats what the agent is saying
   is ignored as echo.
-- **Voice** reads agent lines aloud with the browser's built-in speech synthesis and stops
+- **Voice** (off by default; only one open tab can have it on) reads agent lines aloud with the browser's built-in speech synthesis and stops
   immediately on interruption.
 
 Session journals go to `results/ui_journals/` (gitignored). By default the museum route has an

@@ -11,7 +11,9 @@ free-tier planner, LiveKit Cloud Build plan).
 python -m fdagent.extensions.incar.ui        # then open http://127.0.0.1:8765 (full screen, zoom ~110 %)
 ```
 
-Tick **Voice** if you want the agent's lines spoken aloud; the browser voices them locally.
+Keep **only one** tab of the demo page open: every open tab receives the agent's lines. Voice is
+off by default and only one tab can have it on. Tick **Voice** if you want the agent's lines
+spoken aloud; the browser voices them locally.
 
 **Speaking instead of clicking (🎤 Mic, Chrome or Edge):** click **🎤 Mic off**, allow the microphone,
 and say "Take me to the museum". While the agent is answering, say "Actually, go to the harbour

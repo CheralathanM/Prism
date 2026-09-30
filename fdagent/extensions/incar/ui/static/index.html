@@ -104,7 +104,7 @@ main { display: grid; grid-template-columns: 1.15fr 1fr 1.1fr; gap: 16px; paddin
     <button id="reset">Reset session</button>
     <button id="clear">Clear view</button>
     <button id="replay">Replay last journal</button>
-    <label><input type="checkbox" id="voice" checked> Voice</label>
+    <label><input type="checkbox" id="voice"> Voice</label>
   </div>
 </header>
 <div id="status">Connecting…</div>
@@ -166,7 +166,7 @@ function drain() {
 function scroll(el) { el.scrollTop = el.scrollHeight; }
 
 function speak(text) {
-  if (!$("voice").checked || !window.speechSynthesis) return;
+  if (!$("voice").checked || !window.speechSynthesis || document.visibilityState !== "visible") return;
   const u = new SpeechSynthesisUtterance(text); u.rate = 1.05; speechSynthesis.speak(u);
 }
 function hush() { if (window.speechSynthesis) speechSynthesis.cancel(); }
@@ -293,6 +293,17 @@ function startRec() {
   rec.onend = () => { if (micOn) { try { rec.start(); } catch (_) {} } };
   rec.start();
 }
+// Several open tabs all receive the same events: only one tab may voice the agent or use the mic.
+const tabId = Math.random().toString(36).slice(2);
+const bc = window.BroadcastChannel ? new BroadcastChannel("incar-demo") : null;
+function claim(what) { if (bc) bc.postMessage({what, tabId}); }
+if (bc) bc.onmessage = (m) => {
+  if (m.data.tabId === tabId) return;
+  if (m.data.what === "voice" && $("voice").checked) { $("voice").checked = false; hush(); }
+  if (m.data.what === "mic" && micOn) { setMic(false, "Mic moved to another tab."); try { rec.stop(); } catch (_) {} }
+};
+$("voice").onchange = () => { if ($("voice").checked) claim("voice"); else hush(); };
+
 $("mic").onclick = () => {
   if (!SR) { setMic(false, "This browser has no speech recognition. Use Chrome or Edge, or the buttons."); return; }
   if (micOn) { setMic(false); try { rec.stop(); } catch (_) {} return; }
@@ -300,7 +311,7 @@ $("mic").onclick = () => {
     $("voice").checked = false;
     setMic(true, "Voice turned off so the mic does not hear the agent. Re-tick Voice only if you are wearing headphones.");
   } else setMic(true);
-  onsetSent = false; startRec();
+  claim("mic"); onsetSent = false; startRec();
 };
 
 async function refresh() {
