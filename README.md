@@ -117,6 +117,23 @@ CPU-only machines: the harness's `load_asr_model()` calls `.cuda()` unconditiona
 process only (it makes that `.cuda()` a no-op when CUDA is unavailable; it modifies no harness file).
 The official evaluation machine has a GPU and does not need it.
 
+## Extension use case: in-car destination change (`fdagent/extensions/incar/`)
+
+The driver asks for a destination, the agent starts planning the route and says so, and the driver
+barges in with a different destination. The **unchanged** kernel stops the speech, supersedes the
+stale route (its late result is rejected), and starts navigation exactly once, to the corrected
+destination. Added: two tool specs (`plan_route`, `start_navigation`), a deterministic mock car
+backend, and a scripted planner. The demo runs on the real `SessionKernel`/`SessionRuntime`, and
+`--planner gemini` uses the real planner. No core file was changed.
+
+```bash
+python -m fdagent.extensions.incar.demo --journal results/incar_demo.jsonl   # needs no keys
+python -m fdagent.core.replay results/incar_demo.jsonl                       # OK — replay identical
+python -m pytest -q tests/test_incar_extension.py                            # regression test
+```
+
+Demo script for the video: [docs/DEMO.md](docs/DEMO.md). Slide deck (8 slides, Marp): [docs/DECK.md](docs/DECK.md).
+
 ## Tests
 
 ```bash
@@ -124,7 +141,7 @@ python -m pytest -q                                            # unit, race, ada
 FDAGENT_RUN_STT_REGRESSION=1 python -m pytest -q tests/test_stt_regression.py   # needs local models
 ```
 
-`tests/test_integrity.py` fails if benchmark scenario IDs or expected argument values appear in agent
+Current: 172 passed, 2 skipped (Windows). `tests/test_integrity.py` fails if benchmark scenario IDs or expected argument values appear in agent
 code or tests.
 
 ## Known limitations
@@ -139,7 +156,8 @@ code or tests.
 - **Partial benchmark run**: 34 of 100 recordings completed locally before the deadline.
 - **Harness client aborts**: the official `livekit_inference.py` occasionally exits with SIGABRT
   (-6) on this machine; those recordings are reported as infrastructure failures.
-- No in-car/extension use case is included in this submission (see SUBMISSION_CHECKLIST.md).
+- The in-car extension uses a mock car backend and a scripted planner by default (no real vehicle
+  or map APIs); `--planner gemini` uses the live planner.
 
 ## Licenses / third-party
 
