@@ -1,5 +1,7 @@
 # Demo guide (3–5 min video)
 
+**Recorded demo video: https://youtu.be/sMvY18ipvdg**
+
 The whole recommended video runs on one laptop with **no API keys**. It uses the browser demo UI
 over the real kernel and runtime, and the scripted planner is deterministic. An optional live-voice
 segment uses the LiveKit agent on the zero-cost stack (local Whisper STT, local Piper TTS, Gemini

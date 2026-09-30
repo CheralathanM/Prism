@@ -9,6 +9,58 @@ spoken. Built for the Full-Duplex-Bench v3 (FDB-v3) tool-calling benchmark.
 > without the official gpt-4o judge, and the 100-recording run was **stopped after 34 recordings**
 > because of the submission deadline.
 
+## Hackathon submission: Samsung PRISM Generative AI Hackathon 2026, Theme 05
+
+| | |
+|---|---|
+| **Team** | Stack Overlords |
+| **College** | Vellore Institute of Technology (VIT) |
+| **Members** | Pranav Kumar · Cheralathan M · Machum Roy Choudhury · Vansh Garg |
+| **Theme** | 05: Interruptible Real-Time Agents (Full-Duplex-Bench v3) |
+| **Demo video** | https://youtu.be/sMvY18ipvdg |
+| **Presentation** | [docs/VIT_StackOverlords_Submission.pptx](docs/VIT_StackOverlords_Submission.pptx) (Markdown source: [docs/DECK.md](docs/DECK.md)) |
+| **Results** | [RESULTS.md](RESULTS.md): local, unofficial, partial (34 of 100 recordings) |
+| **Release tag** | `PRISM_GENAI_HACKATHON_Y2026` |
+| **Requirements** | [requirements.txt](requirements.txt) (agent, demo UI, tests) + [requirements-local-stt.txt](requirements-local-stt.txt) (local Whisper STT and Piper TTS) |
+
+### What it does
+
+When a user interrupts, hesitates or corrects themselves while the agent is thinking, speaking or
+calling tools, the agent stops talking immediately. It cancels or supersedes work that is no longer
+wanted and ignores late results from that work. It executes only the user's latest, settled intent,
+with each side effect happening exactly once. Every decision is journaled and can be replayed
+deterministically.
+
+### Quick start: see it work in 5 minutes (no API keys, Windows or Linux)
+
+```bash
+git clone https://github.com/CheralathanM/Prism.git && cd Prism
+python -m venv .venv
+source .venv/Scripts/activate     # Windows Git Bash (PowerShell: .venv\Scripts\Activate.ps1); Linux/macOS: source .venv/bin/activate
+pip install -r requirements.txt
+python -m fdagent.extensions.incar.ui    # then open http://127.0.0.1:8765 and press "Run demo"
+python -m pytest -q                      # full test suite
+```
+
+The full voice agent (LiveKit + local Whisper + Piper + Gemini free tier) and the benchmark
+reproduction are described under [Setup](#setup-linux--wsl2-python-312-ffmpeg) and
+[Run the benchmark](#run-the-benchmark-official-fdb-v3-harness-unmodified).
+
+### Repository layout
+
+| Path | Contents |
+|---|---|
+| `fdagent/core/` | Deterministic session kernel: events, actions, state, reconcile, commit gate, result admission, journal, replay |
+| `fdagent/runtime/` | asyncio runtime around the kernel: inbox loop, tool executor, timers, speech channel |
+| `fdagent/providers/` | Planner and TTS providers (Gemini free tier, local Piper; optional OpenAI) |
+| `fdagent/voice/` | LiveKit agent, ingress, speech sink, local Whisper STT in a separate process |
+| `fdagent/adapters/` | FDB-v3 tool specs, mock backend, argument normalization |
+| `fdagent/extensions/incar/` | Extension: in-car destination change (tools, demo runner, browser demo UI) |
+| `tests/` | Kernel scenarios, race tests, adapter, integrity, extension and UI tests |
+| `scripts/` | One-command reproduction (`reproduce.sh`), FDB-v3 and Piper voice fetchers, CPU shim |
+| `results/submission/` | Curated benchmark run logs, per-recording results and analysis scripts |
+| `docs/` | Presentation (PPTX + Markdown source) and demo video script |
+
 ## Architecture (one diagram)
 
 ```
