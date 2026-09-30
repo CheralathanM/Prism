@@ -156,6 +156,7 @@ function setStateNow(s) { const el = $("state"); el.textContent = s; el.dataset.
 // Keep every state on screen for a moment so fast transitions stay visible.
 function pushState(s) {
   stateQueue.push(s);
+  if (stateQueue.length > 2) { stateQueue = []; setStateNow(s); return; }   // backlog (e.g. page reload): jump to latest
   if (!stateTimer) drain();
 }
 function drain() {
