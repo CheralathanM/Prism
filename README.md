@@ -21,6 +21,8 @@ spoken. Built for the Full-Duplex-Bench v3 (FDB-v3) tool-calling benchmark.
 | **Presentation** | [docs/VIT_StackOverlords_Submission.pptx](docs/VIT_StackOverlords_Submission.pptx) (Markdown source: [docs/DECK.md](docs/DECK.md)) |
 | **Results** | [RESULTS.md](RESULTS.md): local, unofficial, partial (34 of 100 recordings) |
 | **Release tag** | `PRISM_GENAI_HACKATHON_Y2026` |
+| **AI disclosure** | [AI_DISCLOSURE.md](AI_DISCLOSURE.md): AI models in the product and AI assistance used in development |
+| **APK / SDK** | Not applicable: a Python service run from source (see Quick start) |
 | **Requirements** | [requirements.txt](requirements.txt) (agent, demo UI, tests) + [requirements-local-stt.txt](requirements-local-stt.txt) (local Whisper STT and Piper TTS) |
 
 ### What it does

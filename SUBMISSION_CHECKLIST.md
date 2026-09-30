@@ -17,3 +17,16 @@
 | Third-party licenses noted | ✅ | README.md → Licenses (piper-tts is GPL-3.0-or-later) |
 | requirements.txt | ✅ | requirements.txt, requirements-local-stt.txt |
 | GitHub release tag | ✅ | `PRISM_GENAI_HACKATHON_Y2026` |
+
+## GitHub checklist (organizer form)
+
+| Item | Status | Where |
+|---|---|---|
+| Source code | ✅ | `fdagent/`, `tests/`, `scripts/` |
+| Presentation | ✅ | `docs/VIT_StackOverlords_Submission.pptx` |
+| Video | ✅ | https://youtu.be/sMvY18ipvdg (linked in README) |
+| AI disclosure | ✅ | `AI_DISCLOSURE.md` |
+| README | ✅ | `README.md` (submission section, quick start, architecture, setup, results, limitations) |
+| APK/SDK | N/A | Python service run from source; no APK or SDK |
+| Tag | ✅ | `PRISM_GENAI_HACKATHON_Y2026` |
+| Other | ✅ | `RESULTS.md` (partial, unofficial results), `scripts/reproduce.sh`, `requirements.txt` |
