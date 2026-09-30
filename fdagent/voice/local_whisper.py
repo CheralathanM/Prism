@@ -1,16 +1,20 @@
 """Local Whisper STT for LiveKit (runs entirely on this machine; no API calls).
 
-Uses OpenAI's open Whisper checkpoints through Hugging Face ``transformers`` (already
-installed as a NeMo dependency; weights are downloaded once from the Hugging Face hub).
-Non-streaming: Silero VAD segments the audio and ``AgentSession`` hands each segment to
-``_recognize_impl``, exactly like the template's non-streaming ``whisper-1`` STT.
-Inference runs in a worker thread so it never blocks the event loop.
+Uses OpenAI's open Whisper checkpoints through Hugging Face ``transformers``. Non-streaming:
+Silero VAD segments the audio and ``AgentSession`` hands each segment to ``_recognize_impl``,
+like the template's non-streaming ``whisper-1`` STT.
+
+In the agent, decoding runs in a dedicated STT child process (``stt_process.SttProcessClient``)
+so it can never hold the agent's GIL; this adapter only converts audio and awaits the result.
+Each segment's lifecycle is reported to an optional ``observer`` (the ingress bridge), which
+lets the kernel treat a segment as unresolved while it is still being transcribed:
+``observer("started")`` then either ``observer("final", text=...)`` or
+``observer("failed", error=...)``.
 """
 
 from __future__ import annotations
 
 import asyncio
-import threading
 from typing import Any, Callable
 
 import numpy as np
@@ -18,60 +22,13 @@ from livekit import rtc
 from livekit.agents import stt, utils
 from livekit.agents.types import NOT_GIVEN, APIConnectOptions, NotGivenOr
 
-# base.en: on the local synthetic regression set (numbers, IDs, dates, names; clean and Opus
-# round-trip) it heard 9-10/10 key values vs 8-9/10 for tiny.en, fixing spoken-ID errors, at ~2.7 s
-# for a 6 s turn with a 4-thread cap on this CPU (tiny.en ~1.5 s). Override: FDAGENT_WHISPER_MODEL.
-DEFAULT_WHISPER_MODEL = "openai/whisper-base.en"
-TARGET_RATE = 16000
-
-PipelineFactory = Callable[[str, str], Any]
-
-
-def _transformers_pipeline(model_id: str, device: str) -> Any:
-    from transformers import pipeline  # heavy import, only when actually loading
-
-    return pipeline("automatic-speech-recognition", model=model_id, device=device)
-
-
-class WhisperTranscriber:
-    """Thread-safe, lazily loaded Whisper. ``transcribe`` takes float32 mono 16 kHz audio."""
-
-    def __init__(self, model_id: str = DEFAULT_WHISPER_MODEL, device: str = "cpu",
-                 pipeline_factory: PipelineFactory | None = None) -> None:
-        self.model_id = model_id
-        self.device = device
-        self._factory = pipeline_factory or _transformers_pipeline
-        self._pipe: Any = None
-        self._lock = threading.Lock()
-
-    def load(self) -> Any:
-        with self._lock:
-            if self._pipe is None:
-                self._pipe = self._factory(self.model_id, self.device)
-            return self._pipe
-
-    def transcribe(self, audio: np.ndarray) -> str:
-        if audio.size == 0:
-            return ""
-        pipe = self.load()
-        kwargs: dict[str, Any] = {}
-        if not self.model_id.endswith(".en"):
-            kwargs["generate_kwargs"] = {"language": "english", "task": "transcribe"}
-        with self._lock:  # one inference at a time per model instance
-            out = pipe({"raw": audio, "sampling_rate": TARGET_RATE}, **kwargs)
-        text = out.get("text", "") if isinstance(out, dict) else str(out)
-        return text.strip()
-
-
-_CACHE: dict[tuple[str, str], WhisperTranscriber] = {}
-
-
-def get_transcriber(model_id: str = DEFAULT_WHISPER_MODEL, device: str = "cpu") -> WhisperTranscriber:
-    """Process-wide cache: load the model once per worker process, not once per room."""
-    key = (model_id, device)
-    if key not in _CACHE:
-        _CACHE[key] = WhisperTranscriber(model_id, device)
-    return _CACHE[key]
+from fdagent.voice.whisper_core import (  # noqa: F401  (re-exported for callers/tests)
+    DEFAULT_WHISPER_MODEL,
+    TARGET_RATE,
+    WhisperTranscriber,
+    _transformers_pipeline,
+    get_transcriber,
+)
 
 
 def frames_to_float32_16k(buffer: Any) -> np.ndarray:
@@ -96,9 +53,11 @@ def frames_to_float32_16k(buffer: Any) -> np.ndarray:
 
 
 class LocalWhisperSTT(stt.STT):
-    def __init__(self, transcriber: WhisperTranscriber | None = None, model_id: str = DEFAULT_WHISPER_MODEL) -> None:
+    def __init__(self, transcriber: Any = None, model_id: str = DEFAULT_WHISPER_MODEL,
+                 observer: Callable[..., None] | None = None) -> None:
         super().__init__(capabilities=stt.STTCapabilities(streaming=False, interim_results=False))
         self._transcriber = transcriber or get_transcriber(model_id)
+        self.observer = observer
 
     @property
     def model(self) -> str:
@@ -112,6 +71,15 @@ class LocalWhisperSTT(stt.STT):
         """Load weights ahead of the first utterance (call from a thread)."""
         self._transcriber.load()
 
+    def _notify(self, kind: str, **fields: Any) -> None:
+        if self.observer is not None:
+            self.observer(kind, **fields)
+
+    async def _transcribe(self, audio: np.ndarray) -> str:
+        if hasattr(self._transcriber, "atranscribe"):  # dedicated STT process (agent path)
+            return await self._transcriber.atranscribe(audio)
+        return await asyncio.to_thread(self._transcriber.transcribe, audio)  # in-process (tests/tools)
+
     async def _recognize_impl(
         self,
         buffer: Any,
@@ -120,7 +88,17 @@ class LocalWhisperSTT(stt.STT):
         conn_options: APIConnectOptions,
     ) -> stt.SpeechEvent:
         audio = frames_to_float32_16k(buffer)
-        text = await asyncio.to_thread(self._transcriber.transcribe, audio)
+        self._notify("started")
+        try:
+            text = await self._transcribe(audio)
+        except asyncio.CancelledError:
+            self._notify("failed", error="cancelled")
+            raise
+        except Exception as e:  # noqa: BLE001 - explicit failure; do not let LiveKit retry blindly
+            self._notify("failed", error=f"{type(e).__name__}: {e}"[:300])
+            text = ""
+        else:
+            self._notify("final", text=text)
         return stt.SpeechEvent(
             type=stt.SpeechEventType.FINAL_TRANSCRIPT,
             alternatives=[stt.SpeechData(language="en", text=text)],

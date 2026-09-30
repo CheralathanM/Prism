@@ -33,6 +33,8 @@ class SessionState:
     pending_transcripts: list[int] = field(default_factory=list)
     # Final transcripts that arrived before their segment's end-of-speech event.
     transcript_credit: int = 0
+    # Segments the STT engine is transcribing right now (TranscriptionStarted not yet resolved).
+    stt_active: int = 0
     # Interleaved user segments and agent speech, in kernel order (context for the planner).
     conversation: list[dict[str, Any]] = field(default_factory=list)
 

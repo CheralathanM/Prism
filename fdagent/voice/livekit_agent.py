@@ -72,7 +72,8 @@ class AgentSettings:
     tts_streaming: bool = True
     tts_prebuffer_ms: int = 200
     whisper_model: str = DEFAULT_WHISPER_MODEL
-    torch_threads: int = 4  # cap per process; keeps VAD/audio loop responsive (0 = torch default)
+    torch_threads: int = 4  # PyTorch thread cap in the STT process; leaves CPU for VAD/audio (0 = default)
+    stt_timeout_s: float = 60.0  # per-segment hard limit for a stuck STT process (then: failed)
     prewarm_max_wait_s: float = 600.0  # how long a replacement worker defers loading behind active jobs
     # openai stack (optional)
     reasoner_model: str = DEFAULT_MODEL
@@ -105,6 +106,7 @@ class AgentSettings:
             tts_prebuffer_ms=int(env.get("FDAGENT_TTS_PREBUFFER_MS", d.tts_prebuffer_ms)),
             whisper_model=env.get("FDAGENT_WHISPER_MODEL", d.whisper_model),
             torch_threads=int(env.get("FDAGENT_TORCH_THREADS", d.torch_threads)),
+            stt_timeout_s=float(env.get("FDAGENT_STT_TIMEOUT_S", d.stt_timeout_s)),
             prewarm_max_wait_s=float(env.get("FDAGENT_PREWARM_MAX_WAIT_S", d.prewarm_max_wait_s)),
             reasoner_model=env.get("FDAGENT_REASONER_MODEL", d.reasoner_model),
             stt_model=env.get("FDAGENT_STT_MODEL", d.stt_model),
@@ -143,9 +145,11 @@ def _vad():
 
 
 def _transcriber(model_id: str):
-    from fdagent.voice.local_whisper import get_transcriber
+    """Whisper runs in a dedicated child process (its own GIL), never in the agent process."""
+    from fdagent.voice.stt_process import SttProcessClient
 
-    return get_transcriber(model_id)
+    s = AgentSettings.from_env()
+    return SttProcessClient(model_id, threads=s.torch_threads, timeout_s=s.stt_timeout_s)
 
 
 # ── process prewarm (LiveKit setup_fnc) ─────────────────────────────────────
@@ -197,9 +201,8 @@ def load_prewarmed(settings: AgentSettings, vad_loader=None, transcriber_loader=
     vad = (vad_loader or _vad)()
     whisper = piper = None
     if settings.stack == "gemini_local":
-        limit_torch_threads(settings.torch_threads)
         whisper = (transcriber_loader or _transcriber)(settings.whisper_model)
-        whisper.load()  # imports transformers/torch and loads weights
+        whisper.load()  # starts the STT child process and waits until it has loaded Whisper
         import openai  # noqa: F401  (SDK used by the Gemini planner; import cost paid here, not per room)
         if settings.tts_backend == "piper":
             piper = (piper_loader or _piper)(settings.piper_voice)  # fails loudly if the voice is missing
@@ -234,7 +237,7 @@ async def resolve_prewarmed(userdata: Mapping[str, Any], settings: AgentSettings
 
 
 def build_stack(settings: AgentSettings, journal: Journal, prewarmed: Prewarmed,
-                session_factory=None) -> tuple[Any, Any, Any]:
+                session_factory=None, stt_observer=None) -> tuple[Any, Any, Any]:
     """Return (reasoner, session, speech_sink) for the configured provider stack.
 
     Never loads models: VAD and Whisper come from ``prewarmed``."""
@@ -254,7 +257,8 @@ def build_stack(settings: AgentSettings, journal: Journal, prewarmed: Prewarmed,
         reasoner = GeminiReasoner(FDB_TOOL_SPECS, model=settings.gemini_planner_model,
                                   reasoning_effort=settings.gemini_reasoning_effort, on_warning=warn,
                                   on_attempt=attempt)
-        whisper = LocalWhisperSTT(transcriber=prewarmed.whisper)  # lightweight per-room wrapper
+        # Lightweight per-room wrapper around the shared STT process; reports segment lifecycle.
+        whisper = LocalWhisperSTT(transcriber=prewarmed.whisper, observer=stt_observer)
         # No TTS plugin: speech is synthesized by the selected backend (local Piper by default,
         # Gemini optionally), streamed, and played via session.say(audio=...).
         session = session_factory(vad=prewarmed.vad, stt=whisper, **session_kw)
@@ -315,12 +319,23 @@ async def entrypoint(ctx: agents.JobContext) -> None:
     kernel = SessionKernel(room, list(FDB_TOOL_SPECS), settings.kernel_config(), journal=journal,
                            settings=asdict(settings))
     prewarmed = await resolve_prewarmed(ctx.proc.userdata, settings)
-    reasoner, session, sink = build_stack(settings, journal, prewarmed)
+    local_stt = settings.stack == "gemini_local"
+    # The STT adapter reports started/final/failed per segment; forwarded to the bridge (created below).
+    reasoner, session, sink = build_stack(settings, journal, prewarmed,
+                                          stt_observer=lambda kind, **f: bridge.on_stt_event(kind, **f))
+    if local_stt and os.name != "nt" and hasattr(prewarmed.whisper, "close"):
+        # One job per worker process on POSIX: stop the STT child when this job ends. (Windows runs
+        # jobs as threads of one process; there the child is closed at process exit.)
+        async def _close_stt() -> None:
+            await asyncio.to_thread(prewarmed.whisper.close)
+
+        ctx.add_shutdown_callback(_close_stt)
 
     runtime = SessionRuntime(kernel, reasoner, FdbMockBackend(room, latency_profile=settings.latency_profile), sink)
     heartbeat = FdbLatencyLog(room)
     runtime.add_mark_listener(heartbeat.on_mark)
-    bridge = IngressBridge(runtime.post, on_final=heartbeat.on_user_final)
+    # Local STT supplies transcripts itself (with lifecycle); LiveKit's copies would double-count.
+    bridge = IngressBridge(runtime.post, on_final=heartbeat.on_user_final, livekit_transcripts=not local_stt)
     session.on("user_state_changed", lambda ev: bridge.on_user_state(ev.new_state))
     session.on("user_input_transcribed", lambda ev: bridge.on_transcript(ev.transcript, ev.is_final))
     # Observability only: when LiveKit actually starts/stops playing audio, and TTS first-audio marks.

@@ -27,6 +27,8 @@ from .events import (
     ReasonerProposal,
     TimerFired,
     ToolResult,
+    TranscriptionFailed,
+    TranscriptionStarted,
     UserSpeechStarted,
     UserTranscript,
     UserTurnEnded,
@@ -61,6 +63,8 @@ class SessionKernel:
             UserSpeechStarted: self._on_speech_started,
             UserTranscript: self._on_transcript,
             UserTurnEnded: self._on_turn_ended,
+            TranscriptionStarted: self._on_transcription_started,
+            TranscriptionFailed: self._on_transcription_failed,
             AgentSpeechStarted: self._on_agent_speech_started,
             AgentSpeechEnded: self._on_agent_speech_ended,
             ReasonerProposal: self._on_proposal,
@@ -162,7 +166,9 @@ class SessionKernel:
             s.partial = ev.text
             return []
         s.partial = ""
-        # Every final transcript (even empty or filler-only) settles one ended speech segment.
+        # Every final transcript (even empty or filler-only) settles one ended speech segment
+        # and completes one in-flight transcription (if the STT engine reports them).
+        s.stt_active = max(0, s.stt_active - 1)
         self._settle_transcript()
         text = ev.text.strip()
         if not text:
@@ -180,13 +186,25 @@ class SessionKernel:
         return [DiscardStaleSpeech(below_generation=s.generation, reason="newer_transcript"),
                 self._request_reasoning("transcript")]
 
-    def _settle_transcript(self) -> None:
+    def _settle_transcript(self, outcome: str = "transcript") -> None:
         s = self.state
         if s.pending_transcripts:
             epoch = s.pending_transcripts.pop(0)
-            self._note("transcript_settled", epoch=epoch, still_pending=len(s.pending_transcripts))
+            self._note("transcript_settled", epoch=epoch, outcome=outcome, still_pending=len(s.pending_transcripts))
         else:
             s.transcript_credit += 1  # arrived before its end-of-speech event
+
+    def _on_transcription_started(self, ev: TranscriptionStarted) -> list[Action]:
+        self.state.stt_active += 1
+        return []
+
+    def _on_transcription_failed(self, ev: TranscriptionFailed) -> list[Action]:
+        # The segment is resolved, but with no words: it cannot change intent.
+        s = self.state
+        s.stt_active = max(0, s.stt_active - 1)
+        self._note("transcript_failed", error=ev.error)
+        self._settle_transcript(outcome="failed")
+        return []
 
     def _on_turn_ended(self, ev: UserTurnEnded) -> list[Action]:
         s = self.state
@@ -249,9 +267,15 @@ class SessionKernel:
             return actions
 
         if ev.kind == "transcript_deadline":
-            if ev.epoch in s.pending_transcripts:
-                s.pending_transcripts.remove(ev.epoch)
-                self._note("transcript_timeout", epoch=ev.epoch, still_pending=len(s.pending_transcripts))
+            if ev.epoch not in s.pending_transcripts:
+                return []
+            if s.stt_active > 0:
+                # Still being transcribed: not stuck, just slow. Keep the segment unresolved.
+                self._note("transcript_deadline_extended", epoch=ev.epoch, stt_active=s.stt_active)
+                return [StartTimer(timer_id=ev.timer_id, kind="transcript_deadline",
+                                   delay_s=self.config.transcript_timeout_s, generation=s.generation, epoch=ev.epoch)]
+            s.pending_transcripts.remove(ev.epoch)
+            self._note("transcript_timeout", epoch=ev.epoch, still_pending=len(s.pending_transcripts))
             return []
 
         if ev.kind == "tool_timeout":

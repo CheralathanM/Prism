@@ -36,6 +36,20 @@ class UserTurnEnded(Event):
     pass
 
 
+@dataclass(frozen=True)
+class TranscriptionStarted(Event):
+    """The STT engine began transcribing an ended speech segment. Until its result (a final
+    UserTranscript) or a TranscriptionFailed arrives, that segment stays unresolved."""
+
+
+@dataclass(frozen=True)
+class TranscriptionFailed(Event):
+    """The STT engine finished a segment without a transcript (error). Distinct from both a
+    completed transcript and a safety timeout."""
+
+    error: str = ""
+
+
 # ── Agent speech feedback (from the TTS / playout side) ──────────────────────
 @dataclass(frozen=True)
 class AgentSpeechStarted(Event):
@@ -124,6 +138,8 @@ EVENT_TYPES: dict[str, type[Event]] = {
         UserSpeechStarted,
         UserTranscript,
         UserTurnEnded,
+        TranscriptionStarted,
+        TranscriptionFailed,
         AgentSpeechStarted,
         AgentSpeechEnded,
         ReasonerProposal,

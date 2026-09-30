@@ -150,6 +150,7 @@ def test_room_entrypoint_performs_no_cold_model_loading(monkeypatch, tmp_path):
     assert registry.active() == []  # unregistered at shutdown
     [(session, room, agent)] = started
     assert session.kw["vad"] is pw.vad and session.kw["stt"]._transcriber is pw.whisper
+    assert session.kw["stt"].observer is not None  # segment lifecycle reaches the kernel via the bridge
     assert set(session.handlers) == {"user_state_changed", "user_input_transcribed", "agent_state_changed"}
     assert room is ctx.room and isinstance(agent, la.KernelDrivenAgent)
     assert pw.whisper.loads == 0

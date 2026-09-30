@@ -15,7 +15,9 @@ class KernelConfig:
     # Must stay True for FDB-v3: every executed call is scored, so a stale read is a fail.
     gate_read_only: bool = True
     # A speech segment that has ended (VAD) but whose transcript has not arrived blocks dispatch.
-    # If no transcript arrives within this many seconds, the segment is closed explicitly.
+    # This is only a safety check for stuck/lost work: when it fires while the STT engine is
+    # still transcribing, it is extended; it closes a segment only if no transcription is in
+    # flight (logged as transcript_timeout, never as a completed transcript).
     transcript_timeout_s: float = 10.0
     # Attempts per operation (first try included) for retriable failures.
     max_attempts: int = 2

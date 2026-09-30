@@ -112,6 +112,89 @@ def test_journal_replay_still_deterministic_with_transcript_gating():
     assert replay(h.journal.records) == []
 
 
+# ── in-flight transcription (STT engine reports lifecycle) ─────────────────
+from fdagent.core.events import TranscriptionFailed, TranscriptionStarted  # noqa: E402
+
+
+def deadline(h: Harness, epoch: int):
+    return h.send(TimerFired(f"transcript:{epoch}", "transcript_deadline", epoch=epoch), dt=10.0)
+
+
+def test_slow_transcription_extends_the_deadline_instead_of_releasing_the_gate():
+    """A segment that is actively being transcribed stays unresolved past the safety deadline."""
+    h = Harness(tools=TOOLS + [FIND])
+    segment(h, "find a standing lamp")  # first segment already transcribed
+    segment(h)  # second segment ended...
+    h.send(TranscriptionStarted())  # ...and the STT engine is working on it
+    h.stabilize()
+    assert not h.dispatches(h.propose([PC("find_items", {"query": "standing lamp"})]))
+    acts = deadline(h, 2)  # 10 s pass: still transcribing
+    assert not h.dispatches(acts) and h.s.pending_transcripts == [2]
+    assert h.decisions("transcript_deadline_extended") and not h.decisions("transcript_timeout")
+    assert any(a.kind == "transcript_deadline" for a in acts if hasattr(a, "kind"))  # re-armed
+    deadline(h, 2)  # still transcribing after another 10 s: still no dispatch
+    assert not h.dispatches()
+    h.send(UserTranscript("something under 80 dollars"))  # the slow result finally lands
+    [d] = h.dispatches(h.propose([PC("find_items", {"query": "standing lamp", "max_price": 80})]))
+    assert d.args["max_price"] == 80 and len(h.dispatches()) == 1
+
+
+def test_previous_segment_still_transcribing_blocks_dispatch_of_a_ready_plan():
+    h = Harness(tools=TOOLS + [FIND])
+    segment(h)
+    h.send(TranscriptionStarted())
+    segment(h)
+    h.send(TranscriptionStarted())
+    h.send(UserTranscript("I'm looking for a standing lamp"))  # segment 1 done, segment 2 in flight
+    h.stabilize()
+    for _ in range(3):
+        assert not h.dispatches(h.propose([PC("find_items", {"query": "standing lamp"})]))
+        deadline(h, 2)
+    assert h.s.stt_active == 1 and h.s.pending_transcripts == [2]
+    assert not h.dispatches()
+
+
+def test_correction_in_a_slow_segment_yields_only_the_final_call():
+    h = Harness()
+    segment(h)
+    h.send(TranscriptionStarted())
+    segment(h)
+    h.send(TranscriptionStarted())
+    h.send(UserTranscript("flights to Oslo on May 3"))
+    h.stabilize()
+    h.propose([PC("search_flights", {"destination": "Oslo", "date": "May 3"})])
+    deadline(h, 2)
+    h.send(UserTranscript("no wait, make that Bergen"))
+    h.propose([PC("search_flights", {"destination": "Bergen", "date": "May 3"})])
+    assert [d.args["destination"] for d in h.dispatches()] == ["Bergen"]
+
+
+def test_stt_failure_resolves_the_segment_as_failed_not_as_a_transcript():
+    h = Harness(tools=TOOLS + [FIND])
+    segment(h, "find a standing lamp")
+    segment(h)
+    h.send(TranscriptionStarted())
+    h.stabilize()
+    assert not h.dispatches(h.propose([PC("find_items", {"query": "standing lamp"})]))
+    acts = h.send(TranscriptionFailed(error="SttTimeout: STT request 2 exceeded 60.0s"))
+    assert [d.args for d in h.dispatches(acts)] == [{"query": "standing lamp"}]
+    settled = h.decisions("transcript_settled")[-1]
+    assert settled["outcome"] == "failed" and h.decisions("transcript_failed")
+    assert not h.decisions("transcript_timeout")
+    assert h.s.generation == h.decisions("plan_accepted")[-1]["generation"]  # no fake transcript was injected
+
+
+def test_timeout_closes_a_segment_only_when_nothing_is_being_transcribed():
+    h = Harness(tools=TOOLS + [FIND])
+    segment(h, "find a standing lamp")
+    segment(h)  # no TranscriptionStarted: the STT engine never picked it up (lost/stuck)
+    h.stabilize()
+    h.propose([PC("find_items", {"query": "standing lamp"})])
+    acts = deadline(h, 2)
+    assert h.decisions("transcript_timeout") and not h.decisions("transcript_deadline_extended")
+    assert [d.args for d in h.dispatches(acts)] == [{"query": "standing lamp"}]
+
+
 # ── stale queued speech ─────────────────────────────────────────────────────
 def test_new_transcript_tells_the_speech_channel_to_drop_older_generations():
     h = Harness()

@@ -249,6 +249,22 @@ def test_L1_ingress_bridge_translates_livekit_events():
     assert (posted[1].final, posted[2].text, posted[2].final, posted[3].text) == (False, "", True, "rooms in Eastvale")
 
 
+def test_L1b_local_stt_lifecycle_replaces_livekit_transcripts():
+    posted, finals = [], []
+    b = IngressBridge(posted.append, on_final=finals.append, livekit_transcripts=False)
+    b.on_transcript("duplicate from LiveKit", is_final=True)  # ignored: local STT reports its own
+    b.on_stt_event("started")
+    b.on_stt_event("final", text="rooms in Eastvale")
+    b.on_stt_event("started")
+    b.on_stt_event("final", text="  ")
+    b.on_stt_event("started")
+    b.on_stt_event("failed", error="SttTimeout")
+    assert [type(e).__name__ for e in posted] == ["TranscriptionStarted", "UserTranscript", "TranscriptionStarted",
+                                                  "UserTranscript", "TranscriptionStarted", "TranscriptionFailed"]
+    assert (posted[1].text, posted[3].text, posted[5].error) == ("rooms in Eastvale", "", "SttTimeout")
+    assert finals == ["rooms in Eastvale"]
+
+
 class FakeHandle:
     def __init__(self, seconds, lk_interrupts=False):
         self.seconds, self.lk_interrupts, self.interrupted, self.interrupt_calls = seconds, lk_interrupts, False, 0

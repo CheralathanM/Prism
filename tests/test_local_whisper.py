@@ -67,13 +67,47 @@ def test_transcriber_is_lazy_and_loaded_once():
     t.transcribe(np.ones(1600, dtype=np.float32) * 0.1)
     assert made == [("openai/whisper-small.en", "cpu")]
     inputs, kw = pipe.calls[0]
-    assert inputs["sampling_rate"] == 16000 and kw == {}  # English-only model: no language forcing
+    # English-only model: no language forcing; decoded length capped relative to audio length.
+    assert inputs["sampling_rate"] == 16000 and kw == {"generate_kwargs": {"max_new_tokens": 24}}
 
 
 def test_multilingual_checkpoint_is_forced_to_english():
     pipe = FakePipe()
     WhisperTranscriber("openai/whisper-small", pipeline_factory=lambda m, d: pipe).transcribe(np.ones(160, np.float32))
-    assert pipe.calls[0][1] == {"generate_kwargs": {"language": "english", "task": "transcribe"}}
+    assert pipe.calls[0][1] == {"generate_kwargs": {"max_new_tokens": 24, "language": "english", "task": "transcribe"}}
+
+
+def test_decode_length_cap_scales_with_audio_and_is_bounded():
+    from fdagent.voice.whisper_core import max_new_tokens_for
+
+    assert max_new_tokens_for(0) == 24 and max_new_tokens_for(10) == 104 and max_new_tokens_for(300) == 440
+
+
+def test_adapter_reports_segment_lifecycle_and_failures_without_raising():
+    events = []
+
+    class AsyncClient:
+        model_id = "fake"
+
+        def __init__(self, fail=False):
+            self.fail = fail
+
+        async def atranscribe(self, a):
+            if self.fail:
+                raise RuntimeError("STT process exited unexpectedly (code 3)")
+            return "rooms in Eastvale"
+
+    async def main(fail):
+        s = LocalWhisperSTT(AsyncClient(fail), observer=lambda kind, **f: events.append((kind, f)))
+        return await s.recognize([tone(0.3, 48000)])
+
+    ev = asyncio.run(main(False))
+    assert ev.alternatives[0].text == "rooms in Eastvale"
+    assert events == [("started", {}), ("final", {"text": "rooms in Eastvale"})]
+    events.clear()
+    ev = asyncio.run(main(True))
+    assert ev.alternatives[0].text == ""  # empty result instead of an exception (no blind LiveKit retries)
+    assert [k for k, _ in events] == ["started", "failed"] and "exited unexpectedly" in events[1][1]["error"]
 
 
 def test_livekit_stt_contract_returns_final_transcript_off_the_loop():
