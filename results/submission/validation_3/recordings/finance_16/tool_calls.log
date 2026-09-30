@@ -1,0 +1,1 @@
+{"room": "eval-819560d4", "call": {"function": "get_exchange_rate", "args": {"amount": 500, "from_currency": "JPY", "to_currency": "USD"}, "timestamp_start": 1790765443.7077618, "timestamp_end": 1790765443.7078102}}

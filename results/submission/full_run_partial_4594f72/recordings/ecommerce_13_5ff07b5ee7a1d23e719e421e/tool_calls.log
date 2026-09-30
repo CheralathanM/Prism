@@ -1,0 +1,2 @@
+{"room": "eval-8a3a1a84", "call": {"function": "add_to_cart", "args": {"quantity": 1, "product_id": "K-2"}, "timestamp_start": 1790770704.8210156, "timestamp_end": 1790770704.8210425}}
+{"room": "eval-8a3a1a84", "call": {"function": "track_order", "args": {"order_id": "dedddddddddddddddddddddddddddddddIV"}, "timestamp_start": 1790770706.4945552, "timestamp_end": 1790770706.494588}}

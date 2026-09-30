@@ -1,0 +1,1 @@
+LATENCY_TRACK_JSON: {"room": "eval-c960bbfa", "tool": "Search Tool", "reasoning": 1.268, "execution": 0.002, "synthesis": 1.225, "total": 2.495, "agent_start_at": 1790769967.62267}

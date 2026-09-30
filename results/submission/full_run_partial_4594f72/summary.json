@@ -1,0 +1,2389 @@
+{
+  "summary": {
+    "recordings": 34,
+    "completed": 31,
+    "scored": 30,
+    "exact_match_pass": 17,
+    "exact_match_fail": 13,
+    "categories": {
+      "pass": 17,
+      "harness/infrastructure": 4,
+      "tool selection/arguments": 6,
+      "planner": 1,
+      "STT/transcription": 6
+    },
+    "identical_duplicate_calls": 0,
+    "extra_calls": 3,
+    "recordings_with_premature_dispatch": 1,
+    "rollback_outcomes": {
+      "corrected_only": 3
+    },
+    "barge_in_recordings": 11,
+    "barge_in_events": 15,
+    "stale_speech_dropped": 1,
+    "speech_captured": 25,
+    "tts_speech_failed_events": 6,
+    "tts_stream_fallbacks": 0,
+    "perceived_latency_s": {
+      "n": 25,
+      "median": 7.52,
+      "mean": 10.81,
+      "p90": 21.52,
+      "min": 2.56,
+      "max": 28.4
+    },
+    "planner": {
+      "attempts": 138,
+      "status_counts": {
+        "200": 138
+      },
+      "retried_attempts": 1,
+      "http_429": 0,
+      "reasoner_failures": 0,
+      "slowest_attempt_s": 19.384
+    },
+    "transcription": {
+      "timeouts": 9,
+      "failures": 1,
+      "deadline_extensions": 137
+    },
+    "harness_issues": [
+      [
+        "ecommerce_02_5f4a4da1575d605c43bef871",
+        "completed",
+        [
+          "abnormally_long_recording(host_suspend?)",
+          "job_assignment_timeout_or_host_suspend",
+          "no_speech_captured"
+        ]
+      ],
+      [
+        "ecommerce_04_6998abd731d2ec50d067d5bd",
+        "inference_failed",
+        [
+          "harness_client_exit_-6"
+        ]
+      ],
+      [
+        "ecommerce_14_5ff07b5ee7a1d23e719e421e",
+        "inference_failed",
+        [
+          "harness_client_exit_-6"
+        ]
+      ],
+      [
+        "ecommerce_15_56780a5a89319e0011644cb4",
+        "inference_failed",
+        [
+          "harness_client_exit_-6"
+        ]
+      ]
+    ],
+    "by_difficulty": {
+      "easy": "8/12",
+      "medium": "4/10",
+      "hard": "5/8"
+    },
+    "by_feature": {
+      "FALSE_START": "4/4",
+      "FILLER": "4/7",
+      "HESITATION": "1/3",
+      "PAUSE": "1/5",
+      "SELF_CORRECTION": "3/3"
+    }
+  },
+  "recordings": [
+    {
+      "folder": "ecommerce_01_65e8cf8f4c7424fa062e54a3",
+      "example_id": "ecommerce_01",
+      "difficulty": "easy",
+      "domain": "ecommerce_support",
+      "features": [],
+      "rollback": false,
+      "wall_secs": 234,
+      "status": "completed",
+      "room": "eval-adbbddf7",
+      "agent_joined": true,
+      "our_transcript": "Like. Uh, you know, well, I ordered something last week and. I haven't received it yet. Could you track it for me? The order ID is A, B, C, 1, 2, 3.",
+      "dispatches": [
+        [
+          "track_order",
+          {
+            "order_id": "ABC123"
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 3,
+      "planner_status": {
+        "200": 3
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 5.795,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 1,
+      "tool_calls": [
+        [
+          "track_order",
+          {
+            "order_id": "ABC123"
+          }
+        ]
+      ],
+      "perceived_latency_s": 7.52,
+      "first_speech_s": 22.95,
+      "window_s": 45.84,
+      "speech_captured": true,
+      "agent_output_transcript": "What is your order number so I can check the shippings? Your order ABC one hundred twenty-three is currently out for delivery.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_01_69a9cf80f4d7668d5c815038",
+      "example_id": "ecommerce_01",
+      "difficulty": "easy",
+      "domain": "ecommerce_support",
+      "features": [],
+      "rollback": false,
+      "wall_secs": 190,
+      "status": "completed",
+      "room": "eval-cc44f6ec",
+      "agent_joined": true,
+      "our_transcript": "Like, you know. Well, I ordered something last weekend. I haven't received it yet. Could you track it for me? The order ID is A, B, C, 1, 2, 3.",
+      "dispatches": [
+        [
+          "track_order",
+          {
+            "order_id": "ABC123"
+          }
+        ]
+      ],
+      "barge_in": 1,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 5,
+      "planner_status": {
+        "200": 5
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 1.613,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 1,
+      "tool_calls": [
+        [
+          "track_order",
+          {
+            "order_id": "ABC123"
+          }
+        ]
+      ],
+      "perceived_latency_s": 3.76,
+      "first_speech_s": 22.5,
+      "window_s": 49.62,
+      "speech_captured": true,
+      "agent_output_transcript": "Could you please provide your order ID? Checking the status of order ABC one hundred twenty-three. Your order ABC one hundred twenty-three is currently out for delivery.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_02_5f4a4da1575d605c43bef871",
+      "example_id": "ecommerce_02",
+      "difficulty": "easy",
+      "domain": "ecommerce_support",
+      "features": [],
+      "rollback": false,
+      "wall_secs": 1236,
+      "status": "completed",
+      "room": "eval-7bfb657b",
+      "agent_joined": false,
+      "our_transcript": "",
+      "dispatches": [],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 0,
+      "planner_status": {},
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": null,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [],
+      "perceived_latency_s": null,
+      "first_speech_s": 43.336,
+      "window_s": 43.336,
+      "speech_captured": false,
+      "agent_output_transcript": "",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": null,
+      "category": "harness/infrastructure",
+      "reason": "agent never joined (job assignment timeout / host suspend)",
+      "flags": [
+        "abnormally_long_recording(host_suspend?)",
+        "job_assignment_timeout_or_host_suspend",
+        "no_speech_captured"
+      ]
+    },
+    {
+      "folder": "ecommerce_04_6998abd731d2ec50d067d5bd",
+      "example_id": "ecommerce_04",
+      "difficulty": "easy",
+      "domain": "ecommerce_support",
+      "features": [
+        "PAUSE"
+      ],
+      "rollback": false,
+      "wall_secs": 204,
+      "status": "inference_failed",
+      "room": "eval-d5637196",
+      "journal_recovered": true,
+      "agent_joined": true,
+      "our_transcript": "You know, where is my package? Let me find the origin number here. Door number is XYZ88. Could you check what's going on with it?",
+      "dispatches": [
+        [
+          "track_order",
+          {
+            "order_id": "XYZ88"
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 2,
+      "planner_status": {
+        "200": 2
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 1.753,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [],
+      "perceived_latency_s": null,
+      "first_speech_s": null,
+      "window_s": null,
+      "speech_captured": false,
+      "agent_output_transcript": "",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": null,
+      "category": "harness/infrastructure",
+      "reason": "inference_failed",
+      "flags": [
+        "harness_client_exit_-6"
+      ]
+    },
+    {
+      "folder": "ecommerce_05_695bd157114f0d2317f88617",
+      "example_id": "ecommerce_05",
+      "difficulty": "easy",
+      "domain": "ecommerce_support",
+      "features": [
+        "FILLER",
+        "HESITATION"
+      ],
+      "rollback": false,
+      "wall_secs": 199,
+      "status": "completed",
+      "room": "eval-385d9874",
+      "agent_joined": true,
+      "our_transcript": "Um, so like, uh. I'm looking for for a new... Let me think. a desk. Yes. Something under $300. If you have an option like that, that would be great.",
+      "dispatches": [
+        [
+          "search_products",
+          {
+            "query": "desk",
+            "max_price": 300
+          }
+        ]
+      ],
+      "barge_in": 2,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 8,
+      "planner_status": {
+        "200": 8
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 6.03,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 2,
+      "tool_calls": [
+        [
+          "search_products",
+          {
+            "max_price": 300,
+            "query": "desk"
+          }
+        ]
+      ],
+      "perceived_latency_s": 17.84,
+      "first_speech_s": 25.1,
+      "window_s": 52.08,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay, one moment I found the desk premium for dollar two hundred ninety",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_06_66c4f3cb14cbfc4db836bd4e",
+      "example_id": "ecommerce_06",
+      "difficulty": "easy",
+      "domain": "ecommerce_support",
+      "features": [],
+      "rollback": false,
+      "wall_secs": 296,
+      "status": "completed",
+      "room": "eval-668ef2f9",
+      "agent_joined": true,
+      "our_transcript": "Bye! Could you add two of what the items K2 to my cart? I need one for me and one as a gift for my friend.",
+      "dispatches": [
+        [
+          "search_products",
+          {
+            "query": "K2"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "product_id": "PROD1",
+            "quantity": 2
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 4,
+      "planner_status": {
+        "200": 4
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 3.702,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [
+        [
+          "search_products",
+          {
+            "max_price": null,
+            "query": "K2"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "quantity": 2,
+            "product_id": "PROD1"
+          }
+        ]
+      ],
+      "perceived_latency_s": 3.2,
+      "first_speech_s": 17.45,
+      "window_s": 44.528,
+      "speech_captured": true,
+      "agent_output_transcript": "Goodbye. Let me look up item K2 for you.",
+      "identical_duplicates": 0,
+      "extra_calls": 1,
+      "premature_dispatch": 0,
+      "passed": false,
+      "reason": "Unexpected tools: ['search_products']",
+      "values_missing_in_our_transcript": [],
+      "category": "tool selection/arguments",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_07_66f59c766e7e22e1f90d08f6",
+      "example_id": "ecommerce_07",
+      "difficulty": "easy",
+      "domain": "ecommerce_support",
+      "features": [
+        "FALSE_START"
+      ],
+      "rollback": false,
+      "wall_secs": 302,
+      "status": "completed",
+      "room": "eval-2cc1e405",
+      "agent_joined": true,
+      "our_transcript": "Could you, I wanted to search for a new product. Actually, no, never mind. Never mind. Forget that for now. Could you just track my order instead? The idea is F-A-S-T-9-9.",
+      "dispatches": [
+        [
+          "track_order",
+          {
+            "order_id": "FAST99"
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 1,
+      "reasoner_errors": [],
+      "planner_attempts": 2,
+      "planner_status": {
+        "200": 2
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 2.04,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [
+        [
+          "track_order",
+          {
+            "order_id": "FAST99"
+          }
+        ]
+      ],
+      "perceived_latency_s": 17.2,
+      "first_speech_s": 34.95,
+      "window_s": 50.04,
+      "speech_captured": true,
+      "agent_output_transcript": "Your order Fast 99 is currently held for delivery.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_08_5ff07b5ee7a1d23e719e421e",
+      "example_id": "ecommerce_08",
+      "difficulty": "easy",
+      "domain": "ecommerce_support",
+      "features": [
+        "PAUSE"
+      ],
+      "rollback": false,
+      "wall_secs": 242,
+      "status": "completed",
+      "room": "eval-171329e4",
+      "agent_joined": true,
+      "our_transcript": "Mm-hmm. You know. I want a mechanical keyboard and I'm trying to keep my budget under 200 hours. Do you have anything like that?",
+      "dispatches": [
+        [
+          "search_products",
+          {
+            "query": "mechanical keyboard",
+            "max_price": 200
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 4,
+      "planner_status": {
+        "200": 4
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 4.969,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 1,
+      "tool_calls": [
+        [
+          "search_products",
+          {
+            "max_price": 200,
+            "query": "mechanical keyboard"
+          }
+        ]
+      ],
+      "perceived_latency_s": 7.52,
+      "first_speech_s": 22.4,
+      "window_s": 45.78,
+      "speech_captured": true,
+      "agent_output_transcript": "What is your I found the mechanical keyboard premium for dollar one hundred ninety, which is under your dollar two hundred budget.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": false,
+      "reason": "Wrong arguments for: ['search_products']",
+      "values_missing_in_our_transcript": [],
+      "category": "tool selection/arguments",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_08_61517db6a7589569521b2356",
+      "example_id": "ecommerce_08",
+      "difficulty": "easy",
+      "domain": "ecommerce_support",
+      "features": [
+        "PAUSE"
+      ],
+      "rollback": false,
+      "wall_secs": 223,
+      "status": "completed",
+      "room": "eval-2d650d8d",
+      "agent_joined": true,
+      "our_transcript": "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM Yeah, you know I want on my chemical keyboard and I'm trying to I keep my budget under $200. Our servers. Do you have anything like that? Thank you. Mm-hmm. Mm-hmm.",
+      "dispatches": [],
+      "barge_in": 2,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 9,
+      "reasoner_errors": [],
+      "planner_attempts": 4,
+      "planner_status": {
+        "200": 4
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 8.654,
+      "speech_failed": 1,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 5,
+      "tool_calls": [],
+      "perceived_latency_s": 14.16,
+      "first_speech_s": 26.45,
+      "window_s": 43.44,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay, one moment. How can I help?",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": false,
+      "reason": "Missing tools: ['search_products']",
+      "values_missing_in_our_transcript": [],
+      "category": "planner",
+      "flags": [
+        "tts_speech_failed"
+      ]
+    },
+    {
+      "folder": "ecommerce_09_695bd157114f0d2317f88617",
+      "example_id": "ecommerce_09",
+      "difficulty": "medium",
+      "domain": "ecommerce_support",
+      "features": [
+        "SELF_CORRECTION"
+      ],
+      "rollback": true,
+      "wall_secs": 186,
+      "status": "completed",
+      "room": "eval-c960bbfa",
+      "agent_joined": true,
+      "our_transcript": "Like, well, um... Could you search for running shoes? Actually, no. I just remembered I already have running shoes. Search for hiking boots instead. That's what I actually need.",
+      "dispatches": [
+        [
+          "search_products",
+          {
+            "query": "hiking boots"
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 3,
+      "planner_status": {
+        "200": 3
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 2.149,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [
+        [
+          "search_products",
+          {
+            "max_price": null,
+            "query": "hiking boots"
+          }
+        ]
+      ],
+      "perceived_latency_s": 3.04,
+      "first_speech_s": 16.9,
+      "window_s": 45.06,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay, one moment. I found hiking boots premium for $0.99.99.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "rollback_outcome": "corrected_only",
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_10_6998abd731d2ec50d067d5bd",
+      "example_id": "ecommerce_10",
+      "difficulty": "medium",
+      "domain": "ecommerce_support",
+      "features": [],
+      "rollback": false,
+      "wall_secs": 166,
+      "status": "completed",
+      "room": "eval-2a6c7691",
+      "agent_joined": true,
+      "our_transcript": "Hmm, like, first can you track my order? The idea is 1, 2, 3, A, B, C. And then, while we're at it, could you also search for winter jackets under $150? I need one for my trip.",
+      "dispatches": [
+        [
+          "track_order",
+          {
+            "order_id": "123ABC"
+          }
+        ],
+        [
+          "search_products",
+          {
+            "query": "winter jacket",
+            "max_price": 150
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 3,
+      "planner_status": {
+        "200": 3
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 1.523,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [
+        [
+          "track_order",
+          {
+            "order_id": "123ABC"
+          }
+        ],
+        [
+          "search_products",
+          {
+            "max_price": 150,
+            "query": "winter jacket"
+          }
+        ]
+      ],
+      "perceived_latency_s": 5.2,
+      "first_speech_s": 25.25,
+      "window_s": 50.16,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay, one moment. I'm tracking your order and searching for winter jackets under dollar one hundred fifty. Your order one hundred twenty-three ABC is out for delivery, and I found a winter jacket premium for dollar one hundred forty.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": false,
+      "reason": "Wrong arguments for: ['search_products']",
+      "values_missing_in_our_transcript": [],
+      "category": "tool selection/arguments",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_11_62a885d5b6af18b3d4579e1b",
+      "example_id": "ecommerce_11",
+      "difficulty": "medium",
+      "domain": "ecommerce_support",
+      "features": [
+        "SELF_CORRECTION"
+      ],
+      "rollback": true,
+      "wall_secs": 164,
+      "status": "completed",
+      "room": "eval-45cb6a01",
+      "agent_joined": true,
+      "our_transcript": "You know like go ahead and add the product be seven to my cart make it three if I'm no no wait That's too many just do one for now. I'll order more later if if I need to",
+      "dispatches": [
+        [
+          "add_to_cart",
+          {
+            "product_id": "b7",
+            "quantity": 1
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 2,
+      "planner_status": {
+        "200": 2
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 1.313,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [
+        [
+          "add_to_cart",
+          {
+            "quantity": 1,
+            "product_id": "b7"
+          }
+        ]
+      ],
+      "perceived_latency_s": 13.28,
+      "first_speech_s": 23.9,
+      "window_s": 40.68,
+      "speech_captured": true,
+      "agent_output_transcript": "I've added one of product B seven to your cart.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "rollback_outcome": "corrected_only",
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_12_6998abd731d2ec50d067d5bd",
+      "example_id": "ecommerce_12",
+      "difficulty": "medium",
+      "domain": "ecommerce_support",
+      "features": [
+        "HESITATION",
+        "PAUSE"
+      ],
+      "rollback": false,
+      "wall_secs": 206,
+      "status": "completed",
+      "room": "eval-587200fe",
+      "agent_joined": true,
+      "our_transcript": "Like you know, I'm thinking something that let me think. Electronic section would be great. He's really into gadgets and tech stuff. Thank you. Thank you.",
+      "dispatches": [
+        [
+          "search_products",
+          {
+            "query": "electronics"
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 2,
+      "reasoner_errors": [],
+      "planner_attempts": 4,
+      "planner_status": {
+        "200": 4
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 3.817,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [
+        [
+          "search_products",
+          {
+            "max_price": null,
+            "query": "electronics"
+          }
+        ]
+      ],
+      "perceived_latency_s": null,
+      "first_speech_s": 40.95,
+      "window_s": 41.264,
+      "speech_captured": false,
+      "agent_output_transcript": "",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": false,
+      "reason": "Wrong arguments for: ['search_products']",
+      "values_missing_in_our_transcript": [
+        "gift"
+      ],
+      "category": "STT/transcription",
+      "flags": [
+        "no_speech_captured"
+      ]
+    },
+    {
+      "folder": "ecommerce_13_5ff07b5ee7a1d23e719e421e",
+      "example_id": "ecommerce_13",
+      "difficulty": "medium",
+      "domain": "ecommerce_support",
+      "features": [],
+      "rollback": false,
+      "wall_secs": 243,
+      "status": "completed",
+      "room": "eval-8a3a1a84",
+      "agent_joined": true,
+      "our_transcript": "Um. Well, so well. First, could you add item K-2? to my cart. Just one of them, and then can you check on my last order too? The order ID is d-e-l-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d-d- Thanks for watching, and I'll see you in the next video. I-V.",
+      "dispatches": [
+        [
+          "add_to_cart",
+          {
+            "product_id": "K-2"
+          }
+        ],
+        [
+          "track_order",
+          {
+            "order_id": "dedddddddddddddddddddddddddddddddIV"
+          }
+        ]
+      ],
+      "barge_in": 1,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 8,
+      "reasoner_errors": [],
+      "planner_attempts": 6,
+      "planner_status": {
+        "200": 6
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 4.523,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 2,
+      "tool_calls": [
+        [
+          "add_to_cart",
+          {
+            "quantity": 1,
+            "product_id": "K-2"
+          }
+        ],
+        [
+          "track_order",
+          {
+            "order_id": "dedddddddddddddddddddddddddddddddIV"
+          }
+        ]
+      ],
+      "perceived_latency_s": null,
+      "first_speech_s": 33.45,
+      "window_s": 51.66,
+      "speech_captured": false,
+      "agent_output_transcript": "",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": false,
+      "reason": "Wrong arguments for: ['add_to_cart', 'track_order']",
+      "values_missing_in_our_transcript": [
+        "DELIV"
+      ],
+      "category": "STT/transcription",
+      "flags": [
+        "no_speech_captured"
+      ]
+    },
+    {
+      "folder": "ecommerce_13_61517db6a7589569521b2356",
+      "example_id": "ecommerce_13",
+      "difficulty": "medium",
+      "domain": "ecommerce_support",
+      "features": [],
+      "rollback": false,
+      "wall_secs": 367,
+      "status": "completed",
+      "room": "eval-c66a216b",
+      "agent_joined": true,
+      "our_transcript": "So welcome. Well, first, could you add an item K2? Thank you. Pfft.",
+      "dispatches": [
+        [
+          "search_products",
+          {
+            "query": "K2"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "product_id": "PROD1"
+          }
+        ]
+      ],
+      "barge_in": 1,
+      "superseded_ops": 0,
+      "transcript_timeouts": 8,
+      "transcript_failed": 1,
+      "deadline_extended": 66,
+      "reasoner_errors": [],
+      "planner_attempts": 8,
+      "planner_status": {
+        "200": 8
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 11.886,
+      "speech_failed": 3,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 1,
+      "tool_calls": [
+        [
+          "search_products",
+          {
+            "max_price": null,
+            "query": "K2"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "quantity": 1,
+            "product_id": "PROD1"
+          }
+        ]
+      ],
+      "perceived_latency_s": null,
+      "first_speech_s": 57.06,
+      "window_s": 57.06,
+      "speech_captured": false,
+      "agent_output_transcript": "",
+      "identical_duplicates": 0,
+      "extra_calls": 1,
+      "premature_dispatch": 0,
+      "passed": false,
+      "reason": "Missing tools: ['track_order']; Unexpected tools: ['search_products']",
+      "values_missing_in_our_transcript": [
+        "DELIV"
+      ],
+      "category": "STT/transcription",
+      "flags": [
+        "job_assignment_timeout_or_host_suspend",
+        "no_speech_captured",
+        "tts_speech_failed"
+      ]
+    },
+    {
+      "folder": "ecommerce_14_5ff07b5ee7a1d23e719e421e",
+      "example_id": "ecommerce_14",
+      "difficulty": "medium",
+      "domain": "ecommerce_support",
+      "features": [
+        "FILLER"
+      ],
+      "rollback": false,
+      "wall_secs": 267,
+      "status": "inference_failed",
+      "room": "eval-52762dec",
+      "journal_recovered": true,
+      "agent_joined": true,
+      "our_transcript": "Well... So, yeah. So, I already found what I want. Can you add like two of them? P-5-2 to my cart. I want to get one for myself and one as a gift.",
+      "dispatches": [
+        [
+          "add_to_cart",
+          {
+            "product_id": "P-5-2",
+            "quantity": 2
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 2,
+      "planner_status": {
+        "200": 2
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 7.797,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [],
+      "perceived_latency_s": null,
+      "first_speech_s": null,
+      "window_s": null,
+      "speech_captured": false,
+      "agent_output_transcript": "",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": null,
+      "category": "harness/infrastructure",
+      "reason": "inference_failed",
+      "flags": [
+        "harness_client_exit_-6"
+      ]
+    },
+    {
+      "folder": "ecommerce_14_61517db6a7589569521b2356",
+      "example_id": "ecommerce_14",
+      "difficulty": "medium",
+      "domain": "ecommerce_support",
+      "features": [
+        "FILLER"
+      ],
+      "rollback": false,
+      "wall_secs": 231,
+      "status": "completed",
+      "room": "eval-2b756ac6",
+      "agent_joined": true,
+      "our_transcript": "Um... Well, yeah, so... Yeah, so I already found what I want. Can you add like... Two of item. P5 2 to my card. I want to get one for myself and one as a gift. Thank you. Mm-hmm. Mm-hmm.",
+      "dispatches": [
+        [
+          "add_to_cart",
+          {
+            "product_id": "P5",
+            "quantity": 2
+          }
+        ]
+      ],
+      "barge_in": 1,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 1,
+      "reasoner_errors": [],
+      "planner_attempts": 2,
+      "planner_status": {
+        "200": 2
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 19.384,
+      "speech_failed": 1,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 1,
+      "tool_calls": [
+        [
+          "add_to_cart",
+          {
+            "quantity": 2,
+            "product_id": "P5"
+          }
+        ]
+      ],
+      "perceived_latency_s": 4.64,
+      "first_speech_s": 24.65,
+      "window_s": 51.24,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay, one moment adding two of product P five to your cart now Okay, one moment",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": false,
+      "reason": "Wrong arguments for: ['add_to_cart']",
+      "values_missing_in_our_transcript": [],
+      "category": "tool selection/arguments",
+      "flags": [
+        "tts_speech_failed"
+      ]
+    },
+    {
+      "folder": "ecommerce_15_56780a5a89319e0011644cb4",
+      "example_id": "ecommerce_15",
+      "difficulty": "medium",
+      "domain": "ecommerce_support",
+      "features": [
+        "FILLER",
+        "PAUSE"
+      ],
+      "rollback": false,
+      "wall_secs": 202,
+      "status": "inference_failed",
+      "room": "eval-86841670",
+      "journal_recovered": true,
+      "agent_joined": true,
+      "our_transcript": "Hey, um, so well, can you attract order? BOB12 for me. I ordered a few days ago. And it should be arriving. Soon. But I just wanted to make sure.",
+      "dispatches": [
+        [
+          "track_order",
+          {
+            "order_id": "BOB12"
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 6,
+      "planner_status": {
+        "200": 6
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 2.103,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [],
+      "perceived_latency_s": null,
+      "first_speech_s": null,
+      "window_s": null,
+      "speech_captured": false,
+      "agent_output_transcript": "",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": null,
+      "category": "harness/infrastructure",
+      "reason": "inference_failed",
+      "flags": [
+        "harness_client_exit_-6"
+      ]
+    },
+    {
+      "folder": "ecommerce_15_66c4f3cb14cbfc4db836bd4e",
+      "example_id": "ecommerce_15",
+      "difficulty": "medium",
+      "domain": "ecommerce_support",
+      "features": [
+        "FILLER",
+        "PAUSE"
+      ],
+      "rollback": false,
+      "wall_secs": 352,
+      "status": "completed",
+      "room": "eval-04e81ed5",
+      "agent_joined": true,
+      "our_transcript": "So well, can you track order? B-O-B-1-2 for me. I ordered a few days ago and it should be arriving soon, but I just want to make sure.",
+      "dispatches": [
+        [
+          "track_order",
+          {
+            "order_id": "BOB12"
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 2,
+      "reasoner_errors": [],
+      "planner_attempts": 4,
+      "planner_status": {
+        "200": 4
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 9.915,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 1,
+      "tool_calls": [
+        [
+          "track_order",
+          {
+            "order_id": "BOB12"
+          }
+        ]
+      ],
+      "perceived_latency_s": 6.08,
+      "first_speech_s": 22.5,
+      "window_s": 47.445,
+      "speech_captured": true,
+      "agent_output_transcript": "Could you please tell me your order ID? King Order BOB twelve Your Order BOB twelve is currently out for delivery.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_16_695bd157114f0d2317f88617",
+      "example_id": "ecommerce_16",
+      "difficulty": "medium",
+      "domain": "ecommerce_support",
+      "features": [
+        "HESITATION",
+        "PAUSE"
+      ],
+      "rollback": false,
+      "wall_secs": 277,
+      "status": "completed",
+      "room": "eval-856f0e38",
+      "agent_joined": true,
+      "our_transcript": "Like, ugh, I need a new... Let me think, what is it called? A coffee maker. Yeah. I'm looking for a new coffee maker. That's what it's called. Something under $50 would be ideal.",
+      "dispatches": [
+        [
+          "search_products",
+          {
+            "query": "coffee maker"
+          }
+        ],
+        [
+          "search_products",
+          {
+            "query": "coffee maker",
+            "max_price": 50
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 4,
+      "planner_status": {
+        "200": 4
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 2.177,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [
+        [
+          "search_products",
+          {
+            "max_price": null,
+            "query": "coffee maker"
+          }
+        ],
+        [
+          "search_products",
+          {
+            "max_price": 50,
+            "query": "coffee maker"
+          }
+        ]
+      ],
+      "perceived_latency_s": 6.72,
+      "first_speech_s": 23.35,
+      "window_s": 47.46,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay, one moment. I found a coffee maker under $1.50, the coffee maker premium for $1.40. Would you like me to add it to your cart?",
+      "identical_duplicates": 0,
+      "extra_calls": 1,
+      "premature_dispatch": 1,
+      "passed": false,
+      "reason": "Unexpected tools: ['search_products']",
+      "values_missing_in_our_transcript": [],
+      "category": "tool selection/arguments",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_17_5f4a4da1575d605c43bef871",
+      "example_id": "ecommerce_17",
+      "difficulty": "medium",
+      "domain": "ecommerce_support",
+      "features": [
+        "FALSE_START"
+      ],
+      "rollback": false,
+      "wall_secs": 304,
+      "status": "completed",
+      "room": "eval-866ac633",
+      "agent_joined": true,
+      "our_transcript": "Can you cancel my actually never mind the cancellation? I changed my mind about that. Can you just track order GG5 for me instead? I want to see where it is.",
+      "dispatches": [
+        [
+          "track_order",
+          {
+            "order_id": "GG5"
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 2,
+      "planner_status": {
+        "200": 2
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 1.535,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [
+        [
+          "track_order",
+          {
+            "order_id": "GG5"
+          }
+        ]
+      ],
+      "perceived_latency_s": 12.4,
+      "first_speech_s": 27.7,
+      "window_s": 45.677,
+      "speech_captured": true,
+      "agent_output_transcript": "Order GG5 is currently out for delivery.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_18_62a885d5b6af18b3d4579e1b",
+      "example_id": "ecommerce_18",
+      "difficulty": "hard",
+      "domain": "ecommerce_support",
+      "features": [],
+      "rollback": false,
+      "wall_secs": 197,
+      "status": "completed",
+      "room": "eval-56517b75",
+      "agent_joined": true,
+      "our_transcript": "Hmm so like first search for gaming amounts I want to see what you have then add the cheapest option in my car so I can buy it later And while you're at it, could you also track my order? P0999 I've been waiting on that one",
+      "dispatches": [
+        [
+          "search_products",
+          {
+            "query": "gaming"
+          }
+        ],
+        [
+          "track_order",
+          {
+            "order_id": "P0999"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "product_id": "PROD1"
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 3,
+      "planner_status": {
+        "200": 3
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 1.899,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [
+        [
+          "search_products",
+          {
+            "max_price": null,
+            "query": "gaming"
+          }
+        ],
+        [
+          "track_order",
+          {
+            "order_id": "P0999"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "quantity": 1,
+            "product_id": "PROD1"
+          }
+        ]
+      ],
+      "perceived_latency_s": 17.28,
+      "first_speech_s": 31.3,
+      "window_s": 43.8,
+      "speech_captured": true,
+      "agent_output_transcript": "I've added the gaming premium to your cart. At order P0999 is currently out for delivery.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": false,
+      "reason": "Wrong arguments for: ['search_products', 'track_order']",
+      "values_missing_in_our_transcript": [
+        "gaming mouse",
+        "PO999"
+      ],
+      "category": "STT/transcription",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_19_66f59c766e7e22e1f90d08f6",
+      "example_id": "ecommerce_19",
+      "difficulty": "hard",
+      "domain": "ecommerce_support",
+      "features": [
+        "SELF_CORRECTION"
+      ],
+      "rollback": true,
+      "wall_secs": 247,
+      "status": "completed",
+      "room": "eval-786ee332",
+      "agent_joined": true,
+      "our_transcript": "Oh, search for a laptop. Wait, no, no, actually I need a tablet. Not a laptop, a tablet. and add two of them to the cart. Actually, no, no, just one. Just one. I only have the budget for one right now.",
+      "dispatches": [
+        [
+          "search_products",
+          {
+            "query": "tablet"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "product_id": "PROD1",
+            "quantity": 1
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 4,
+      "planner_status": {
+        "200": 4
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 2.408,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [
+        [
+          "search_products",
+          {
+            "max_price": null,
+            "query": "tablet"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "quantity": 1,
+            "product_id": "PROD1"
+          }
+        ]
+      ],
+      "perceived_latency_s": 2.56,
+      "first_speech_s": 21.8,
+      "window_s": 51.84,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay, one moment. I'm searching for a tablet for you now. I'm adding one tablet to your cart. I've added one tablet to your cart.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "rollback_outcome": "corrected_only",
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_20_66c4f3cb14cbfc4db836bd4e",
+      "example_id": "ecommerce_20",
+      "difficulty": "hard",
+      "domain": "ecommerce_support",
+      "features": [],
+      "rollback": false,
+      "wall_secs": 232,
+      "status": "completed",
+      "room": "eval-8efa35e8",
+      "agent_joined": true,
+      "our_transcript": "So, you know what? Um... So search for a coffee maker first. If you find one that's under $50, go ahead and add two. to the car because they make great gifts. But if everything is over 50, I just forget the copy maker and track order www for me instead.",
+      "dispatches": [
+        [
+          "search_products",
+          {
+            "query": "coffee maker",
+            "max_price": 50
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "product_id": "PROD1",
+            "quantity": 2
+          }
+        ]
+      ],
+      "barge_in": 1,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 3,
+      "reasoner_errors": [],
+      "planner_attempts": 2,
+      "planner_status": {
+        "200": 2
+      },
+      "planner_retries": 1,
+      "planner_429": 0,
+      "planner_max_attempt_s": 18.86,
+      "speech_failed": 1,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 1,
+      "tool_calls": [
+        [
+          "search_products",
+          {
+            "max_price": 50,
+            "query": "coffee maker"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "quantity": 2,
+            "product_id": "PROD1"
+          }
+        ]
+      ],
+      "perceived_latency_s": null,
+      "first_speech_s": 33.1,
+      "window_s": 54.629,
+      "speech_captured": false,
+      "agent_output_transcript": "",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": [
+        "no_speech_captured",
+        "tts_speech_failed"
+      ]
+    },
+    {
+      "folder": "ecommerce_21_65e8cf8f4c7424fa062e54a3",
+      "example_id": "ecommerce_21",
+      "difficulty": "hard",
+      "domain": "ecommerce_support",
+      "features": [
+        "FILLER"
+      ],
+      "rollback": false,
+      "wall_secs": 211,
+      "status": "completed",
+      "room": "eval-2efc9cee",
+      "agent_joined": true,
+      "our_transcript": "Um... So... Mmm, wow. Could you track order B-O-B for me first, then? I also want to search for a nice watch under $200. And once you find something good, go ahead and add it to my cart.",
+      "dispatches": [
+        [
+          "track_order",
+          {
+            "order_id": "B-O-B"
+          }
+        ],
+        [
+          "search_products",
+          {
+            "query": "watch",
+            "max_price": 200
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "product_id": "PROD1"
+          }
+        ]
+      ],
+      "barge_in": 1,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 1,
+      "reasoner_errors": [],
+      "planner_attempts": 5,
+      "planner_status": {
+        "200": 5
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 4.131,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 1,
+      "tool_calls": [
+        [
+          "track_order",
+          {
+            "order_id": "B-O-B"
+          }
+        ],
+        [
+          "search_products",
+          {
+            "max_price": 200,
+            "query": "watch"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "quantity": 1,
+            "product_id": "PROD1"
+          }
+        ]
+      ],
+      "perceived_latency_s": 7.2,
+      "first_speech_s": 32.05,
+      "window_s": 54.78,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay, one moment adding the watch to your cart now. Your order BOB is out for delivery, and I found a watch for dollar one hundred ninety and added it to your cart.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": false,
+      "reason": "Wrong arguments for: ['track_order']",
+      "values_missing_in_our_transcript": [],
+      "category": "tool selection/arguments",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_21_69a9cf80f4d7668d5c815038",
+      "example_id": "ecommerce_21",
+      "difficulty": "hard",
+      "domain": "ecommerce_support",
+      "features": [
+        "FILLER"
+      ],
+      "rollback": false,
+      "wall_secs": 370,
+      "status": "completed",
+      "room": "eval-e84a1011",
+      "agent_joined": true,
+      "our_transcript": "So... Well, could you track order BOP for me first? the end. Mm. I also want to search for a nice watch under $200. And once you can find something. Good. Go ahead and add it to my card.",
+      "dispatches": [
+        [
+          "track_order",
+          {
+            "order_id": "BOP"
+          }
+        ],
+        [
+          "search_products",
+          {
+            "query": "watch",
+            "max_price": 200
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "product_id": "PROD1"
+          }
+        ]
+      ],
+      "barge_in": 2,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 6,
+      "reasoner_errors": [],
+      "planner_attempts": 9,
+      "planner_status": {
+        "200": 9
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 1.96,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 4,
+      "tool_calls": [
+        [
+          "track_order",
+          {
+            "order_id": "BOP"
+          }
+        ],
+        [
+          "search_products",
+          {
+            "max_price": 200,
+            "query": "watch"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "quantity": 1,
+            "product_id": "PROD1"
+          }
+        ]
+      ],
+      "perceived_latency_s": 5.68,
+      "first_speech_s": 31.1,
+      "window_s": 56.34,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay, one moment. I'm tracking order BOP. I'm still looking into your order and searching. I'm still waiting for the search results to add the watch to your cart. Adding the watch to your cart now. Your order BOP is out for delivery, and I have successfully.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": false,
+      "reason": "Wrong arguments for: ['track_order']",
+      "values_missing_in_our_transcript": [
+        "BOB"
+      ],
+      "category": "STT/transcription",
+      "flags": []
+    },
+    {
+      "folder": "ecommerce_23_5f4a4da1575d605c43bef871",
+      "example_id": "ecommerce_23",
+      "difficulty": "hard",
+      "domain": "ecommerce_support",
+      "features": [],
+      "rollback": false,
+      "wall_secs": 246,
+      "status": "completed",
+      "room": "eval-2a9f2815",
+      "agent_joined": true,
+      "our_transcript": "So you like first, could you track order GG5? Then I'd like to process a refund for it if possible. And also while we're at it. Add item X1 to my car. So I can order a replacement. you",
+      "dispatches": [
+        [
+          "track_order",
+          {
+            "order_id": "GG5"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "product_id": "X1"
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 10,
+      "reasoner_errors": [],
+      "planner_attempts": 7,
+      "planner_status": {
+        "200": 7
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 6.431,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 4,
+      "tool_calls": [
+        [
+          "track_order",
+          {
+            "order_id": "GG5"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "quantity": 1,
+            "product_id": "X1"
+          }
+        ]
+      ],
+      "perceived_latency_s": 16.4,
+      "first_speech_s": 37.45,
+      "window_s": 51.819,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay. I'm looking up order DG5 and adding item X1.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": [
+        "job_assignment_timeout_or_host_suspend"
+      ]
+    },
+    {
+      "folder": "ecommerce_25_65e8cf8f4c7424fa062e54a3",
+      "example_id": "ecommerce_25",
+      "difficulty": "hard",
+      "domain": "ecommerce_support",
+      "features": [
+        "FALSE_START"
+      ],
+      "rollback": false,
+      "wall_secs": 479,
+      "status": "completed",
+      "room": "eval-12009d7c",
+      "agent_joined": true,
+      "our_transcript": "You know, well, can... Um... I return my, never mind, forget the return. Let me focus on what I actually need. Track order CA. T. for me. Then search for cat food because I'm running low and add three of whatever you find to my cart.",
+      "dispatches": [
+        [
+          "track_order",
+          {
+            "order_id": "CAT"
+          }
+        ],
+        [
+          "search_products",
+          {
+            "query": "cat food"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "product_id": "PROD1",
+            "quantity": 3
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 5,
+      "reasoner_errors": [],
+      "planner_attempts": 7,
+      "planner_status": {
+        "200": 7
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 2.537,
+      "speech_failed": 0,
+      "speech_dropped_stale": 1,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [
+        [
+          "track_order",
+          {
+            "order_id": "CAT"
+          }
+        ],
+        [
+          "search_products",
+          {
+            "max_price": null,
+            "query": "cat food"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "quantity": 3,
+            "product_id": "PROD1"
+          }
+        ]
+      ],
+      "perceived_latency_s": 12.88,
+      "first_speech_s": 32.2,
+      "window_s": 49.38,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay, one moment. Your Order CAT is out for delivery.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": [
+        "job_assignment_timeout_or_host_suspend"
+      ]
+    },
+    {
+      "folder": "ecommerce_25_69a9cf80f4d7668d5c815038",
+      "example_id": "ecommerce_25",
+      "difficulty": "hard",
+      "domain": "ecommerce_support",
+      "features": [
+        "FALSE_START"
+      ],
+      "rollback": false,
+      "wall_secs": 254,
+      "status": "completed",
+      "room": "eval-17057b6c",
+      "agent_joined": true,
+      "our_transcript": "You know, well... Can... Um... I returned my Never mind, forget the return. Let me focus on what I actually need. Track order, C-A-T for me. and search for cat food because I'm running low. and add three of whatever you find to my card.",
+      "dispatches": [
+        [
+          "track_order",
+          {
+            "order_id": "CAT"
+          }
+        ],
+        [
+          "search_products",
+          {
+            "query": "cat food"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "product_id": "PROD1",
+            "quantity": 3
+          }
+        ]
+      ],
+      "barge_in": 2,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 10,
+      "reasoner_errors": [],
+      "planner_attempts": 10,
+      "planner_status": {
+        "200": 10
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 2.053,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 4,
+      "tool_calls": [
+        [
+          "track_order",
+          {
+            "order_id": "CAT"
+          }
+        ],
+        [
+          "search_products",
+          {
+            "max_price": null,
+            "query": "cat food"
+          }
+        ],
+        [
+          "add_to_cart",
+          {
+            "quantity": 3,
+            "product_id": "PROD1"
+          }
+        ]
+      ],
+      "perceived_latency_s": 7.12,
+      "first_speech_s": 30.4,
+      "window_s": 53.7,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay, one moment. No problem. Let me know what you need help with. I'm checking the status of Order C eighteen now.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": []
+    },
+    {
+      "folder": "finance_01_65e8cf8f4c7424fa062e54a3",
+      "example_id": "finance_01",
+      "difficulty": "easy",
+      "domain": "finance_billing",
+      "features": [],
+      "rollback": false,
+      "wall_secs": 500,
+      "status": "completed",
+      "room": "eval-861cda1c",
+      "agent_joined": true,
+      "our_transcript": "like",
+      "dispatches": [],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 3,
+      "reasoner_errors": [],
+      "planner_attempts": 0,
+      "planner_status": {},
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": null,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [],
+      "perceived_latency_s": null,
+      "first_speech_s": 40.98,
+      "window_s": 40.98,
+      "speech_captured": false,
+      "agent_output_transcript": "",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": false,
+      "reason": "Missing tools: ['get_exchange_rate']",
+      "values_missing_in_our_transcript": [
+        500,
+        "USD",
+        "EUR"
+      ],
+      "category": "STT/transcription",
+      "flags": [
+        "job_assignment_timeout_or_host_suspend",
+        "no_speech_captured"
+      ]
+    },
+    {
+      "folder": "finance_01_69a9cf80f4d7668d5c815038",
+      "example_id": "finance_01",
+      "difficulty": "easy",
+      "domain": "finance_billing",
+      "features": [],
+      "rollback": false,
+      "wall_secs": 202,
+      "status": "completed",
+      "room": "eval-70f93643",
+      "agent_joined": true,
+      "our_transcript": "Like, I'm trying to figure out how much 500 US dollars would be if I converted it to euros. Could you check that for me?",
+      "dispatches": [
+        [
+          "get_exchange_rate",
+          {
+            "amount": 500,
+            "from_currency": "USD",
+            "to_currency": "EUR"
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 2,
+      "reasoner_errors": [],
+      "planner_attempts": 2,
+      "planner_status": {
+        "200": 2
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 1.452,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 0,
+      "tool_calls": [
+        [
+          "get_exchange_rate",
+          {
+            "amount": 500,
+            "from_currency": "USD",
+            "to_currency": "EUR"
+          }
+        ]
+      ],
+      "perceived_latency_s": 25.28,
+      "first_speech_s": 35.3,
+      "window_s": 40.98,
+      "speech_captured": true,
+      "agent_output_transcript": "Five hundred US dollars is four hundred fifty euros at the current rate.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": [
+        "job_assignment_timeout_or_host_suspend"
+      ]
+    },
+    {
+      "folder": "finance_02_6998abd731d2ec50d067d5bd",
+      "example_id": "finance_02",
+      "difficulty": "easy",
+      "domain": "finance_billing",
+      "features": [],
+      "rollback": false,
+      "wall_secs": 304,
+      "status": "completed",
+      "room": "eval-973ae0d7",
+      "agent_joined": true,
+      "our_transcript": "me what kind of benefits come. with the platinum card. I want to know if it's worth switching to.",
+      "dispatches": [
+        [
+          "get_card_benefits",
+          {
+            "card_type": "platinum"
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 1,
+      "transcript_failed": 0,
+      "deadline_extended": 2,
+      "reasoner_errors": [],
+      "planner_attempts": 4,
+      "planner_status": {
+        "200": 4
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 2.563,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 1,
+      "tool_calls": [
+        [
+          "get_card_benefits",
+          {
+            "card_type": "platinum"
+          }
+        ]
+      ],
+      "perceived_latency_s": 21.52,
+      "first_speech_s": 28.65,
+      "window_s": 39.429,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay, one moment.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": [
+        "job_assignment_timeout_or_host_suspend"
+      ]
+    },
+    {
+      "folder": "finance_03_5ff07b5ee7a1d23e719e421e",
+      "example_id": "finance_03",
+      "difficulty": "easy",
+      "domain": "finance_billing",
+      "features": [
+        "FILLER"
+      ],
+      "rollback": false,
+      "wall_secs": 582,
+      "status": "completed",
+      "room": "eval-737c8ae1",
+      "agent_joined": true,
+      "our_transcript": "Awwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww So I want to change my mortgage auto pay to pull from like my savings account instead of where it's pulling from now.",
+      "dispatches": [
+        [
+          "modify_autopay",
+          {
+            "bill_type": "mortgage",
+            "source_account": "savings"
+          }
+        ]
+      ],
+      "barge_in": 0,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 0,
+      "reasoner_errors": [],
+      "planner_attempts": 3,
+      "planner_status": {
+        "200": 3
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 1.361,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 1,
+      "tool_calls": [
+        [
+          "modify_autopay",
+          {
+            "bill_type": "mortgage",
+            "source_account": "savings"
+          }
+        ]
+      ],
+      "perceived_latency_s": 3.36,
+      "first_speech_s": 15.55,
+      "window_s": 43.74,
+      "speech_captured": true,
+      "agent_output_transcript": "Hi there, how can I help you today? I'm updating your mortgage autopay to pull from your savings account now. I've successfully updated your mortgage autopay to pull from your savings account.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": [
+        "job_assignment_timeout_or_host_suspend"
+      ]
+    },
+    {
+      "folder": "finance_03_61517db6a7589569521b2356",
+      "example_id": "finance_03",
+      "difficulty": "easy",
+      "domain": "finance_billing",
+      "features": [
+        "FILLER"
+      ],
+      "rollback": false,
+      "wall_secs": 287,
+      "status": "completed",
+      "room": "eval-ad3177ca",
+      "agent_joined": true,
+      "our_transcript": "Um... So... I want to change. I want to change my mortgage auto pay to pull from my savings account. you know, instead of where it's pulling from now. Thank you. Mm-hmm.",
+      "dispatches": [
+        [
+          "modify_autopay",
+          {
+            "bill_type": "mortgage",
+            "source_account": "savings"
+          }
+        ]
+      ],
+      "barge_in": 1,
+      "superseded_ops": 0,
+      "transcript_timeouts": 0,
+      "transcript_failed": 0,
+      "deadline_extended": 6,
+      "reasoner_errors": [],
+      "planner_attempts": 4,
+      "planner_status": {
+        "200": 4
+      },
+      "planner_retries": 0,
+      "planner_429": 0,
+      "planner_max_attempt_s": 2.915,
+      "speech_failed": 0,
+      "speech_dropped_stale": 0,
+      "tts_fallbacks": 0,
+      "interrupted_speech": 3,
+      "tool_calls": [
+        [
+          "modify_autopay",
+          {
+            "bill_type": "mortgage",
+            "source_account": "savings"
+          }
+        ]
+      ],
+      "perceived_latency_s": 28.4,
+      "first_speech_s": 29.7,
+      "window_s": 46.86,
+      "speech_captured": true,
+      "agent_output_transcript": "Okay, one moment. I'll update your mortgage autopay to pull from your sal I'm updating your mortgage autopay.",
+      "identical_duplicates": 0,
+      "extra_calls": 0,
+      "premature_dispatch": 0,
+      "passed": true,
+      "reason": "",
+      "category": "pass",
+      "flags": []
+    }
+  ]
+}

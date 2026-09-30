@@ -1,0 +1,391 @@
+{
+  "pid": "61517db6a7589569521b2356",
+  "example_id": "finance_03",
+  "category": "finance_billing",
+  "title": "Modify Autopay with Fillers",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T13:58:56.738328",
+  "inference_time_s": 66.22,
+  "room_name": "eval-ad3177ca",
+  "stream_start_time": 1790776742.5446036,
+  "input_transcript": "Um so uh I want to change um I want to change my mortgage autopay to pull from like my savings account, you know, instead of where it's pulling from now.",
+  "input_asr_chunks": [
+    {
+      "text": "Um",
+      "timestamp": [
+        0.8,
+        1.28
+      ]
+    },
+    {
+      "text": "so",
+      "timestamp": [
+        3.6,
+        3.92
+      ]
+    },
+    {
+      "text": "uh",
+      "timestamp": [
+        4.08,
+        4.32
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        5.5200000000000005,
+        5.76
+      ]
+    },
+    {
+      "text": "want",
+      "timestamp": [
+        5.76,
+        6.0
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        6.0,
+        6.24
+      ]
+    },
+    {
+      "text": "change",
+      "timestamp": [
+        6.24,
+        6.8
+      ]
+    },
+    {
+      "text": "um",
+      "timestamp": [
+        7.76,
+        8.08
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        8.32,
+        8.48
+      ]
+    },
+    {
+      "text": "want",
+      "timestamp": [
+        8.48,
+        8.72
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        8.72,
+        8.8
+      ]
+    },
+    {
+      "text": "change",
+      "timestamp": [
+        8.8,
+        9.040000000000001
+      ]
+    },
+    {
+      "text": "my",
+      "timestamp": [
+        9.040000000000001,
+        9.28
+      ]
+    },
+    {
+      "text": "mortgage",
+      "timestamp": [
+        9.28,
+        9.76
+      ]
+    },
+    {
+      "text": "autopay",
+      "timestamp": [
+        9.76,
+        10.4
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        10.4,
+        10.56
+      ]
+    },
+    {
+      "text": "pull",
+      "timestamp": [
+        10.56,
+        10.88
+      ]
+    },
+    {
+      "text": "from",
+      "timestamp": [
+        10.88,
+        11.120000000000001
+      ]
+    },
+    {
+      "text": "like",
+      "timestamp": [
+        11.200000000000001,
+        11.36
+      ]
+    },
+    {
+      "text": "my",
+      "timestamp": [
+        11.76,
+        12.0
+      ]
+    },
+    {
+      "text": "savings",
+      "timestamp": [
+        12.0,
+        12.72
+      ]
+    },
+    {
+      "text": "account,",
+      "timestamp": [
+        12.72,
+        13.280000000000001
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        13.6,
+        13.76
+      ]
+    },
+    {
+      "text": "know,",
+      "timestamp": [
+        13.76,
+        13.92
+      ]
+    },
+    {
+      "text": "instead",
+      "timestamp": [
+        14.08,
+        14.32
+      ]
+    },
+    {
+      "text": "of",
+      "timestamp": [
+        14.32,
+        14.48
+      ]
+    },
+    {
+      "text": "where",
+      "timestamp": [
+        14.48,
+        14.72
+      ]
+    },
+    {
+      "text": "it's",
+      "timestamp": [
+        14.72,
+        14.96
+      ]
+    },
+    {
+      "text": "pulling",
+      "timestamp": [
+        14.96,
+        15.6
+      ]
+    },
+    {
+      "text": "from",
+      "timestamp": [
+        15.6,
+        15.92
+      ]
+    },
+    {
+      "text": "now.",
+      "timestamp": [
+        15.92,
+        16.240000000000002
+      ]
+    }
+  ],
+  "user_speech_end_rel": 1.28,
+  "latency": {
+    "input_duration_s": 46.86,
+    "output_duration_s": 46.86,
+    "first_speech_s": 29.7
+  },
+  "user_done_unix": 1790776743.8246036,
+  "search_latency_breakdown": {
+    "room": "eval-ad3177ca",
+    "tool": "Search Tool",
+    "reasoning": 5.62,
+    "execution": 0.004,
+    "synthesis": 1.146,
+    "total": 6.77,
+    "agent_start_at": 1790776792.6749833
+  },
+  "absolute_total_latency": 48.85,
+  "transcript": "Okay, one moment. I'll update your mortgage autopay to pull from your sal I'm updating your mortgage autopay.",
+  "asr_chunks": [
+    {
+      "text": "Okay,",
+      "timestamp": [
+        29.68,
+        29.92
+      ]
+    },
+    {
+      "text": "one",
+      "timestamp": [
+        30.560000000000002,
+        30.72
+      ]
+    },
+    {
+      "text": "moment.",
+      "timestamp": [
+        30.96,
+        31.76
+      ]
+    },
+    {
+      "text": "I'll",
+      "timestamp": [
+        35.2,
+        35.6
+      ]
+    },
+    {
+      "text": "update",
+      "timestamp": [
+        35.6,
+        35.92
+      ]
+    },
+    {
+      "text": "your",
+      "timestamp": [
+        35.92,
+        36.08
+      ]
+    },
+    {
+      "text": "mortgage",
+      "timestamp": [
+        36.08,
+        36.56
+      ]
+    },
+    {
+      "text": "autopay",
+      "timestamp": [
+        36.56,
+        37.12
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        37.2,
+        37.36
+      ]
+    },
+    {
+      "text": "pull",
+      "timestamp": [
+        37.36,
+        37.52
+      ]
+    },
+    {
+      "text": "from",
+      "timestamp": [
+        37.52,
+        37.68
+      ]
+    },
+    {
+      "text": "your",
+      "timestamp": [
+        37.68,
+        37.84
+      ]
+    },
+    {
+      "text": "sal",
+      "timestamp": [
+        37.84,
+        38.08
+      ]
+    },
+    {
+      "text": "I'm",
+      "timestamp": [
+        40.96,
+        41.2
+      ]
+    },
+    {
+      "text": "updating",
+      "timestamp": [
+        41.2,
+        41.68
+      ]
+    },
+    {
+      "text": "your",
+      "timestamp": [
+        41.68,
+        41.76
+      ]
+    },
+    {
+      "text": "mortgage",
+      "timestamp": [
+        41.76,
+        42.160000000000004
+      ]
+    },
+    {
+      "text": "autopay.",
+      "timestamp": [
+        42.160000000000004,
+        42.800000000000004
+      ]
+    }
+  ],
+  "perceived_total_latency": 28.4,
+  "audio_agent_speech_start": 29.68,
+  "actual_tool_calls": [
+    {
+      "function": "modify_autopay",
+      "args": {
+        "bill_type": "mortgage",
+        "source_account": "savings"
+      },
+      "timestamp_start": 48.98,
+      "timestamp_end": 48.98
+    }
+  ],
+  "status": "completed"
+}

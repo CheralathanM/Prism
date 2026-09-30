@@ -1,0 +1,3 @@
+{"room": "eval-719d94f9", "call": {"function": "search_products", "args": {"max_price": null, "query": "gaming mouse"}, "timestamp_start": 1790765300.021606, "timestamp_end": 1790765300.0216458}}
+{"room": "eval-719d94f9", "call": {"function": "track_order", "args": {"order_id": "P0999"}, "timestamp_start": 1790765300.0219655, "timestamp_end": 1790765300.022007}}
+{"room": "eval-719d94f9", "call": {"function": "add_to_cart", "args": {"quantity": 1, "product_id": "PROD1"}, "timestamp_start": 1790765301.7157362, "timestamp_end": 1790765301.715753}}

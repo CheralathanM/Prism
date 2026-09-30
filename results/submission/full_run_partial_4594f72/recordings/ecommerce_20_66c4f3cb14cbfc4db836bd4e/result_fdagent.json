@@ -1,0 +1,380 @@
+{
+  "pid": "66c4f3cb14cbfc4db836bd4e",
+  "example_id": "ecommerce_20",
+  "category": "ecommerce_support",
+  "title": "Conditional Logic: Price Check then Cart",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T13:02:35.842228",
+  "inference_time_s": 71.75,
+  "room_name": "eval-8efa35e8",
+  "stream_start_time": 1790773361.2978544,
+  "input_transcript": "So, you know, so search for a coffee maker first. If you find one that's under $50, go ahead and add two to the cart because they make great gifts. But if everything's over $50, I'd just forget the coffee maker and track order WWW for me instead.",
+  "input_asr_chunks": [
+    {
+      "text": "So,",
+      "timestamp": [
+        1.76,
+        2.0
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        2.56,
+        2.72
+      ]
+    },
+    {
+      "text": "know,",
+      "timestamp": [
+        2.72,
+        2.88
+      ]
+    },
+    {
+      "text": "so",
+      "timestamp": [
+        5.44,
+        5.6000000000000005
+      ]
+    },
+    {
+      "text": "search",
+      "timestamp": [
+        5.76,
+        6.0
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        6.0,
+        6.16
+      ]
+    },
+    {
+      "text": "a",
+      "timestamp": [
+        6.16,
+        6.32
+      ]
+    },
+    {
+      "text": "coffee",
+      "timestamp": [
+        6.32,
+        6.72
+      ]
+    },
+    {
+      "text": "maker",
+      "timestamp": [
+        6.72,
+        7.2
+      ]
+    },
+    {
+      "text": "first.",
+      "timestamp": [
+        7.2,
+        7.44
+      ]
+    },
+    {
+      "text": "If",
+      "timestamp": [
+        7.84,
+        8.08
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        8.08,
+        8.4
+      ]
+    },
+    {
+      "text": "find",
+      "timestamp": [
+        8.4,
+        8.72
+      ]
+    },
+    {
+      "text": "one",
+      "timestamp": [
+        8.72,
+        8.96
+      ]
+    },
+    {
+      "text": "that's",
+      "timestamp": [
+        8.96,
+        9.36
+      ]
+    },
+    {
+      "text": "under",
+      "timestamp": [
+        9.36,
+        9.6
+      ]
+    },
+    {
+      "text": "$50,",
+      "timestamp": [
+        9.6,
+        10.16
+      ]
+    },
+    {
+      "text": "go",
+      "timestamp": [
+        10.88,
+        11.120000000000001
+      ]
+    },
+    {
+      "text": "ahead",
+      "timestamp": [
+        11.120000000000001,
+        11.52
+      ]
+    },
+    {
+      "text": "and",
+      "timestamp": [
+        11.52,
+        11.84
+      ]
+    },
+    {
+      "text": "add",
+      "timestamp": [
+        11.84,
+        12.16
+      ]
+    },
+    {
+      "text": "two",
+      "timestamp": [
+        12.16,
+        12.48
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        13.040000000000001,
+        13.200000000000001
+      ]
+    },
+    {
+      "text": "the",
+      "timestamp": [
+        13.200000000000001,
+        13.44
+      ]
+    },
+    {
+      "text": "cart",
+      "timestamp": [
+        13.44,
+        14.0
+      ]
+    },
+    {
+      "text": "because",
+      "timestamp": [
+        14.0,
+        14.32
+      ]
+    },
+    {
+      "text": "they",
+      "timestamp": [
+        14.32,
+        14.64
+      ]
+    },
+    {
+      "text": "make",
+      "timestamp": [
+        14.64,
+        14.96
+      ]
+    },
+    {
+      "text": "great",
+      "timestamp": [
+        14.96,
+        15.280000000000001
+      ]
+    },
+    {
+      "text": "gifts.",
+      "timestamp": [
+        15.280000000000001,
+        15.84
+      ]
+    },
+    {
+      "text": "But",
+      "timestamp": [
+        16.16,
+        16.48
+      ]
+    },
+    {
+      "text": "if",
+      "timestamp": [
+        16.48,
+        16.8
+      ]
+    },
+    {
+      "text": "everything's",
+      "timestamp": [
+        16.8,
+        17.44
+      ]
+    },
+    {
+      "text": "over",
+      "timestamp": [
+        17.44,
+        17.68
+      ]
+    },
+    {
+      "text": "$50,",
+      "timestamp": [
+        17.68,
+        18.240000000000002
+      ]
+    },
+    {
+      "text": "I'd",
+      "timestamp": [
+        18.56,
+        18.96
+      ]
+    },
+    {
+      "text": "just",
+      "timestamp": [
+        18.96,
+        19.28
+      ]
+    },
+    {
+      "text": "forget",
+      "timestamp": [
+        19.28,
+        19.76
+      ]
+    },
+    {
+      "text": "the",
+      "timestamp": [
+        19.76,
+        19.92
+      ]
+    },
+    {
+      "text": "coffee",
+      "timestamp": [
+        19.92,
+        20.32
+      ]
+    },
+    {
+      "text": "maker",
+      "timestamp": [
+        20.32,
+        20.72
+      ]
+    },
+    {
+      "text": "and",
+      "timestamp": [
+        20.72,
+        20.88
+      ]
+    },
+    {
+      "text": "track",
+      "timestamp": [
+        20.88,
+        21.28
+      ]
+    },
+    {
+      "text": "order",
+      "timestamp": [
+        21.28,
+        22.080000000000002
+      ]
+    },
+    {
+      "text": "WWW",
+      "timestamp": [
+        22.080000000000002,
+        22.96
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        23.2,
+        23.52
+      ]
+    },
+    {
+      "text": "me",
+      "timestamp": [
+        23.52,
+        23.84
+      ]
+    },
+    {
+      "text": "instead.",
+      "timestamp": [
+        23.84,
+        24.48
+      ]
+    }
+  ],
+  "user_speech_end_rel": 2.88,
+  "latency": {
+    "input_duration_s": 54.629,
+    "output_duration_s": 54.629,
+    "first_speech_s": 33.1
+  },
+  "user_done_unix": 1790773364.1778545,
+  "transcript": "",
+  "asr_chunks": [],
+  "actual_tool_calls": [
+    {
+      "function": "search_products",
+      "args": {
+        "max_price": 50,
+        "query": "coffee maker"
+      },
+      "timestamp_start": 59.44,
+      "timestamp_end": 59.44
+    },
+    {
+      "function": "add_to_cart",
+      "args": {
+        "quantity": 2,
+        "product_id": "PROD1"
+      },
+      "timestamp_start": 81.57,
+      "timestamp_end": 81.57
+    }
+  ],
+  "status": "completed"
+}

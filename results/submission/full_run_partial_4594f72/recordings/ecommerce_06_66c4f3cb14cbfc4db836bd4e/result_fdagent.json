@@ -1,0 +1,351 @@
+{
+  "pid": "66c4f3cb14cbfc4db836bd4e",
+  "example_id": "ecommerce_06",
+  "category": "ecommerce_support",
+  "title": "Simple Cart Addition",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T11:49:06.869068",
+  "inference_time_s": 61.1,
+  "room_name": "eval-668ef2f9",
+  "stream_start_time": 1790768956.5482605,
+  "input_transcript": "Mm, uh, so I'd like could you add two item two of the items K2 to my cart. I I need one for me and and one as a gift for my friend.",
+  "input_asr_chunks": [
+    {
+      "text": "Mm,",
+      "timestamp": [
+        0.56,
+        0.96
+      ]
+    },
+    {
+      "text": "uh,",
+      "timestamp": [
+        1.36,
+        1.52
+      ]
+    },
+    {
+      "text": "so",
+      "timestamp": [
+        1.84,
+        2.0
+      ]
+    },
+    {
+      "text": "I'd",
+      "timestamp": [
+        2.08,
+        2.4
+      ]
+    },
+    {
+      "text": "like",
+      "timestamp": [
+        2.4,
+        2.64
+      ]
+    },
+    {
+      "text": "could",
+      "timestamp": [
+        3.12,
+        3.36
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        3.68,
+        4.0
+      ]
+    },
+    {
+      "text": "add",
+      "timestamp": [
+        4.0,
+        4.32
+      ]
+    },
+    {
+      "text": "two",
+      "timestamp": [
+        4.4,
+        4.72
+      ]
+    },
+    {
+      "text": "item",
+      "timestamp": [
+        4.72,
+        5.2
+      ]
+    },
+    {
+      "text": "two",
+      "timestamp": [
+        6.16,
+        6.4
+      ]
+    },
+    {
+      "text": "of",
+      "timestamp": [
+        6.4,
+        6.5600000000000005
+      ]
+    },
+    {
+      "text": "the",
+      "timestamp": [
+        6.640000000000001,
+        6.8
+      ]
+    },
+    {
+      "text": "items",
+      "timestamp": [
+        6.8,
+        7.12
+      ]
+    },
+    {
+      "text": "K2",
+      "timestamp": [
+        7.28,
+        7.84
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        8.08,
+        8.32
+      ]
+    },
+    {
+      "text": "my",
+      "timestamp": [
+        8.32,
+        8.56
+      ]
+    },
+    {
+      "text": "cart.",
+      "timestamp": [
+        8.56,
+        9.040000000000001
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        9.68,
+        9.76
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        9.92,
+        10.16
+      ]
+    },
+    {
+      "text": "need",
+      "timestamp": [
+        10.16,
+        10.48
+      ]
+    },
+    {
+      "text": "one",
+      "timestamp": [
+        10.48,
+        10.72
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        10.72,
+        11.040000000000001
+      ]
+    },
+    {
+      "text": "me",
+      "timestamp": [
+        11.040000000000001,
+        11.28
+      ]
+    },
+    {
+      "text": "and",
+      "timestamp": [
+        11.36,
+        11.6
+      ]
+    },
+    {
+      "text": "and",
+      "timestamp": [
+        11.68,
+        12.0
+      ]
+    },
+    {
+      "text": "one",
+      "timestamp": [
+        12.0,
+        12.32
+      ]
+    },
+    {
+      "text": "as",
+      "timestamp": [
+        12.32,
+        12.56
+      ]
+    },
+    {
+      "text": "a",
+      "timestamp": [
+        12.56,
+        12.8
+      ]
+    },
+    {
+      "text": "gift",
+      "timestamp": [
+        12.8,
+        13.200000000000001
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        13.200000000000001,
+        13.44
+      ]
+    },
+    {
+      "text": "my",
+      "timestamp": [
+        13.44,
+        13.76
+      ]
+    },
+    {
+      "text": "friend.",
+      "timestamp": [
+        13.76,
+        14.16
+      ]
+    }
+  ],
+  "user_speech_end_rel": 14.16,
+  "latency": {
+    "input_duration_s": 44.528,
+    "output_duration_s": 44.528,
+    "first_speech_s": 17.45
+  },
+  "user_done_unix": 1790768970.7082605,
+  "search_latency_breakdown": {
+    "room": "eval-668ef2f9",
+    "tool": "Search Tool",
+    "reasoning": 3.62,
+    "execution": 0.003,
+    "synthesis": 3.717,
+    "total": 7.34,
+    "agent_start_at": 1790768987.084041
+  },
+  "absolute_total_latency": 16.376,
+  "transcript": "Goodbye. Let me look up item K2 for you.",
+  "asr_chunks": [
+    {
+      "text": "Goodbye.",
+      "timestamp": [
+        17.36,
+        18.400000000000002
+      ]
+    },
+    {
+      "text": "Let",
+      "timestamp": [
+        28.32,
+        28.560000000000002
+      ]
+    },
+    {
+      "text": "me",
+      "timestamp": [
+        28.560000000000002,
+        28.8
+      ]
+    },
+    {
+      "text": "look",
+      "timestamp": [
+        28.8,
+        28.96
+      ]
+    },
+    {
+      "text": "up",
+      "timestamp": [
+        28.96,
+        29.2
+      ]
+    },
+    {
+      "text": "item",
+      "timestamp": [
+        29.2,
+        29.6
+      ]
+    },
+    {
+      "text": "K2",
+      "timestamp": [
+        29.6,
+        30.0
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        30.240000000000002,
+        30.560000000000002
+      ]
+    },
+    {
+      "text": "you.",
+      "timestamp": [
+        30.560000000000002,
+        30.88
+      ]
+    }
+  ],
+  "perceived_total_latency": 3.2,
+  "audio_agent_speech_start": 17.36,
+  "actual_tool_calls": [
+    {
+      "function": "search_products",
+      "args": {
+        "max_price": null,
+        "query": "K2"
+      },
+      "timestamp_start": 25.29,
+      "timestamp_end": 25.29
+    },
+    {
+      "function": "add_to_cart",
+      "args": {
+        "quantity": 2,
+        "product_id": "PROD1"
+      },
+      "timestamp_start": 26.82,
+      "timestamp_end": 26.82
+    }
+  ],
+  "status": "completed"
+}

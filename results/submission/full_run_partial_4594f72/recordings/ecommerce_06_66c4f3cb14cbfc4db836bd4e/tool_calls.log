@@ -1,0 +1,2 @@
+{"room": "eval-668ef2f9", "call": {"function": "search_products", "args": {"max_price": null, "query": "K2"}, "timestamp_start": 1790768981.8424356, "timestamp_end": 1790768981.8426638}}
+{"room": "eval-668ef2f9", "call": {"function": "add_to_cart", "args": {"quantity": 2, "product_id": "PROD1"}, "timestamp_start": 1790768983.366051, "timestamp_end": 1790768983.3661}}

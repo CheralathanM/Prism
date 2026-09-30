@@ -1,0 +1,1 @@
+{"room": "eval-70f93643", "call": {"function": "get_exchange_rate", "args": {"amount": 500, "from_currency": "USD", "to_currency": "EUR"}, "timestamp_start": 1790775674.0710344, "timestamp_end": 1790775674.0710812}}

@@ -1,0 +1,441 @@
+{
+  "pid": "62a885d5b6af18b3d4579e1b",
+  "example_id": "finance_16",
+  "category": "finance_billing",
+  "title": "Hesitant Exchange Query",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T10:50:16.371136",
+  "inference_time_s": 57.43,
+  "room_name": "eval-819560d4",
+  "stream_start_time": 1790765421.2225635,
+  "input_transcript": "Like, okay, so um, I need to know how much. Let me see five hundred yen would be in dollars. I'm trying to figure out if this online purchase is worth it.",
+  "input_asr_chunks": [
+    {
+      "text": "Like,",
+      "timestamp": [
+        0.48,
+        0.8
+      ]
+    },
+    {
+      "text": "okay,",
+      "timestamp": [
+        1.12,
+        1.44
+      ]
+    },
+    {
+      "text": "so",
+      "timestamp": [
+        1.84,
+        2.08
+      ]
+    },
+    {
+      "text": "um,",
+      "timestamp": [
+        2.64,
+        2.96
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        3.2800000000000002,
+        3.52
+      ]
+    },
+    {
+      "text": "need",
+      "timestamp": [
+        3.52,
+        3.68
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        3.68,
+        3.84
+      ]
+    },
+    {
+      "text": "know",
+      "timestamp": [
+        3.84,
+        4.08
+      ]
+    },
+    {
+      "text": "how",
+      "timestamp": [
+        4.08,
+        4.32
+      ]
+    },
+    {
+      "text": "much.",
+      "timestamp": [
+        4.32,
+        4.5600000000000005
+      ]
+    },
+    {
+      "text": "Let",
+      "timestamp": [
+        4.8,
+        5.2
+      ]
+    },
+    {
+      "text": "me",
+      "timestamp": [
+        5.2,
+        5.5200000000000005
+      ]
+    },
+    {
+      "text": "see",
+      "timestamp": [
+        5.5200000000000005,
+        5.84
+      ]
+    },
+    {
+      "text": "five",
+      "timestamp": [
+        8.32,
+        8.96
+      ]
+    },
+    {
+      "text": "hundred",
+      "timestamp": [
+        8.96,
+        9.200000000000001
+      ]
+    },
+    {
+      "text": "yen",
+      "timestamp": [
+        9.36,
+        9.84
+      ]
+    },
+    {
+      "text": "would",
+      "timestamp": [
+        9.84,
+        10.0
+      ]
+    },
+    {
+      "text": "be",
+      "timestamp": [
+        10.0,
+        10.08
+      ]
+    },
+    {
+      "text": "in",
+      "timestamp": [
+        10.08,
+        10.24
+      ]
+    },
+    {
+      "text": "dollars.",
+      "timestamp": [
+        10.24,
+        10.64
+      ]
+    },
+    {
+      "text": "I'm",
+      "timestamp": [
+        10.8,
+        10.96
+      ]
+    },
+    {
+      "text": "trying",
+      "timestamp": [
+        10.96,
+        11.120000000000001
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        11.120000000000001,
+        11.200000000000001
+      ]
+    },
+    {
+      "text": "figure",
+      "timestamp": [
+        11.200000000000001,
+        11.44
+      ]
+    },
+    {
+      "text": "out",
+      "timestamp": [
+        11.44,
+        11.52
+      ]
+    },
+    {
+      "text": "if",
+      "timestamp": [
+        11.52,
+        11.68
+      ]
+    },
+    {
+      "text": "this",
+      "timestamp": [
+        11.68,
+        11.84
+      ]
+    },
+    {
+      "text": "online",
+      "timestamp": [
+        11.84,
+        12.32
+      ]
+    },
+    {
+      "text": "purchase",
+      "timestamp": [
+        12.32,
+        12.72
+      ]
+    },
+    {
+      "text": "is",
+      "timestamp": [
+        12.72,
+        12.88
+      ]
+    },
+    {
+      "text": "worth",
+      "timestamp": [
+        12.88,
+        13.44
+      ]
+    },
+    {
+      "text": "it.",
+      "timestamp": [
+        13.44,
+        13.68
+      ]
+    }
+  ],
+  "user_speech_end_rel": 5.84,
+  "latency": {
+    "input_duration_s": 43.92,
+    "output_duration_s": 43.92,
+    "first_speech_s": 17.6
+  },
+  "user_done_unix": 1790765427.0625634,
+  "search_latency_breakdown": {
+    "room": "eval-819560d4",
+    "tool": "Search Tool",
+    "reasoning": 1.405,
+    "execution": 0.002,
+    "synthesis": 1.33,
+    "total": 2.737,
+    "agent_start_at": 1790765445.0388408
+  },
+  "absolute_total_latency": 17.976,
+  "transcript": "Take your time. Let me know what you need. Five hundred yen is about four hundred fifty dollars based on the current exchange rate.",
+  "asr_chunks": [
+    {
+      "text": "Take",
+      "timestamp": [
+        17.52,
+        17.84
+      ]
+    },
+    {
+      "text": "your",
+      "timestamp": [
+        17.84,
+        18.080000000000002
+      ]
+    },
+    {
+      "text": "time.",
+      "timestamp": [
+        18.080000000000002,
+        18.32
+      ]
+    },
+    {
+      "text": "Let",
+      "timestamp": [
+        18.56,
+        18.8
+      ]
+    },
+    {
+      "text": "me",
+      "timestamp": [
+        18.8,
+        19.04
+      ]
+    },
+    {
+      "text": "know",
+      "timestamp": [
+        19.04,
+        19.28
+      ]
+    },
+    {
+      "text": "what",
+      "timestamp": [
+        19.28,
+        19.6
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        19.6,
+        19.84
+      ]
+    },
+    {
+      "text": "need.",
+      "timestamp": [
+        19.84,
+        20.16
+      ]
+    },
+    {
+      "text": "Five",
+      "timestamp": [
+        23.04,
+        23.28
+      ]
+    },
+    {
+      "text": "hundred",
+      "timestamp": [
+        23.36,
+        23.68
+      ]
+    },
+    {
+      "text": "yen",
+      "timestamp": [
+        23.68,
+        24.16
+      ]
+    },
+    {
+      "text": "is",
+      "timestamp": [
+        24.16,
+        24.240000000000002
+      ]
+    },
+    {
+      "text": "about",
+      "timestamp": [
+        24.240000000000002,
+        24.48
+      ]
+    },
+    {
+      "text": "four",
+      "timestamp": [
+        24.48,
+        24.560000000000002
+      ]
+    },
+    {
+      "text": "hundred",
+      "timestamp": [
+        24.72,
+        24.88
+      ]
+    },
+    {
+      "text": "fifty",
+      "timestamp": [
+        24.96,
+        25.36
+      ]
+    },
+    {
+      "text": "dollars",
+      "timestamp": [
+        25.36,
+        25.68
+      ]
+    },
+    {
+      "text": "based",
+      "timestamp": [
+        25.76,
+        26.0
+      ]
+    },
+    {
+      "text": "on",
+      "timestamp": [
+        26.0,
+        26.16
+      ]
+    },
+    {
+      "text": "the",
+      "timestamp": [
+        26.16,
+        26.240000000000002
+      ]
+    },
+    {
+      "text": "current",
+      "timestamp": [
+        26.240000000000002,
+        26.64
+      ]
+    },
+    {
+      "text": "exchange",
+      "timestamp": [
+        26.64,
+        27.2
+      ]
+    },
+    {
+      "text": "rate.",
+      "timestamp": [
+        27.2,
+        27.84
+      ]
+    }
+  ],
+  "perceived_total_latency": 11.68,
+  "audio_agent_speech_start": 17.52,
+  "actual_tool_calls": [
+    {
+      "function": "get_exchange_rate",
+      "args": {
+        "amount": 500,
+        "from_currency": "JPY",
+        "to_currency": "USD"
+      },
+      "timestamp_start": 22.49,
+      "timestamp_end": 22.49
+    }
+  ],
+  "status": "completed"
+}

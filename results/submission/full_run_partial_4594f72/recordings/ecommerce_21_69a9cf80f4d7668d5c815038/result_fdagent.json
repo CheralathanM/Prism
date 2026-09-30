@@ -1,0 +1,692 @@
+{
+  "pid": "69a9cf80f4d7668d5c815038",
+  "example_id": "ecommerce_21",
+  "category": "ecommerce_support",
+  "title": "Hesitant Tracking Chain",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T13:11:32.237139",
+  "inference_time_s": 74.4,
+  "room_name": "eval-e84a1011",
+  "stream_start_time": 1790773900.2121022,
+  "input_transcript": "Um, so hmm, hmm. Well, could you track order BOP for me first? Then, um, hmm, I also want to search for a nice watch under $200. And um, once you can find something good, uh, go ahead and add it to my cart.",
+  "input_asr_chunks": [
+    {
+      "text": "Um,",
+      "timestamp": [
+        1.04,
+        1.52
+      ]
+    },
+    {
+      "text": "so",
+      "timestamp": [
+        2.16,
+        2.4
+      ]
+    },
+    {
+      "text": "hmm,",
+      "timestamp": [
+        2.64,
+        3.2800000000000002
+      ]
+    },
+    {
+      "text": "hmm.",
+      "timestamp": [
+        4.24,
+        4.96
+      ]
+    },
+    {
+      "text": "Well,",
+      "timestamp": [
+        5.6000000000000005,
+        5.84
+      ]
+    },
+    {
+      "text": "could",
+      "timestamp": [
+        6.0,
+        6.24
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        6.24,
+        6.48
+      ]
+    },
+    {
+      "text": "track",
+      "timestamp": [
+        6.48,
+        6.88
+      ]
+    },
+    {
+      "text": "order",
+      "timestamp": [
+        6.88,
+        7.36
+      ]
+    },
+    {
+      "text": "BOP",
+      "timestamp": [
+        7.36,
+        8.4
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        8.4,
+        8.72
+      ]
+    },
+    {
+      "text": "me",
+      "timestamp": [
+        8.72,
+        8.96
+      ]
+    },
+    {
+      "text": "first?",
+      "timestamp": [
+        8.96,
+        9.200000000000001
+      ]
+    },
+    {
+      "text": "Then,",
+      "timestamp": [
+        10.16,
+        10.64
+      ]
+    },
+    {
+      "text": "um,",
+      "timestamp": [
+        10.96,
+        11.200000000000001
+      ]
+    },
+    {
+      "text": "hmm,",
+      "timestamp": [
+        12.48,
+        13.200000000000001
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        14.16,
+        14.48
+      ]
+    },
+    {
+      "text": "also",
+      "timestamp": [
+        14.48,
+        14.72
+      ]
+    },
+    {
+      "text": "want",
+      "timestamp": [
+        14.96,
+        15.200000000000001
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        15.200000000000001,
+        15.36
+      ]
+    },
+    {
+      "text": "search",
+      "timestamp": [
+        15.36,
+        15.68
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        15.68,
+        15.84
+      ]
+    },
+    {
+      "text": "a",
+      "timestamp": [
+        15.84,
+        16.0
+      ]
+    },
+    {
+      "text": "nice",
+      "timestamp": [
+        16.0,
+        16.32
+      ]
+    },
+    {
+      "text": "watch",
+      "timestamp": [
+        16.32,
+        16.72
+      ]
+    },
+    {
+      "text": "under",
+      "timestamp": [
+        16.72,
+        16.96
+      ]
+    },
+    {
+      "text": "$200.",
+      "timestamp": [
+        16.96,
+        17.68
+      ]
+    },
+    {
+      "text": "And",
+      "timestamp": [
+        19.28,
+        19.6
+      ]
+    },
+    {
+      "text": "um,",
+      "timestamp": [
+        19.76,
+        20.0
+      ]
+    },
+    {
+      "text": "once",
+      "timestamp": [
+        20.16,
+        20.56
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        20.56,
+        20.72
+      ]
+    },
+    {
+      "text": "can",
+      "timestamp": [
+        20.72,
+        20.96
+      ]
+    },
+    {
+      "text": "find",
+      "timestamp": [
+        20.96,
+        21.28
+      ]
+    },
+    {
+      "text": "something",
+      "timestamp": [
+        21.28,
+        21.52
+      ]
+    },
+    {
+      "text": "good,",
+      "timestamp": [
+        21.52,
+        21.84
+      ]
+    },
+    {
+      "text": "uh,",
+      "timestamp": [
+        22.080000000000002,
+        22.240000000000002
+      ]
+    },
+    {
+      "text": "go",
+      "timestamp": [
+        23.2,
+        23.44
+      ]
+    },
+    {
+      "text": "ahead",
+      "timestamp": [
+        23.44,
+        23.76
+      ]
+    },
+    {
+      "text": "and",
+      "timestamp": [
+        23.76,
+        24.0
+      ]
+    },
+    {
+      "text": "add",
+      "timestamp": [
+        24.0,
+        24.16
+      ]
+    },
+    {
+      "text": "it",
+      "timestamp": [
+        24.16,
+        24.32
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        24.32,
+        24.48
+      ]
+    },
+    {
+      "text": "my",
+      "timestamp": [
+        24.48,
+        24.72
+      ]
+    },
+    {
+      "text": "cart.",
+      "timestamp": [
+        24.72,
+        25.28
+      ]
+    }
+  ],
+  "user_speech_end_rel": 25.28,
+  "latency": {
+    "input_duration_s": 56.34,
+    "output_duration_s": 56.34,
+    "first_speech_s": 31.1
+  },
+  "user_done_unix": 1790773925.4921021,
+  "transcript": "Okay, one moment. I'm tracking order BOP. I'm still looking into your order and searching. I'm still waiting for the search results to add the watch to your cart. Adding the watch to your cart now. Your order BOP is out for delivery, and I have successfully.",
+  "asr_chunks": [
+    {
+      "text": "Okay,",
+      "timestamp": [
+        30.96,
+        31.2
+      ]
+    },
+    {
+      "text": "one",
+      "timestamp": [
+        31.84,
+        32.160000000000004
+      ]
+    },
+    {
+      "text": "moment.",
+      "timestamp": [
+        32.160000000000004,
+        33.12
+      ]
+    },
+    {
+      "text": "I'm",
+      "timestamp": [
+        35.36,
+        35.68
+      ]
+    },
+    {
+      "text": "tracking",
+      "timestamp": [
+        35.68,
+        36.0
+      ]
+    },
+    {
+      "text": "order",
+      "timestamp": [
+        36.0,
+        36.32
+      ]
+    },
+    {
+      "text": "BOP.",
+      "timestamp": [
+        36.32,
+        36.800000000000004
+      ]
+    },
+    {
+      "text": "I'm",
+      "timestamp": [
+        38.96,
+        39.28
+      ]
+    },
+    {
+      "text": "still",
+      "timestamp": [
+        39.28,
+        39.52
+      ]
+    },
+    {
+      "text": "looking",
+      "timestamp": [
+        39.52,
+        39.76
+      ]
+    },
+    {
+      "text": "into",
+      "timestamp": [
+        39.76,
+        39.92
+      ]
+    },
+    {
+      "text": "your",
+      "timestamp": [
+        39.92,
+        40.160000000000004
+      ]
+    },
+    {
+      "text": "order",
+      "timestamp": [
+        40.160000000000004,
+        40.480000000000004
+      ]
+    },
+    {
+      "text": "and",
+      "timestamp": [
+        40.480000000000004,
+        40.64
+      ]
+    },
+    {
+      "text": "searching.",
+      "timestamp": [
+        40.64,
+        41.36
+      ]
+    },
+    {
+      "text": "I'm",
+      "timestamp": [
+        45.52,
+        45.84
+      ]
+    },
+    {
+      "text": "still",
+      "timestamp": [
+        45.84,
+        46.08
+      ]
+    },
+    {
+      "text": "waiting",
+      "timestamp": [
+        46.08,
+        46.480000000000004
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        46.480000000000004,
+        46.64
+      ]
+    },
+    {
+      "text": "the",
+      "timestamp": [
+        46.64,
+        46.72
+      ]
+    },
+    {
+      "text": "search",
+      "timestamp": [
+        46.72,
+        47.04
+      ]
+    },
+    {
+      "text": "results",
+      "timestamp": [
+        47.04,
+        47.52
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        47.52,
+        47.6
+      ]
+    },
+    {
+      "text": "add",
+      "timestamp": [
+        47.6,
+        47.84
+      ]
+    },
+    {
+      "text": "the",
+      "timestamp": [
+        47.84,
+        47.92
+      ]
+    },
+    {
+      "text": "watch",
+      "timestamp": [
+        47.92,
+        48.24
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        48.24,
+        48.4
+      ]
+    },
+    {
+      "text": "your",
+      "timestamp": [
+        48.4,
+        48.64
+      ]
+    },
+    {
+      "text": "cart.",
+      "timestamp": [
+        48.64,
+        49.28
+      ]
+    },
+    {
+      "text": "Adding",
+      "timestamp": [
+        50.24,
+        50.480000000000004
+      ]
+    },
+    {
+      "text": "the",
+      "timestamp": [
+        50.64,
+        50.72
+      ]
+    },
+    {
+      "text": "watch",
+      "timestamp": [
+        50.72,
+        50.96
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        50.96,
+        51.120000000000005
+      ]
+    },
+    {
+      "text": "your",
+      "timestamp": [
+        51.120000000000005,
+        51.28
+      ]
+    },
+    {
+      "text": "cart",
+      "timestamp": [
+        51.28,
+        51.52
+      ]
+    },
+    {
+      "text": "now.",
+      "timestamp": [
+        51.6,
+        51.84
+      ]
+    },
+    {
+      "text": "Your",
+      "timestamp": [
+        52.72,
+        52.96
+      ]
+    },
+    {
+      "text": "order",
+      "timestamp": [
+        52.96,
+        53.28
+      ]
+    },
+    {
+      "text": "BOP",
+      "timestamp": [
+        53.36,
+        54.0
+      ]
+    },
+    {
+      "text": "is",
+      "timestamp": [
+        54.0,
+        54.24
+      ]
+    },
+    {
+      "text": "out",
+      "timestamp": [
+        54.24,
+        54.4
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        54.4,
+        54.56
+      ]
+    },
+    {
+      "text": "delivery,",
+      "timestamp": [
+        54.56,
+        55.120000000000005
+      ]
+    },
+    {
+      "text": "and",
+      "timestamp": [
+        55.36,
+        55.52
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        55.52,
+        55.6
+      ]
+    },
+    {
+      "text": "have",
+      "timestamp": [
+        55.6,
+        55.76
+      ]
+    },
+    {
+      "text": "successfully.",
+      "timestamp": [
+        55.76,
+        56.08
+      ]
+    }
+  ],
+  "perceived_total_latency": 5.68,
+  "audio_agent_speech_start": 30.96,
+  "actual_tool_calls": [
+    {
+      "function": "track_order",
+      "args": {
+        "order_id": "BOP"
+      },
+      "timestamp_start": 46.22,
+      "timestamp_end": 46.22
+    },
+    {
+      "function": "search_products",
+      "args": {
+        "max_price": 200,
+        "query": "watch"
+      },
+      "timestamp_start": 46.22,
+      "timestamp_end": 46.22
+    },
+    {
+      "function": "add_to_cart",
+      "args": {
+        "quantity": 1,
+        "product_id": "PROD1"
+      },
+      "timestamp_start": 48.2,
+      "timestamp_end": 48.2
+    }
+  ],
+  "status": "completed"
+}

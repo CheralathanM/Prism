@@ -18,3 +18,6 @@ results/journals/
 
 # Local smoke-test artifacts (may contain service URLs in logs; never commit)
 results/local_smoke/
+
+# Reproduction runs (agent logs may contain service URLs; curate into results/submission/)
+results/runs/

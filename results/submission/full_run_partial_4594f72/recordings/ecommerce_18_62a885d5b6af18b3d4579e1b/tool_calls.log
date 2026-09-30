@@ -1,0 +1,3 @@
+{"room": "eval-56517b75", "call": {"function": "search_products", "args": {"max_price": null, "query": "gaming"}, "timestamp_start": 1790772933.6371927, "timestamp_end": 1790772933.6372461}}
+{"room": "eval-56517b75", "call": {"function": "track_order", "args": {"order_id": "P0999"}, "timestamp_start": 1790772933.640836, "timestamp_end": 1790772933.640874}}
+{"room": "eval-56517b75", "call": {"function": "add_to_cart", "args": {"quantity": 1, "product_id": "PROD1"}, "timestamp_start": 1790772934.9535775, "timestamp_end": 1790772934.9536035}}

@@ -1,0 +1,182 @@
+
+################ travel_10
+  status=completed room=eval-54b00ebc window=47.648s user_speech_end_rel=7.68
+  expected: [('search_flights', {'destination': 'Miami', 'date': 'October 7'})]
+  actual:   [('search_flights', {'destination': 'Miami', 'date': 'October 7'})]
+  exact-match (unofficial, no LLM judge): passed=True reason=''
+  dispatch counts: {'search_flights': 1} | expected counts: {'search_flights': 1}
+  perceived_total_latency=12.4 first_speech_s=20.1
+  captured agent speech in recording: 20.080000000000002..28.96 s
+  output transcript: 'Okay, one moment. Search. I found a flight to Miami on October 7th for dollar four hundred fifty.'
+  kernel: steps=30 ordered=True decisions={'generation_bump': 6, 'transcript_pending': 3, 'intent_stable': 3, 'transcript_settled': 3, 'reasoning_requested': 5, 'proposal_rejected': 1, 'backchannel': 1, 'plan_accepted': 3, 'speak': 3, 'dispatch': 1, 'result_admitted': 1}
+       9.82s transcript gen-bump: 'Looking at flights to Miami on October 5th.'
+      11.33s transcript gen-bump: 'Oh, wait.'
+      13.34s proposal_rejected {'reason': 'stale_generation'}
+      13.34s plan req-2: calls=[] reply='No problem, what would you like to do instead?' kind=clarify
+      19.41s backchannel {}
+      20.61s plan req-3: calls=[] reply='What would you like to do instead?' kind=clarify
+      21.08s transcript gen-bump: 'My schedule just changed. My meeting got moved, so actually make it October 7th instead.'
+      22.49s dispatch {'tool': 'search_flights', 'args': {'destination': 'Miami', 'date': 'October 7'}, 'call_id': 'call-1'}
+      22.49s plan req-4: calls=[('search_flights', {'destination': 'Miami', 'date': 'October 7'})] reply='Searching for flights to Miami on October 7th.' kind=progress
+      24.64s plan req-5: calls=[('search_flights', {'destination': 'Miami', 'date': 'October 7'})] reply='I found a flight to Miami on October 7th for $450.' kind=final
+      13.25s planner_attempt {'request_id': 'req-2', 'retry_count': '0', 'status': 200, 'attempt_s': 1.919}
+      19.42s speech_start {'speech_kind': 'backchannel', 'text': 'Okay, one moment.'}
+       20.3s tts_first_audio {'mode': 'stream'}
+      20.61s planner_attempt {'request_id': 'req-3', 'retry_count': '0', 'status': 200, 'attempt_s': 1.19}
+      21.09s speech_dropped_stale {'speech_kind': 'clarify', 'text': 'What would you like to do instead?'}
+      22.09s speech_end {'speech_kind': 'backchannel', 'interrupted': False}
+      22.48s planner_attempt {'request_id': 'req-4', 'retry_count': '0', 'status': 200, 'attempt_s': 1.394}
+      22.49s speech_start {'speech_kind': 'progress', 'text': 'Searching for flights to Miami on October 7th.'}
+      22.93s tts_first_audio {'mode': 'stream'}
+      23.24s speech_end {'speech_kind': 'progress', 'interrupted': True}
+      24.63s planner_attempt {'request_id': 'req-5', 'retry_count': '0', 'status': 200, 'attempt_s': 1.458}
+      24.64s speech_start {'speech_kind': 'final', 'text': 'I found a flight to Miami on October 7th for $450.'}
+      25.22s tts_first_audio {'mode': 'stream'}
+      29.33s speech_end {'speech_kind': 'final', 'interrupted': False}
+  agent ERROR lines (excluding teardown data-channel noise): 0
+
+################ ecommerce_05
+  status=completed room=eval-4db68ec8 window=52.08s user_speech_end_rel=7.2
+  expected: [('search_products', {'query': 'desk', 'max_price': 300})]
+  actual:   [('search_products', {'max_price': 300, 'query': 'desk'})]
+  exact-match (unofficial, no LLM judge): passed=True reason=''
+  dispatch counts: {'search_products': 1} | expected counts: {'search_products': 1}
+  perceived_total_latency=18.0 first_speech_s=25.25
+  captured agent speech in recording: 25.2..39.52 s
+  output transcript: 'Okay, one moment I found a desk premium for $290.'
+  kernel: steps=61 ordered=True decisions={'generation_bump': 15, 'transcript_pending': 8, 'timer_stale': 5, 'intent_stable': 3, 'transcript_settled': 8, 'filler_ignored': 1, 'reasoning_requested': 8, 'proposal_rejected': 1, 'plan_accepted': 4, 'gate_blocked': 6, 'backchannel': 2, 'barge_in': 1, 'dispatch': 1, 'result_admitted': 1, 'speak': 1}
+      10.07s filler_ignored {'text': 'Um, so like, uh...'}
+      10.07s transcript gen-bump: 'Um, so like, uh...'
+      12.05s transcript gen-bump: "I'm looking for"
+       13.6s transcript gen-bump: 'for a new...'
+      15.25s transcript gen-bump: 'Let me think.'
+      16.58s proposal_rejected {'reason': 'stale_generation'}
+      16.58s plan req-3: calls=[] reply='Take your time. What are you looking for?' kind=clarify
+      16.85s transcript gen-bump: 'A desk.'
+      18.21s transcript gen-bump: 'Yes.'
+      19.41s plan req-5: calls=[('search_products', {'query': 'desk'})] reply=None kind=progress
+      19.95s backchannel {}
+      19.95s gate_blocked transcript_pending search_products
+       20.1s barge_in {}
+      23.01s transcript gen-bump: 'Something under $300.'
+      24.22s plan req-6: calls=[('search_products', {'query': 'desk'})] reply=None kind=progress
+      24.57s backchannel {}
+      24.57s gate_blocked transcript_pending search_products
+      28.52s transcript gen-bump: 'If you have an option like that, that would be great.'
+      30.39s dispatch {'tool': 'search_products', 'args': {'query': 'desk', 'max_price': 300}, 'call_id': 'call-1'}
+      30.39s plan req-7: calls=[('search_products', {'query': 'desk', 'max_price': 300})] reply=None kind=progress
+      36.41s plan req-8: calls=[('search_products', {'query': 'desk', 'max_price': 300})] reply='I found a desk Premium for $290.' kind=final
+      16.48s planner_attempt {'request_id': 'req-3', 'retry_count': '0', 'status': 200, 'attempt_s': 1.222}
+      19.41s planner_attempt {'request_id': 'req-5', 'retry_count': '0', 'status': 200, 'attempt_s': 1.189}
+      19.95s speech_start {'speech_kind': 'backchannel', 'text': 'Okay, one moment.'}
+       20.1s speech_end {'speech_kind': 'backchannel', 'interrupted': True}
+      24.21s planner_attempt {'request_id': 'req-6', 'retry_count': '0', 'status': 200, 'attempt_s': 1.199}
+      24.57s speech_start {'speech_kind': 'backchannel', 'text': 'Okay, one moment.'}
+      25.19s tts_first_audio {'mode': 'stream'}
+      27.29s speech_end {'speech_kind': 'backchannel', 'interrupted': False}
+      30.39s planner_attempt {'request_id': 'req-7', 'retry_count': '0', 'status': 200, 'attempt_s': 1.859}
+      36.41s planner_attempt {'request_id': 'req-8', 'retry_count': '0', 'status': 200, 'attempt_s': 5.999}
+      36.41s speech_start {'speech_kind': 'final', 'text': 'I found a desk Premium for $290.'}
+      36.93s tts_first_audio {'mode': 'stream'}
+      39.98s speech_end {'speech_kind': 'final', 'interrupted': False}
+  agent ERROR lines (excluding teardown data-channel noise): 1
+    process exited with non-zero exit code -10
+
+################ ecommerce_18
+  status=completed room=eval-719d94f9 window=43.8s user_speech_end_rel=13.84
+  expected: [('search_products', {'query': 'gaming mouse'}), ('add_to_cart', {'product_id': '$RESULT_0.cheapest_product_id', 'quantity': 1}), ('track_order', {'order_id': 'PO999'})]
+  actual:   [('search_products', {'max_price': None, 'query': 'gaming mouse'}), ('track_order', {'order_id': 'P0999'}), ('add_to_cart', {'quantity': 1, 'product_id': 'PROD1'})]
+  exact-match (unofficial, no LLM judge): passed=False reason="Wrong arguments for: ['track_order']"
+  dispatch counts: {'search_products': 1, 'track_order': 1, 'add_to_cart': 1} | expected counts: {'search_products': 1, 'add_to_cart': 1, 'track_order': 1}
+  perceived_total_latency=14.56 first_speech_s=28.55
+  captured agent speech in recording: 28.400000000000002..34.32 s
+  output transcript: "I've added the gaming mouse to your cart, and your order P0999 is currently out for delivery."
+  kernel: steps=17 ordered=True decisions={'generation_bump': 2, 'transcript_pending': 1, 'intent_stable': 1, 'transcript_settled': 1, 'reasoning_requested': 3, 'plan_accepted': 3, 'dispatch': 3, 'result_admitted': 3, 'reply_withheld': 1, 'speak': 1}
+      22.32s transcript gen-bump: "So like first search for gaming mouse. I want to see what you have then add the cheapest option in my card so I can buy it later. And while you're at it, could you also track my order? P0999. I've been waiting on that one."
+      24.09s dispatch {'tool': 'search_products', 'args': {'query': 'gaming mouse'}, 'call_id': 'call-1'}
+      24.09s dispatch {'tool': 'track_order', 'args': {'order_id': 'P0999'}, 'call_id': 'call-2'}
+      24.09s plan req-1: calls=[('search_products', {'query': 'gaming mouse'}), ('track_order', {'order_id': 'P0999'})] reply=None kind=progress
+      25.77s dispatch {'tool': 'add_to_cart', 'args': {'product_id': 'PROD1'}, 'call_id': 'call-3'}
+      25.77s reply_withheld {'reason': 'calls_not_succeeded'}
+      25.77s plan req-2: calls=[('search_products', {'query': 'gaming mouse'}), ('track_order', {'order_id': 'P0999'}), ('add_to_cart', {'product_id': 'PROD1'})] reply='I found a gaming mouse and added it to your cart. Your order P0999 is currently out for delivery.' kind=final
+      26.94s plan req-3: calls=[('search_products', {'query': 'gaming mouse'}), ('track_order', {'order_id': 'P0999'}), ('add_to_cart', {'product_id': 'PROD1'})] reply="I've added the gaming mouse to your cart, and your order P0999 is currently out for delivery." kind=final
+      24.01s planner_attempt {'request_id': 'req-1', 'retry_count': '0', 'status': 200, 'attempt_s': 1.429}
+      25.77s planner_attempt {'request_id': 'req-2', 'retry_count': '0', 'status': 200, 'attempt_s': 1.661}
+      26.93s planner_attempt {'request_id': 'req-3', 'retry_count': '0', 'status': 200, 'attempt_s': 1.137}
+      26.94s speech_start {'speech_kind': 'final', 'text': "I've added the gaming mouse to your cart, and your order P0999 is currently out for delivery."}
+      28.18s tts_first_audio {'mode': 'stream'}
+      34.04s speech_end {'speech_kind': 'final', 'interrupted': False}
+  agent ERROR lines (excluding teardown data-channel noise): 0
+
+################ finance_16
+  status=completed room=eval-819560d4 window=43.92s user_speech_end_rel=5.84
+  expected: [('get_exchange_rate', {'amount': 500, 'from_currency': 'JPY', 'to_currency': 'USD'})]
+  actual:   [('get_exchange_rate', {'amount': 500, 'from_currency': 'JPY', 'to_currency': 'USD'})]
+  exact-match (unofficial, no LLM judge): passed=True reason=''
+  dispatch counts: {'get_exchange_rate': 1} | expected counts: {'get_exchange_rate': 1}
+  perceived_total_latency=11.68 first_speech_s=17.6
+  captured agent speech in recording: 17.52..27.84 s
+  output transcript: 'Take your time. Let me know what you need. Five hundred yen is about four hundred fifty dollars based on the current exchange rate.'
+  kernel: steps=27 ordered=True decisions={'generation_bump': 5, 'transcript_pending': 3, 'timer_stale': 1, 'transcript_settled': 3, 'filler_ignored': 1, 'intent_stable': 2, 'reasoning_requested': 3, 'plan_accepted': 3, 'reply_held_until_stable': 1, 'speak': 2, 'dispatch': 1, 'result_admitted': 1}
+       6.71s filler_ignored {'text': 'Like, okay, so...'}
+       6.71s transcript gen-bump: 'Like, okay, so...'
+       9.44s transcript gen-bump: 'I need to know how much. Let me see.'
+      11.34s reply_held_until_stable {}
+      11.34s plan req-1: calls=[] reply='Take your time, let me know what you need.' kind=clarify
+      19.66s transcript gen-bump: '500 yen would be in dollars. So try to figure out if this online purchase is worth it.'
+      21.06s dispatch {'tool': 'get_exchange_rate', 'args': {'amount': 500, 'from_currency': 'JPY', 'to_currency': 'USD'}, 'call_id': 'call-1'}
+      21.06s plan req-2: calls=[('get_exchange_rate', {'amount': 500, 'from_currency': 'JPY', 'to_currency': 'USD'})] reply=None kind=progress
+      22.39s plan req-3: calls=[('get_exchange_rate', {'amount': 500, 'from_currency': 'JPY', 'to_currency': 'USD'})] reply='500 yen is about 450 dollars based on the current exchange rate.' kind=final
+      11.22s planner_attempt {'request_id': 'req-1', 'retry_count': '0', 'status': 200, 'attempt_s': 1.539}
+       15.7s speech_start {'speech_kind': 'clarify', 'text': 'Take your time, let me know what you need.'}
+      16.98s tts_first_audio {'mode': 'stream'}
+      20.18s speech_end {'speech_kind': 'clarify', 'interrupted': True}
+      21.06s planner_attempt {'request_id': 'req-2', 'retry_count': '0', 'status': 200, 'attempt_s': 1.39}
+      22.39s planner_attempt {'request_id': 'req-3', 'retry_count': '0', 'status': 200, 'attempt_s': 1.32}
+       22.4s speech_start {'speech_kind': 'final', 'text': '500 yen is about 450 dollars based on the current exchange rate.'}
+      23.01s tts_first_audio {'mode': 'stream'}
+       27.6s speech_end {'speech_kind': 'final', 'interrupted': False}
+  agent ERROR lines (excluding teardown data-channel noise): 0
+
+################ travel_14
+  status=completed room=eval-347141b0 window=41.541s user_speech_end_rel=11.28
+  expected: [('search_flights', {'destination': 'Seoul', 'date': 'March 22'})]
+  actual:   [('search_flights', {'destination': 'soil', 'date': 'March 22'})]
+  exact-match (unofficial, no LLM judge): passed=False reason="Wrong arguments for: ['search_flights']"
+  dispatch counts: {'search_flights': 1} | expected counts: {'search_flights': 1}
+  perceived_total_latency=26.0 first_speech_s=37.45
+  captured agent speech in recording: 37.28..41.12 s
+  output transcript: 'I found a flight to Soil on March 22nd for dollar four hundred fifty.'
+  kernel: steps=12 ordered=True decisions={'generation_bump': 2, 'transcript_pending': 1, 'intent_stable': 1, 'transcript_settled': 1, 'reasoning_requested': 2, 'plan_accepted': 2, 'dispatch': 1, 'result_admitted': 1, 'speak': 1}
+      21.33s transcript gen-bump: "So I want to look at flights to soil and the date. I was thinking of it as, let me think. I'm pretty sure it's March 22nd, yay. Yeah, could you search for that?"
+      23.57s dispatch {'tool': 'search_flights', 'args': {'destination': 'soil', 'date': 'March 22'}, 'call_id': 'call-1'}
+      23.57s plan req-1: calls=[('search_flights', {'destination': 'soil', 'date': 'March 22'})] reply=None kind=progress
+      36.57s plan req-2: calls=[('search_flights', {'destination': 'soil', 'date': 'March 22'})] reply='I found a flight to soil on March 22nd for $450, flight FL123.' kind=final
+      23.47s planner_attempt {'request_id': 'req-1', 'retry_count': '0', 'status': 200, 'attempt_s': 1.611}
+      36.57s planner_attempt {'request_id': 'req-2', 'retry_count': '0', 'status': 200, 'attempt_s': 12.59}
+      36.57s speech_start {'speech_kind': 'final', 'text': 'I found a flight to soil on March 22nd for $450, flight FL123.'}
+      38.49s tts_first_audio {'mode': 'stream'}
+      45.19s speech_end {'speech_kind': 'final', 'interrupted': False} (AFTER WINDOW)
+  agent ERROR lines (excluding teardown data-channel noise): 1
+    process exited with non-zero exit code -10
+
+################ housing_01
+  status=completed room=eval-2b29ab75 window=40.32s user_speech_end_rel=10.4
+  expected: [('search_apartments', {'city': 'Seattle', 'bedrooms': 2, 'max_price': 2500})]
+  actual:   [('search_apartments', {'city': 'Seattle', 'bedrooms': 2, 'max_price': 2500})]
+  exact-match (unofficial, no LLM judge): passed=True reason=''
+  dispatch counts: {'search_apartments': 1} | expected counts: {'search_apartments': 1}
+  perceived_total_latency=19.04 first_speech_s=29.6
+  captured agent speech in recording: 29.44..34.0 s
+  output transcript: 'I found a two-bedroom apartment in Seattle for $1.2,400 a month.'
+  kernel: steps=12 ordered=True decisions={'generation_bump': 2, 'transcript_pending': 1, 'intent_stable': 1, 'transcript_settled': 1, 'reasoning_requested': 2, 'plan_accepted': 2, 'dispatch': 1, 'result_admitted': 1, 'speak': 1}
+      19.08s transcript gen-bump: "Well, I'm trying to find a two bedroom apartment in Seattle and I'd like to keep the rent under 2,500 a month if possible. Could you see what's available?"
+      26.72s dispatch {'tool': 'search_apartments', 'args': {'city': 'Seattle', 'bedrooms': 2, 'max_price': 2500}, 'call_id': 'call-1'}
+      26.72s plan req-1: calls=[('search_apartments', {'city': 'Seattle', 'bedrooms': 2, 'max_price': 2500})] reply=None kind=progress
+       28.4s plan req-2: calls=[('search_apartments', {'city': 'Seattle', 'bedrooms': 2, 'max_price': 2500})] reply='I found a two-bedroom apartment in Seattle for $2,400 a month.' kind=final
+      26.57s planner_attempt {'request_id': 'req-1', 'retry_count': '0', 'status': 200, 'attempt_s': 7.014}
+      28.39s planner_attempt {'request_id': 'req-2', 'retry_count': '0', 'status': 200, 'attempt_s': 1.118}
+       28.4s speech_start {'speech_kind': 'final', 'text': 'I found a two-bedroom apartment in Seattle for $2,400 a month.'}
+      30.12s tts_first_audio {'mode': 'stream'}
+      34.63s speech_end {'speech_kind': 'final', 'interrupted': False}
+  agent ERROR lines (excluding teardown data-channel noise): 0

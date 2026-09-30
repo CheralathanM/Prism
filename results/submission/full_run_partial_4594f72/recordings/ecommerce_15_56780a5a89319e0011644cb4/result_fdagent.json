@@ -1,0 +1,10 @@
+{
+  "pid": "56780a5a89319e0011644cb4",
+  "example_id": "ecommerce_15",
+  "category": "ecommerce_support",
+  "title": "Order Track with Pause and Filler",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T12:36:17.499876",
+  "inference_time_s": 68.08,
+  "status": "inference_failed"
+}

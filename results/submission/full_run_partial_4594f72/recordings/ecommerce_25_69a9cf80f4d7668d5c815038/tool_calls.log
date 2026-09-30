@@ -1,0 +1,3 @@
+{"room": "eval-17057b6c", "call": {"function": "track_order", "args": {"order_id": "CAT"}, "timestamp_start": 1790774954.5064495, "timestamp_end": 1790774954.5065072}}
+{"room": "eval-17057b6c", "call": {"function": "search_products", "args": {"max_price": null, "query": "cat food"}, "timestamp_start": 1790774954.5078, "timestamp_end": 1790774954.5078285}}
+{"room": "eval-17057b6c", "call": {"function": "add_to_cart", "args": {"quantity": 3, "product_id": "PROD1"}, "timestamp_start": 1790774955.649754, "timestamp_end": 1790774955.6497707}}

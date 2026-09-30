@@ -1,0 +1,1 @@
+{"room": "eval-385d9874", "call": {"function": "search_products", "args": {"max_price": 300, "query": "desk"}, "timestamp_start": 1790768715.713301, "timestamp_end": 1790768715.7133603}}

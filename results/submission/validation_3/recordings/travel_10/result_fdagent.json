@@ -1,0 +1,339 @@
+{
+  "pid": "5f4a4da1575d605c43bef871",
+  "example_id": "travel_10",
+  "category": "travel_identity",
+  "title": "Date Correction with Fillers",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T10:43:02.437904",
+  "inference_time_s": 60.19,
+  "room_name": "eval-54b00ebc",
+  "stream_start_time": 1790764987.4311488,
+  "input_transcript": "Looking at flights to Miami on October 5th. Oh, wait. My schedule just changed. My meeting got moved, so actually make it October seventh instead.",
+  "input_asr_chunks": [
+    {
+      "text": "Looking",
+      "timestamp": [
+        2.64,
+        2.96
+      ]
+    },
+    {
+      "text": "at",
+      "timestamp": [
+        2.96,
+        3.12
+      ]
+    },
+    {
+      "text": "flights",
+      "timestamp": [
+        3.12,
+        3.52
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        3.52,
+        3.68
+      ]
+    },
+    {
+      "text": "Miami",
+      "timestamp": [
+        3.68,
+        4.32
+      ]
+    },
+    {
+      "text": "on",
+      "timestamp": [
+        4.32,
+        4.48
+      ]
+    },
+    {
+      "text": "October",
+      "timestamp": [
+        4.48,
+        5.12
+      ]
+    },
+    {
+      "text": "5th.",
+      "timestamp": [
+        5.12,
+        5.92
+      ]
+    },
+    {
+      "text": "Oh,",
+      "timestamp": [
+        6.5600000000000005,
+        6.88
+      ]
+    },
+    {
+      "text": "wait.",
+      "timestamp": [
+        7.04,
+        7.68
+      ]
+    },
+    {
+      "text": "My",
+      "timestamp": [
+        10.56,
+        10.88
+      ]
+    },
+    {
+      "text": "schedule",
+      "timestamp": [
+        10.88,
+        11.6
+      ]
+    },
+    {
+      "text": "just",
+      "timestamp": [
+        11.6,
+        11.84
+      ]
+    },
+    {
+      "text": "changed.",
+      "timestamp": [
+        11.84,
+        12.32
+      ]
+    },
+    {
+      "text": "My",
+      "timestamp": [
+        12.56,
+        12.8
+      ]
+    },
+    {
+      "text": "meeting",
+      "timestamp": [
+        12.8,
+        13.200000000000001
+      ]
+    },
+    {
+      "text": "got",
+      "timestamp": [
+        13.200000000000001,
+        13.44
+      ]
+    },
+    {
+      "text": "moved,",
+      "timestamp": [
+        13.44,
+        13.92
+      ]
+    },
+    {
+      "text": "so",
+      "timestamp": [
+        14.24,
+        14.4
+      ]
+    },
+    {
+      "text": "actually",
+      "timestamp": [
+        14.56,
+        14.8
+      ]
+    },
+    {
+      "text": "make",
+      "timestamp": [
+        14.96,
+        15.120000000000001
+      ]
+    },
+    {
+      "text": "it",
+      "timestamp": [
+        15.120000000000001,
+        15.36
+      ]
+    },
+    {
+      "text": "October",
+      "timestamp": [
+        15.36,
+        15.92
+      ]
+    },
+    {
+      "text": "seventh",
+      "timestamp": [
+        15.92,
+        16.48
+      ]
+    },
+    {
+      "text": "instead.",
+      "timestamp": [
+        16.48,
+        17.12
+      ]
+    }
+  ],
+  "user_speech_end_rel": 7.68,
+  "latency": {
+    "input_duration_s": 47.648,
+    "output_duration_s": 47.648,
+    "first_speech_s": 20.1
+  },
+  "user_done_unix": 1790764995.1111488,
+  "transcript": "Okay, one moment. Search. I found a flight to Miami on October 7th for dollar four hundred fifty.",
+  "asr_chunks": [
+    {
+      "text": "Okay,",
+      "timestamp": [
+        20.080000000000002,
+        20.32
+      ]
+    },
+    {
+      "text": "one",
+      "timestamp": [
+        20.88,
+        21.04
+      ]
+    },
+    {
+      "text": "moment.",
+      "timestamp": [
+        21.28,
+        21.92
+      ]
+    },
+    {
+      "text": "Search.",
+      "timestamp": [
+        22.56,
+        23.04
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        24.96,
+        25.2
+      ]
+    },
+    {
+      "text": "found",
+      "timestamp": [
+        25.2,
+        25.44
+      ]
+    },
+    {
+      "text": "a",
+      "timestamp": [
+        25.44,
+        25.52
+      ]
+    },
+    {
+      "text": "flight",
+      "timestamp": [
+        25.52,
+        25.84
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        25.84,
+        26.0
+      ]
+    },
+    {
+      "text": "Miami",
+      "timestamp": [
+        26.0,
+        26.48
+      ]
+    },
+    {
+      "text": "on",
+      "timestamp": [
+        26.48,
+        26.64
+      ]
+    },
+    {
+      "text": "October",
+      "timestamp": [
+        26.64,
+        27.12
+      ]
+    },
+    {
+      "text": "7th",
+      "timestamp": [
+        27.12,
+        27.36
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        27.44,
+        27.6
+      ]
+    },
+    {
+      "text": "dollar",
+      "timestamp": [
+        27.6,
+        27.84
+      ]
+    },
+    {
+      "text": "four",
+      "timestamp": [
+        27.92,
+        28.080000000000002
+      ]
+    },
+    {
+      "text": "hundred",
+      "timestamp": [
+        28.16,
+        28.400000000000002
+      ]
+    },
+    {
+      "text": "fifty.",
+      "timestamp": [
+        28.48,
+        28.96
+      ]
+    }
+  ],
+  "perceived_total_latency": 12.4,
+  "audio_agent_speech_start": 20.080000000000002,
+  "actual_tool_calls": [
+    {
+      "function": "search_flights",
+      "args": {
+        "destination": "Miami",
+        "date": "October 7"
+      },
+      "timestamp_start": 22.49,
+      "timestamp_end": 23.15
+    }
+  ],
+  "status": "completed"
+}

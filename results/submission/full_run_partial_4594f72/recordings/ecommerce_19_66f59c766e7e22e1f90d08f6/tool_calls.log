@@ -1,0 +1,2 @@
+{"room": "eval-786ee332", "call": {"function": "search_products", "args": {"max_price": null, "query": "tablet"}, "timestamp_start": 1790773151.897003, "timestamp_end": 1790773151.8970265}}
+{"room": "eval-786ee332", "call": {"function": "add_to_cart", "args": {"quantity": 1, "product_id": "PROD1"}, "timestamp_start": 1790773152.9217324, "timestamp_end": 1790773152.9217608}}

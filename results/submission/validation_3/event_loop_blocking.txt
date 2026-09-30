@@ -1,0 +1,29 @@
+travel_10     blocks=5 total_blocked_ms=1710 longest_ms=735
+    t=  -0.7s 735ms threading.py:359 ['__init__.py:create', '__init__.py:get_aggregated_resources', '_base.py:result', 'threading.py:wait']
+    t=  10.2s 369ms ssl.py:708 ['_client.py:_init_transport', 'default.py:__init__', '_config.py:create_ssl_context', 'ssl.py:create_default_context']
+    t=  -0.3s 345ms <frozen abc>:121 ['<frozen abc>:__instancecheck__', '<frozen abc>:__subclasscheck__', '<frozen abc>:__subclasscheck__', '<frozen abc>:__subclasscheck__']
+    t=  10.4s 131ms _sockets.py:29 ['_synchronization.py:__new__', '_eventloop.py:get_async_backend', '__init__.py:import_module', '<frozen importlib._bootstrap_external>:_path_stat']
+ecommerce_05  blocks=5 total_blocked_ms=2269 longest_ms=1263
+    t=  -0.1s 1263ms inspect.py:2238 ['inspect.py:signature', 'inspect.py:from_callable', 'inspect.py:_signature_from_callable', 'inspect.py:_signature_fromstr']
+    t=  82.8s 400ms <string>:0 ['dataclasses.py:wrap', 'dataclasses.py:_process_class', 'dataclasses.py:_cmp_fn', 'dataclasses.py:_create_fn']
+    t=  12.4s 323ms ssl.py:708 ['_client.py:_init_transport', 'default.py:__init__', '_config.py:create_ssl_context', 'ssl.py:create_default_context']
+    t=  10.3s 180ms typing.py:2154 ['_generate_schema.py:_generate_md_field_schema', '_generate_schema.py:_common_field_schema', '_core_metadata.py:update_core_metadata', 'typing.py:cast']
+ecommerce_18  blocks=4 total_blocked_ms=835 longest_ms=330
+    t=  -0.7s 330ms <frozen _collections_abc>:435 ['<frozen abc>:__subclasscheck__', '<frozen abc>:__subclasscheck__', '<frozen abc>:__subclasscheck__', '<frozen _collections_abc>:__subclasshook__']
+    t=  30.8s 200ms _pocketfft.py:101 ['_speaking_rate.py:_spectral_flux', '_speaking_rate.py:_stft', '_pocketfft.py:rfft', '_pocketfft.py:_raw_fft']
+    t=  24.9s 194ms typing.py:428 ['typing.py:get_type_hints', 'typing.py:_eval_type', 'typing.py:_evaluate', 'typing.py:_eval_type']
+    t=  25.1s 111ms _asyncio.py:82 ['_synchronization.py:__new__', '_eventloop.py:get_async_backend', '__init__.py:import_module', '<frozen importlib._bootstrap_external>:_path_stat']
+finance_16    blocks=4 total_blocked_ms=1349 longest_ms=894
+    t=  -0.6s 894ms loop_monitor.py:374 ['dataclasses.py:_asdict_inner', 'dataclasses.py:_asdict_inner', 'dataclasses.py:fields', 'loop_monitor.py:_on_gc']
+    t=  11.1s 178ms typing.py:2230 ['_transform.py:_async_transform_typeddict', '_transform.py:get_type_hints', 'typing_extensions.py:get_type_hints', 'typing.py:get_type_hints']
+    t=   9.2s 163ms core_schema.py:1967 ['_generate_schema.py:match_type', '_generate_schema.py:_match_generic_type', '_generate_schema.py:_dict_schema', 'core_schema.py:dict_schema']
+    t=  77.1s 114ms json_format.py:127 ['job.py:_on_session_end', 'traces.py:_upload_session_report', 'traces.py:_chat_item_span_attribute', 'json_format.py:MessageToDict']
+travel_14     blocks=3 total_blocked_ms=2431 longest_ms=2046
+    t=   1.1s 2046ms typing_extensions.py:3283 ['typing.py:_generic_class_getitem', 'typing.py:__init__', 'typing_extensions.py:_collect_parameters', 'typing_extensions.py:_has_generic_or_protocol_as_origin']
+    t=   1.2s 267ms tokenize.py:378 ['linecache.py:updatecache', 'tokenize.py:open', 'tokenize.py:detect_encoding', 'tokenize.py:read_or_stop']
+    t=   1.6s 118ms _ffi_client.py:295 ['log.py:async_fn_logs', 'vad.py:_main_task', 'audio_resampler.py:__init__', '_ffi_client.py:request']
+housing_01    blocks=4 total_blocked_ms=2256 longest_ms=1364
+    t=   0.5s 1364ms agent_activity.py:1149 ['agent_session.py:_update_activity', 'agent_activity.py:start', 'agent_activity.py:_setup_toolsets', '<frozen importlib._bootstrap_external>:_path_stat']
+    t=  21.4s 393ms ssl.py:708 ['_client.py:_init_transport', 'default.py:__init__', '_config.py:create_ssl_context', 'ssl.py:create_default_context']
+    t=  -1.0s 388ms dataclasses.py:1339 ['access_token.py:to_jwt', 'access_token.py:asdict', 'dataclasses.py:asdict', 'dataclasses.py:_asdict_inner']
+    t=   0.6s 111ms stt.py:393 ['agent.py:stt_node', 'stream_adapter.py:stream', 'stream_adapter.py:__init__', 'stt.py:__init__']

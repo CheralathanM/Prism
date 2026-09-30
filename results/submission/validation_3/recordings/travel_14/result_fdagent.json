@@ -1,0 +1,412 @@
+{
+  "pid": "66c4f3cb14cbfc4db836bd4e",
+  "example_id": "travel_14",
+  "category": "travel_identity",
+  "title": "Hesitation with Date",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T10:53:34.970283",
+  "inference_time_s": 58.29,
+  "room_name": "eval-347141b0",
+  "stream_start_time": 1790765622.1327205,
+  "input_transcript": "Mm, so I want to look at flights to Seoul and the date. Um, I was thinking of it as let me let me think. I'm pretty sure it's March 22nd. Yeah. Yeah, could you search for that?",
+  "input_asr_chunks": [
+    {
+      "text": "Mm,",
+      "timestamp": [
+        0.48,
+        0.88
+      ]
+    },
+    {
+      "text": "so",
+      "timestamp": [
+        1.12,
+        1.2
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        1.28,
+        1.44
+      ]
+    },
+    {
+      "text": "want",
+      "timestamp": [
+        1.6,
+        1.76
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        1.76,
+        1.92
+      ]
+    },
+    {
+      "text": "look",
+      "timestamp": [
+        1.92,
+        2.0
+      ]
+    },
+    {
+      "text": "at",
+      "timestamp": [
+        2.0,
+        2.24
+      ]
+    },
+    {
+      "text": "flights",
+      "timestamp": [
+        2.24,
+        2.64
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        2.64,
+        2.8000000000000003
+      ]
+    },
+    {
+      "text": "Seoul",
+      "timestamp": [
+        2.8000000000000003,
+        3.36
+      ]
+    },
+    {
+      "text": "and",
+      "timestamp": [
+        3.6,
+        3.7600000000000002
+      ]
+    },
+    {
+      "text": "the",
+      "timestamp": [
+        3.7600000000000002,
+        4.0
+      ]
+    },
+    {
+      "text": "date.",
+      "timestamp": [
+        4.0,
+        4.4
+      ]
+    },
+    {
+      "text": "Um,",
+      "timestamp": [
+        4.64,
+        4.8
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        4.96,
+        5.12
+      ]
+    },
+    {
+      "text": "was",
+      "timestamp": [
+        5.12,
+        5.28
+      ]
+    },
+    {
+      "text": "thinking",
+      "timestamp": [
+        5.28,
+        5.5200000000000005
+      ]
+    },
+    {
+      "text": "of",
+      "timestamp": [
+        5.5200000000000005,
+        5.68
+      ]
+    },
+    {
+      "text": "it",
+      "timestamp": [
+        5.68,
+        5.84
+      ]
+    },
+    {
+      "text": "as",
+      "timestamp": [
+        5.92,
+        6.08
+      ]
+    },
+    {
+      "text": "let",
+      "timestamp": [
+        6.16,
+        6.32
+      ]
+    },
+    {
+      "text": "me",
+      "timestamp": [
+        6.32,
+        6.4
+      ]
+    },
+    {
+      "text": "let",
+      "timestamp": [
+        6.48,
+        6.640000000000001
+      ]
+    },
+    {
+      "text": "me",
+      "timestamp": [
+        6.640000000000001,
+        6.72
+      ]
+    },
+    {
+      "text": "think.",
+      "timestamp": [
+        6.72,
+        6.88
+      ]
+    },
+    {
+      "text": "I'm",
+      "timestamp": [
+        7.04,
+        7.2
+      ]
+    },
+    {
+      "text": "pretty",
+      "timestamp": [
+        7.2,
+        7.36
+      ]
+    },
+    {
+      "text": "sure",
+      "timestamp": [
+        7.36,
+        7.5200000000000005
+      ]
+    },
+    {
+      "text": "it's",
+      "timestamp": [
+        7.5200000000000005,
+        7.76
+      ]
+    },
+    {
+      "text": "March",
+      "timestamp": [
+        7.76,
+        8.16
+      ]
+    },
+    {
+      "text": "22nd.",
+      "timestamp": [
+        8.16,
+        8.72
+      ]
+    },
+    {
+      "text": "Yeah.",
+      "timestamp": [
+        8.96,
+        9.040000000000001
+      ]
+    },
+    {
+      "text": "Yeah,",
+      "timestamp": [
+        9.6,
+        9.76
+      ]
+    },
+    {
+      "text": "could",
+      "timestamp": [
+        9.92,
+        10.08
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        10.08,
+        10.24
+      ]
+    },
+    {
+      "text": "search",
+      "timestamp": [
+        10.24,
+        10.72
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        10.72,
+        11.040000000000001
+      ]
+    },
+    {
+      "text": "that?",
+      "timestamp": [
+        11.040000000000001,
+        11.28
+      ]
+    }
+  ],
+  "user_speech_end_rel": 11.28,
+  "latency": {
+    "input_duration_s": 41.541,
+    "output_duration_s": 41.541,
+    "first_speech_s": 37.45
+  },
+  "user_done_unix": 1790765633.4127204,
+  "search_latency_breakdown": {
+    "room": "eval-347141b0",
+    "tool": "Search Tool",
+    "reasoning": 2.243,
+    "execution": 0.395,
+    "synthesis": 12.602,
+    "total": 15.24,
+    "agent_start_at": 1790765660.5137112
+  },
+  "absolute_total_latency": 27.101,
+  "transcript": "I found a flight to Soil on March 22nd for dollar four hundred fifty.",
+  "asr_chunks": [
+    {
+      "text": "I",
+      "timestamp": [
+        37.28,
+        37.52
+      ]
+    },
+    {
+      "text": "found",
+      "timestamp": [
+        37.52,
+        37.76
+      ]
+    },
+    {
+      "text": "a",
+      "timestamp": [
+        37.76,
+        37.84
+      ]
+    },
+    {
+      "text": "flight",
+      "timestamp": [
+        37.84,
+        38.160000000000004
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        38.160000000000004,
+        38.32
+      ]
+    },
+    {
+      "text": "Soil",
+      "timestamp": [
+        38.32,
+        38.64
+      ]
+    },
+    {
+      "text": "on",
+      "timestamp": [
+        38.800000000000004,
+        38.96
+      ]
+    },
+    {
+      "text": "March",
+      "timestamp": [
+        38.96,
+        39.28
+      ]
+    },
+    {
+      "text": "22nd",
+      "timestamp": [
+        39.28,
+        39.92
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        39.92,
+        40.08
+      ]
+    },
+    {
+      "text": "dollar",
+      "timestamp": [
+        40.08,
+        40.32
+      ]
+    },
+    {
+      "text": "four",
+      "timestamp": [
+        40.480000000000004,
+        40.56
+      ]
+    },
+    {
+      "text": "hundred",
+      "timestamp": [
+        40.72,
+        40.88
+      ]
+    },
+    {
+      "text": "fifty.",
+      "timestamp": [
+        40.96,
+        41.12
+      ]
+    }
+  ],
+  "perceived_total_latency": 26.0,
+  "audio_agent_speech_start": 37.28,
+  "actual_tool_calls": [
+    {
+      "function": "search_flights",
+      "args": {
+        "destination": "soil",
+        "date": "March 22"
+      },
+      "timestamp_start": 25.39,
+      "timestamp_end": 25.77
+    }
+  ],
+  "status": "completed"
+}

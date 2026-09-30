@@ -1,0 +1,548 @@
+{
+  "pid": "69a9cf80f4d7668d5c815038",
+  "example_id": "ecommerce_25",
+  "category": "ecommerce_support",
+  "title": "False Start into Complex Chain",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T13:28:16.316823",
+  "inference_time_s": 74.12,
+  "room_name": "eval-17057b6c",
+  "stream_start_time": 1790774903.4456105,
+  "input_transcript": "You know, um, well, can um I return my never mind, uh, forget the return. Let me focus on what I actually need. Track order CAT for me, then search for cat food because I'm running low and add three of whatever you find to my card.",
+  "input_asr_chunks": [
+    {
+      "text": "You",
+      "timestamp": [
+        1.04,
+        1.28
+      ]
+    },
+    {
+      "text": "know,",
+      "timestamp": [
+        1.28,
+        1.52
+      ]
+    },
+    {
+      "text": "um,",
+      "timestamp": [
+        1.68,
+        1.92
+      ]
+    },
+    {
+      "text": "well,",
+      "timestamp": [
+        2.56,
+        2.88
+      ]
+    },
+    {
+      "text": "can",
+      "timestamp": [
+        3.84,
+        4.08
+      ]
+    },
+    {
+      "text": "um",
+      "timestamp": [
+        4.64,
+        4.96
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        5.6000000000000005,
+        5.92
+      ]
+    },
+    {
+      "text": "return",
+      "timestamp": [
+        5.92,
+        6.5600000000000005
+      ]
+    },
+    {
+      "text": "my",
+      "timestamp": [
+        6.640000000000001,
+        6.88
+      ]
+    },
+    {
+      "text": "never",
+      "timestamp": [
+        7.76,
+        7.92
+      ]
+    },
+    {
+      "text": "mind,",
+      "timestamp": [
+        8.08,
+        8.32
+      ]
+    },
+    {
+      "text": "uh,",
+      "timestamp": [
+        8.48,
+        8.64
+      ]
+    },
+    {
+      "text": "forget",
+      "timestamp": [
+        8.8,
+        9.200000000000001
+      ]
+    },
+    {
+      "text": "the",
+      "timestamp": [
+        9.200000000000001,
+        9.44
+      ]
+    },
+    {
+      "text": "return.",
+      "timestamp": [
+        9.44,
+        10.0
+      ]
+    },
+    {
+      "text": "Let",
+      "timestamp": [
+        10.64,
+        10.88
+      ]
+    },
+    {
+      "text": "me",
+      "timestamp": [
+        10.88,
+        11.040000000000001
+      ]
+    },
+    {
+      "text": "focus",
+      "timestamp": [
+        11.040000000000001,
+        11.44
+      ]
+    },
+    {
+      "text": "on",
+      "timestamp": [
+        11.44,
+        11.68
+      ]
+    },
+    {
+      "text": "what",
+      "timestamp": [
+        11.68,
+        12.0
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        12.0,
+        12.32
+      ]
+    },
+    {
+      "text": "actually",
+      "timestamp": [
+        12.32,
+        12.64
+      ]
+    },
+    {
+      "text": "need.",
+      "timestamp": [
+        12.64,
+        12.96
+      ]
+    },
+    {
+      "text": "Track",
+      "timestamp": [
+        13.6,
+        14.08
+      ]
+    },
+    {
+      "text": "order",
+      "timestamp": [
+        14.16,
+        14.56
+      ]
+    },
+    {
+      "text": "CAT",
+      "timestamp": [
+        14.72,
+        15.44
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        15.6,
+        15.92
+      ]
+    },
+    {
+      "text": "me,",
+      "timestamp": [
+        15.92,
+        16.080000000000002
+      ]
+    },
+    {
+      "text": "then",
+      "timestamp": [
+        16.72,
+        16.88
+      ]
+    },
+    {
+      "text": "search",
+      "timestamp": [
+        16.96,
+        17.2
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        17.2,
+        17.36
+      ]
+    },
+    {
+      "text": "cat",
+      "timestamp": [
+        17.36,
+        17.68
+      ]
+    },
+    {
+      "text": "food",
+      "timestamp": [
+        17.76,
+        18.080000000000002
+      ]
+    },
+    {
+      "text": "because",
+      "timestamp": [
+        18.080000000000002,
+        18.32
+      ]
+    },
+    {
+      "text": "I'm",
+      "timestamp": [
+        18.32,
+        18.56
+      ]
+    },
+    {
+      "text": "running",
+      "timestamp": [
+        18.56,
+        18.96
+      ]
+    },
+    {
+      "text": "low",
+      "timestamp": [
+        18.96,
+        19.44
+      ]
+    },
+    {
+      "text": "and",
+      "timestamp": [
+        20.080000000000002,
+        20.400000000000002
+      ]
+    },
+    {
+      "text": "add",
+      "timestamp": [
+        20.400000000000002,
+        20.56
+      ]
+    },
+    {
+      "text": "three",
+      "timestamp": [
+        20.72,
+        20.88
+      ]
+    },
+    {
+      "text": "of",
+      "timestamp": [
+        21.04,
+        21.2
+      ]
+    },
+    {
+      "text": "whatever",
+      "timestamp": [
+        21.2,
+        21.68
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        21.68,
+        22.0
+      ]
+    },
+    {
+      "text": "find",
+      "timestamp": [
+        22.0,
+        22.240000000000002
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        22.240000000000002,
+        22.400000000000002
+      ]
+    },
+    {
+      "text": "my",
+      "timestamp": [
+        22.400000000000002,
+        22.64
+      ]
+    },
+    {
+      "text": "card.",
+      "timestamp": [
+        22.64,
+        23.28
+      ]
+    }
+  ],
+  "user_speech_end_rel": 23.28,
+  "latency": {
+    "input_duration_s": 53.7,
+    "output_duration_s": 53.7,
+    "first_speech_s": 30.4
+  },
+  "user_done_unix": 1790774926.7256105,
+  "search_latency_breakdown": {
+    "room": "eval-17057b6c",
+    "tool": "Search Tool",
+    "reasoning": 6.885,
+    "execution": 0.002,
+    "synthesis": 1.31,
+    "total": 8.196,
+    "agent_start_at": 1790774956.9609025
+  },
+  "absolute_total_latency": 30.235,
+  "transcript": "Okay, one moment. No problem. Let me know what you need help with. I'm checking the status of Order C eighteen now.",
+  "asr_chunks": [
+    {
+      "text": "Okay,",
+      "timestamp": [
+        30.400000000000002,
+        30.64
+      ]
+    },
+    {
+      "text": "one",
+      "timestamp": [
+        31.28,
+        31.44
+      ]
+    },
+    {
+      "text": "moment.",
+      "timestamp": [
+        31.68,
+        32.24
+      ]
+    },
+    {
+      "text": "No",
+      "timestamp": [
+        32.56,
+        32.88
+      ]
+    },
+    {
+      "text": "problem.",
+      "timestamp": [
+        32.88,
+        33.2
+      ]
+    },
+    {
+      "text": "Let",
+      "timestamp": [
+        33.6,
+        33.92
+      ]
+    },
+    {
+      "text": "me",
+      "timestamp": [
+        33.92,
+        34.24
+      ]
+    },
+    {
+      "text": "know",
+      "timestamp": [
+        34.24,
+        34.480000000000004
+      ]
+    },
+    {
+      "text": "what",
+      "timestamp": [
+        35.76,
+        36.0
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        36.160000000000004,
+        36.4
+      ]
+    },
+    {
+      "text": "need",
+      "timestamp": [
+        36.4,
+        36.72
+      ]
+    },
+    {
+      "text": "help",
+      "timestamp": [
+        36.72,
+        37.04
+      ]
+    },
+    {
+      "text": "with.",
+      "timestamp": [
+        37.04,
+        37.36
+      ]
+    },
+    {
+      "text": "I'm",
+      "timestamp": [
+        41.84,
+        42.160000000000004
+      ]
+    },
+    {
+      "text": "checking",
+      "timestamp": [
+        42.160000000000004,
+        42.56
+      ]
+    },
+    {
+      "text": "the",
+      "timestamp": [
+        42.56,
+        42.64
+      ]
+    },
+    {
+      "text": "status",
+      "timestamp": [
+        42.64,
+        42.96
+      ]
+    },
+    {
+      "text": "of",
+      "timestamp": [
+        42.96,
+        43.12
+      ]
+    },
+    {
+      "text": "Order",
+      "timestamp": [
+        43.12,
+        43.52
+      ]
+    },
+    {
+      "text": "C",
+      "timestamp": [
+        43.52,
+        43.76
+      ]
+    },
+    {
+      "text": "eighteen",
+      "timestamp": [
+        43.84,
+        44.160000000000004
+      ]
+    },
+    {
+      "text": "now.",
+      "timestamp": [
+        44.32,
+        44.480000000000004
+      ]
+    }
+  ],
+  "perceived_total_latency": 7.12,
+  "audio_agent_speech_start": 30.400000000000002,
+  "actual_tool_calls": [
+    {
+      "function": "track_order",
+      "args": {
+        "order_id": "CAT"
+      },
+      "timestamp_start": 51.06,
+      "timestamp_end": 51.06
+    },
+    {
+      "function": "search_products",
+      "args": {
+        "max_price": null,
+        "query": "cat food"
+      },
+      "timestamp_start": 51.06,
+      "timestamp_end": 51.06
+    },
+    {
+      "function": "add_to_cart",
+      "args": {
+        "quantity": 3,
+        "product_id": "PROD1"
+      },
+      "timestamp_start": 52.2,
+      "timestamp_end": 52.2
+    }
+  ],
+  "status": "completed"
+}

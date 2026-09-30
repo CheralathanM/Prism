@@ -1,0 +1,373 @@
+{
+  "pid": "61517db6a7589569521b2356",
+  "example_id": "ecommerce_13",
+  "category": "ecommerce_support",
+  "title": "Cart + Track Combo",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T12:22:44.242121",
+  "inference_time_s": 124.72,
+  "room_name": "eval-c66a216b",
+  "stream_start_time": 1790770971.5739906,
+  "input_transcript": "Um so well um well first could you add an uh could you add item K2 to my card, just one of them, and then can you check on my last order two? Uh the order is uh the order ID is D E L I V",
+  "input_asr_chunks": [
+    {
+      "text": "Um",
+      "timestamp": [
+        0.72,
+        1.04
+      ]
+    },
+    {
+      "text": "so",
+      "timestamp": [
+        2.0,
+        2.32
+      ]
+    },
+    {
+      "text": "well",
+      "timestamp": [
+        2.56,
+        2.8000000000000003
+      ]
+    },
+    {
+      "text": "um",
+      "timestamp": [
+        2.96,
+        3.2
+      ]
+    },
+    {
+      "text": "well",
+      "timestamp": [
+        4.48,
+        4.72
+      ]
+    },
+    {
+      "text": "first",
+      "timestamp": [
+        4.96,
+        5.2
+      ]
+    },
+    {
+      "text": "could",
+      "timestamp": [
+        5.44,
+        5.68
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        5.68,
+        5.92
+      ]
+    },
+    {
+      "text": "add",
+      "timestamp": [
+        5.92,
+        6.16
+      ]
+    },
+    {
+      "text": "an",
+      "timestamp": [
+        6.16,
+        6.32
+      ]
+    },
+    {
+      "text": "uh",
+      "timestamp": [
+        6.5600000000000005,
+        6.72
+      ]
+    },
+    {
+      "text": "could",
+      "timestamp": [
+        7.2,
+        7.28
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        7.44,
+        7.76
+      ]
+    },
+    {
+      "text": "add",
+      "timestamp": [
+        7.76,
+        8.08
+      ]
+    },
+    {
+      "text": "item",
+      "timestamp": [
+        8.08,
+        8.72
+      ]
+    },
+    {
+      "text": "K2",
+      "timestamp": [
+        8.72,
+        9.36
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        11.200000000000001,
+        11.44
+      ]
+    },
+    {
+      "text": "my",
+      "timestamp": [
+        11.44,
+        11.68
+      ]
+    },
+    {
+      "text": "card,",
+      "timestamp": [
+        11.68,
+        12.24
+      ]
+    },
+    {
+      "text": "just",
+      "timestamp": [
+        12.56,
+        12.8
+      ]
+    },
+    {
+      "text": "one",
+      "timestamp": [
+        12.8,
+        13.120000000000001
+      ]
+    },
+    {
+      "text": "of",
+      "timestamp": [
+        13.120000000000001,
+        13.36
+      ]
+    },
+    {
+      "text": "them,",
+      "timestamp": [
+        13.36,
+        13.68
+      ]
+    },
+    {
+      "text": "and",
+      "timestamp": [
+        14.0,
+        14.08
+      ]
+    },
+    {
+      "text": "then",
+      "timestamp": [
+        14.08,
+        14.24
+      ]
+    },
+    {
+      "text": "can",
+      "timestamp": [
+        14.32,
+        14.48
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        14.48,
+        14.64
+      ]
+    },
+    {
+      "text": "check",
+      "timestamp": [
+        14.64,
+        14.96
+      ]
+    },
+    {
+      "text": "on",
+      "timestamp": [
+        14.96,
+        15.120000000000001
+      ]
+    },
+    {
+      "text": "my",
+      "timestamp": [
+        15.120000000000001,
+        15.44
+      ]
+    },
+    {
+      "text": "last",
+      "timestamp": [
+        15.44,
+        15.68
+      ]
+    },
+    {
+      "text": "order",
+      "timestamp": [
+        15.68,
+        16.16
+      ]
+    },
+    {
+      "text": "two?",
+      "timestamp": [
+        16.32,
+        16.48
+      ]
+    },
+    {
+      "text": "Uh",
+      "timestamp": [
+        17.28,
+        17.44
+      ]
+    },
+    {
+      "text": "the",
+      "timestamp": [
+        17.6,
+        17.84
+      ]
+    },
+    {
+      "text": "order",
+      "timestamp": [
+        17.84,
+        18.400000000000002
+      ]
+    },
+    {
+      "text": "is",
+      "timestamp": [
+        18.400000000000002,
+        18.72
+      ]
+    },
+    {
+      "text": "uh",
+      "timestamp": [
+        19.12,
+        19.28
+      ]
+    },
+    {
+      "text": "the",
+      "timestamp": [
+        19.36,
+        19.6
+      ]
+    },
+    {
+      "text": "order",
+      "timestamp": [
+        19.6,
+        20.080000000000002
+      ]
+    },
+    {
+      "text": "ID",
+      "timestamp": [
+        20.080000000000002,
+        20.56
+      ]
+    },
+    {
+      "text": "is",
+      "timestamp": [
+        20.72,
+        21.04
+      ]
+    },
+    {
+      "text": "D",
+      "timestamp": [
+        21.04,
+        21.36
+      ]
+    },
+    {
+      "text": "E",
+      "timestamp": [
+        22.0,
+        22.240000000000002
+      ]
+    },
+    {
+      "text": "L",
+      "timestamp": [
+        23.52,
+        23.84
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        24.48,
+        24.72
+      ]
+    },
+    {
+      "text": "V",
+      "timestamp": [
+        25.84,
+        26.080000000000002
+      ]
+    }
+  ],
+  "user_speech_end_rel": 26.080000000000002,
+  "latency": {
+    "input_duration_s": 57.06,
+    "output_duration_s": 57.06,
+    "first_speech_s": 57.06
+  },
+  "user_done_unix": 1790770997.6539905,
+  "transcript": "",
+  "asr_chunks": [],
+  "actual_tool_calls": [
+    {
+      "function": "search_products",
+      "args": {
+        "max_price": null,
+        "query": "K2"
+      },
+      "timestamp_start": 124.13,
+      "timestamp_end": 124.13
+    },
+    {
+      "function": "add_to_cart",
+      "args": {
+        "quantity": 1,
+        "product_id": "PROD1"
+      },
+      "timestamp_start": 127.46,
+      "timestamp_end": 127.46
+    }
+  ],
+  "status": "completed"
+}

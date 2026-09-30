@@ -1,0 +1,2 @@
+{"room": "eval-856f0e38", "call": {"function": "search_products", "args": {"max_price": null, "query": "coffee maker"}, "timestamp_start": 1790772404.9942281, "timestamp_end": 1790772404.9947913}}
+{"room": "eval-856f0e38", "call": {"function": "search_products", "args": {"max_price": 50, "query": "coffee maker"}, "timestamp_start": 1790772404.9989493, "timestamp_end": 1790772404.999051}}

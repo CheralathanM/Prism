@@ -1,0 +1,405 @@
+{
+  "pid": "62a885d5b6af18b3d4579e1b",
+  "example_id": "ecommerce_11",
+  "category": "ecommerce_support",
+  "title": "Quantity Self-Correction",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T12:11:05.954411",
+  "inference_time_s": 50.26,
+  "room_name": "eval-45cb6a01",
+  "stream_start_time": 1790770270.5052826,
+  "input_transcript": "You know, like, we'll go ahead and add the product B7 to my cart. Make it three of them. No, no, wait, that's too many. Uh, just do one for now. I'll order more later if uh if I need to.",
+  "input_asr_chunks": [
+    {
+      "text": "You",
+      "timestamp": [
+        0.48,
+        0.56
+      ]
+    },
+    {
+      "text": "know,",
+      "timestamp": [
+        0.56,
+        0.72
+      ]
+    },
+    {
+      "text": "like,",
+      "timestamp": [
+        0.88,
+        0.96
+      ]
+    },
+    {
+      "text": "we'll",
+      "timestamp": [
+        1.04,
+        1.28
+      ]
+    },
+    {
+      "text": "go",
+      "timestamp": [
+        1.28,
+        1.44
+      ]
+    },
+    {
+      "text": "ahead",
+      "timestamp": [
+        1.44,
+        1.6
+      ]
+    },
+    {
+      "text": "and",
+      "timestamp": [
+        1.6,
+        1.76
+      ]
+    },
+    {
+      "text": "add",
+      "timestamp": [
+        1.76,
+        1.92
+      ]
+    },
+    {
+      "text": "the",
+      "timestamp": [
+        1.92,
+        2.0
+      ]
+    },
+    {
+      "text": "product",
+      "timestamp": [
+        2.0,
+        2.32
+      ]
+    },
+    {
+      "text": "B7",
+      "timestamp": [
+        2.32,
+        2.64
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        2.88,
+        2.96
+      ]
+    },
+    {
+      "text": "my",
+      "timestamp": [
+        2.96,
+        3.12
+      ]
+    },
+    {
+      "text": "cart.",
+      "timestamp": [
+        3.12,
+        3.36
+      ]
+    },
+    {
+      "text": "Make",
+      "timestamp": [
+        3.52,
+        3.84
+      ]
+    },
+    {
+      "text": "it",
+      "timestamp": [
+        3.84,
+        4.16
+      ]
+    },
+    {
+      "text": "three",
+      "timestamp": [
+        4.16,
+        4.4
+      ]
+    },
+    {
+      "text": "of",
+      "timestamp": [
+        4.4,
+        4.5600000000000005
+      ]
+    },
+    {
+      "text": "them.",
+      "timestamp": [
+        4.5600000000000005,
+        4.64
+      ]
+    },
+    {
+      "text": "No,",
+      "timestamp": [
+        4.88,
+        5.04
+      ]
+    },
+    {
+      "text": "no,",
+      "timestamp": [
+        5.12,
+        5.28
+      ]
+    },
+    {
+      "text": "wait,",
+      "timestamp": [
+        5.36,
+        5.5200000000000005
+      ]
+    },
+    {
+      "text": "that's",
+      "timestamp": [
+        5.6000000000000005,
+        5.84
+      ]
+    },
+    {
+      "text": "too",
+      "timestamp": [
+        5.84,
+        6.0
+      ]
+    },
+    {
+      "text": "many.",
+      "timestamp": [
+        6.0,
+        6.16
+      ]
+    },
+    {
+      "text": "Uh,",
+      "timestamp": [
+        6.48,
+        6.5600000000000005
+      ]
+    },
+    {
+      "text": "just",
+      "timestamp": [
+        6.72,
+        6.8
+      ]
+    },
+    {
+      "text": "do",
+      "timestamp": [
+        6.88,
+        7.12
+      ]
+    },
+    {
+      "text": "one",
+      "timestamp": [
+        7.12,
+        7.36
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        7.36,
+        7.5200000000000005
+      ]
+    },
+    {
+      "text": "now.",
+      "timestamp": [
+        7.5200000000000005,
+        7.6000000000000005
+      ]
+    },
+    {
+      "text": "I'll",
+      "timestamp": [
+        7.84,
+        8.08
+      ]
+    },
+    {
+      "text": "order",
+      "timestamp": [
+        8.08,
+        8.32
+      ]
+    },
+    {
+      "text": "more",
+      "timestamp": [
+        8.32,
+        8.56
+      ]
+    },
+    {
+      "text": "later",
+      "timestamp": [
+        8.56,
+        8.8
+      ]
+    },
+    {
+      "text": "if",
+      "timestamp": [
+        8.88,
+        8.96
+      ]
+    },
+    {
+      "text": "uh",
+      "timestamp": [
+        9.040000000000001,
+        9.28
+      ]
+    },
+    {
+      "text": "if",
+      "timestamp": [
+        9.44,
+        9.68
+      ]
+    },
+    {
+      "text": "I",
+      "timestamp": [
+        9.68,
+        9.92
+      ]
+    },
+    {
+      "text": "need",
+      "timestamp": [
+        9.92,
+        10.24
+      ]
+    },
+    {
+      "text": "to.",
+      "timestamp": [
+        10.24,
+        10.48
+      ]
+    }
+  ],
+  "user_speech_end_rel": 10.48,
+  "latency": {
+    "input_duration_s": 40.68,
+    "output_duration_s": 40.68,
+    "first_speech_s": 23.9
+  },
+  "user_done_unix": 1790770280.9852827,
+  "search_latency_breakdown": {
+    "room": "eval-45cb6a01",
+    "tool": "Search Tool",
+    "reasoning": 1.8,
+    "execution": 0.006,
+    "synthesis": 0.862,
+    "total": 2.668,
+    "agent_start_at": 1790770292.9761126
+  },
+  "absolute_total_latency": 11.991,
+  "transcript": "I've added one of product B seven to your cart.",
+  "asr_chunks": [
+    {
+      "text": "I've",
+      "timestamp": [
+        23.76,
+        24.080000000000002
+      ]
+    },
+    {
+      "text": "added",
+      "timestamp": [
+        24.080000000000002,
+        24.32
+      ]
+    },
+    {
+      "text": "one",
+      "timestamp": [
+        24.32,
+        24.48
+      ]
+    },
+    {
+      "text": "of",
+      "timestamp": [
+        24.560000000000002,
+        24.72
+      ]
+    },
+    {
+      "text": "product",
+      "timestamp": [
+        24.72,
+        25.04
+      ]
+    },
+    {
+      "text": "B",
+      "timestamp": [
+        25.2,
+        25.36
+      ]
+    },
+    {
+      "text": "seven",
+      "timestamp": [
+        25.36,
+        25.6
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        25.68,
+        25.84
+      ]
+    },
+    {
+      "text": "your",
+      "timestamp": [
+        25.84,
+        26.0
+      ]
+    },
+    {
+      "text": "cart.",
+      "timestamp": [
+        26.0,
+        26.48
+      ]
+    }
+  ],
+  "perceived_total_latency": 13.28,
+  "audio_agent_speech_start": 23.76,
+  "actual_tool_calls": [
+    {
+      "function": "add_to_cart",
+      "args": {
+        "quantity": 1,
+        "product_id": "b7"
+      },
+      "timestamp_start": 21.6,
+      "timestamp_end": 21.6
+    }
+  ],
+  "status": "completed"
+}

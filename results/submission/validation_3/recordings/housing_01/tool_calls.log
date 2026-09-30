@@ -1,0 +1,1 @@
+{"room": "eval-2b29ab75", "call": {"function": "search_apartments", "args": {"city": "Seattle", "bedrooms": 2, "max_price": 2500}, "timestamp_start": 1790765858.8255017, "timestamp_end": 1790765859.3407798}}

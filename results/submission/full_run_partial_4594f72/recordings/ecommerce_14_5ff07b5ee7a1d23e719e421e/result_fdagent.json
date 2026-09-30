@@ -1,0 +1,10 @@
+{
+  "pid": "5ff07b5ee7a1d23e719e421e",
+  "example_id": "ecommerce_14",
+  "category": "ecommerce_support",
+  "title": "Filler-Heavy Cart Addition",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T12:28:51.947626",
+  "inference_time_s": 70.26,
+  "status": "inference_failed"
+}

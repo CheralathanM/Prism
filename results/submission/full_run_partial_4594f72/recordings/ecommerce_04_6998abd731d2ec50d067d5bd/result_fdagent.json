@@ -1,0 +1,10 @@
+{
+  "pid": "6998abd731d2ec50d067d5bd",
+  "example_id": "ecommerce_04",
+  "category": "ecommerce_support",
+  "title": "Order Tracking with Pause",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T11:41:40.832047",
+  "inference_time_s": 58.42,
+  "status": "inference_failed"
+}

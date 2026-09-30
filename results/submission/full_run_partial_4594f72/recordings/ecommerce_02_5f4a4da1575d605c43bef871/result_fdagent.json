@@ -1,0 +1,200 @@
+{
+  "pid": "5f4a4da1575d605c43bef871",
+  "example_id": "ecommerce_02",
+  "category": "ecommerce_support",
+  "title": "Simple Product Search",
+  "provider": "fdagent",
+  "evaluated_at": "2026-09-30T11:20:06.959286",
+  "inference_time_s": 1112.67,
+  "room_name": "eval-7bfb657b",
+  "stream_start_time": 1790767212.810254,
+  "input_transcript": "I'm looking for a pair of wireless headphones and I'd like um to track it under a hundred dollars if possible. What do you have?",
+  "input_asr_chunks": [
+    {
+      "text": "I'm",
+      "timestamp": [
+        2.88,
+        3.2
+      ]
+    },
+    {
+      "text": "looking",
+      "timestamp": [
+        3.2,
+        3.44
+      ]
+    },
+    {
+      "text": "for",
+      "timestamp": [
+        3.44,
+        3.6
+      ]
+    },
+    {
+      "text": "a",
+      "timestamp": [
+        3.6,
+        3.7600000000000002
+      ]
+    },
+    {
+      "text": "pair",
+      "timestamp": [
+        3.7600000000000002,
+        3.92
+      ]
+    },
+    {
+      "text": "of",
+      "timestamp": [
+        3.92,
+        4.08
+      ]
+    },
+    {
+      "text": "wireless",
+      "timestamp": [
+        4.08,
+        4.72
+      ]
+    },
+    {
+      "text": "headphones",
+      "timestamp": [
+        4.72,
+        5.68
+      ]
+    },
+    {
+      "text": "and",
+      "timestamp": [
+        6.0,
+        6.32
+      ]
+    },
+    {
+      "text": "I'd",
+      "timestamp": [
+        6.32,
+        7.04
+      ]
+    },
+    {
+      "text": "like",
+      "timestamp": [
+        7.04,
+        7.2
+      ]
+    },
+    {
+      "text": "um",
+      "timestamp": [
+        7.36,
+        7.68
+      ]
+    },
+    {
+      "text": "to",
+      "timestamp": [
+        7.84,
+        8.16
+      ]
+    },
+    {
+      "text": "track",
+      "timestamp": [
+        8.16,
+        8.64
+      ]
+    },
+    {
+      "text": "it",
+      "timestamp": [
+        8.64,
+        8.88
+      ]
+    },
+    {
+      "text": "under",
+      "timestamp": [
+        8.88,
+        9.200000000000001
+      ]
+    },
+    {
+      "text": "a",
+      "timestamp": [
+        9.200000000000001,
+        9.36
+      ]
+    },
+    {
+      "text": "hundred",
+      "timestamp": [
+        9.36,
+        9.68
+      ]
+    },
+    {
+      "text": "dollars",
+      "timestamp": [
+        9.68,
+        10.08
+      ]
+    },
+    {
+      "text": "if",
+      "timestamp": [
+        10.16,
+        10.4
+      ]
+    },
+    {
+      "text": "possible.",
+      "timestamp": [
+        10.4,
+        11.120000000000001
+      ]
+    },
+    {
+      "text": "What",
+      "timestamp": [
+        11.44,
+        11.76
+      ]
+    },
+    {
+      "text": "do",
+      "timestamp": [
+        11.76,
+        12.08
+      ]
+    },
+    {
+      "text": "you",
+      "timestamp": [
+        12.08,
+        12.4
+      ]
+    },
+    {
+      "text": "have?",
+      "timestamp": [
+        12.4,
+        12.56
+      ]
+    }
+  ],
+  "user_speech_end_rel": 12.56,
+  "latency": {
+    "input_duration_s": 43.336,
+    "output_duration_s": 43.336,
+    "first_speech_s": 43.336
+  },
+  "user_done_unix": 1790767225.370254,
+  "transcript": "",
+  "asr_chunks": [],
+  "actual_tool_calls": [],
+  "status": "completed"
+}

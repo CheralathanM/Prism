@@ -1,0 +1,2 @@
+{"room": "eval-8efa35e8", "call": {"function": "search_products", "args": {"max_price": 50, "query": "coffee maker"}, "timestamp_start": 1790773420.738772, "timestamp_end": 1790773420.7388053}}
+{"room": "eval-8efa35e8", "call": {"function": "add_to_cart", "args": {"quantity": 2, "product_id": "PROD1"}, "timestamp_start": 1790773442.8726637, "timestamp_end": 1790773442.872723}}

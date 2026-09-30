@@ -1,0 +1,71 @@
+[LOCAL CPU-ONLY HARNESS WORKAROUND] active for run_tool_benchmark.py (torch 2.14.0+cpu, cuda_available=False)
+🤖 Provider: fdagent
+📋 Loaded 100 scenarios
+📁 Found 100 input.wav files
+   Filtered to PID=6998abd731d2ec50d067d5bd: 7
+   Filtered to example=ecommerce_04: 1
+🔊 Loading ASR model...
+OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+No exporters were provided. This means that no telemetry data will be collected.
+[NeMo I 2026-09-30 11:40:57 mixins:194] Tokenizer SentencePieceTokenizer initialized with 1024 tokens
+[NeMo W 2026-09-30 11:41:01 modelPT:175] If you intend to do training or fine-tuning, please call the ModelPT.setup_training_data() method and provide a valid configuration file to setup the train data loader.
+    Train config : 
+    use_lhotse: true
+    skip_missing_manifest_entries: true
+    input_cfg: null
+    tarred_audio_filepaths: null
+    manifest_filepath: null
+    sample_rate: 16000
+    shuffle: true
+    num_workers: 2
+    pin_memory: true
+    max_duration: 40.0
+    min_duration: 0.1
+    text_field: answer
+    batch_duration: null
+    use_bucketing: true
+    bucket_duration_bins: null
+    bucket_batch_size: null
+    num_buckets: 30
+    bucket_buffer_size: 20000
+    shuffle_buffer_size: 10000
+    
+[NeMo W 2026-09-30 11:41:01 modelPT:182] If you intend to do validation, please call the ModelPT.setup_validation_data() or ModelPT.setup_multiple_validation_data() method and provide a valid configuration file to setup the validation data loader(s). 
+    Validation config : 
+    use_lhotse: true
+    manifest_filepath: null
+    sample_rate: 16000
+    batch_size: 16
+    shuffle: false
+    max_duration: 40.0
+    min_duration: 0.1
+    num_workers: 2
+    pin_memory: true
+    text_field: answer
+    
+[NeMo I 2026-09-30 11:41:21 rnnt_models:226] Using RNNT Loss : tdt
+    Loss tdt_kwargs: {'fastemit_lambda': 0.0, 'clamp': -1.0, 'durations': [0, 1, 2, 3, 4], 'sigma': 0.02, 'omega': 0.1}
+[NeMo I 2026-09-30 11:41:21 rnnt_models:226] Using RNNT Loss : tdt
+    Loss tdt_kwargs: {'fastemit_lambda': 0.0, 'clamp': -1.0, 'durations': [0, 1, 2, 3, 4], 'sigma': 0.02, 'omega': 0.1}
+[NeMo W 2026-09-30 11:41:21 label_looping_base:143] No conditional node support for Cuda.
+    Cuda graphs with while loops are disabled, decoding speed will be slower
+    Reason: CUDA is not available
+[NeMo I 2026-09-30 11:41:21 rnnt_models:226] Using RNNT Loss : tdt
+    Loss tdt_kwargs: {'fastemit_lambda': 0.0, 'clamp': -1.0, 'durations': [0, 1, 2, 3, 4], 'sigma': 0.02, 'omega': 0.1}
+[NeMo W 2026-09-30 11:41:21 label_looping_base:143] No conditional node support for Cuda.
+    Cuda graphs with while loops are disabled, decoding speed will be slower
+    Reason: CUDA is not available
+[NeMo I 2026-09-30 11:41:40 save_restore_connector:287] Model EncDecRNNTBPEModel was successfully restored from /home/chera/.cache/huggingface/hub/models--nvidia--parakeet-tdt-0.6b-v2/snapshots/ae9ad07059c7c739ffaf932226a8fe64ae2620b0/parakeet-tdt-0.6b-v2.nemo.
+[LOCAL CPU-ONLY HARNESS WORKAROUND] CUDA unavailable: EncDecRNNTBPEModel.cuda() skipped; model stays on CPU
+✅ ASR model loaded
+
+============================================================
+📂 PID=6998abd7... / example_ecommerce_04 [ecommerce_support]
+  🚀 Running LiveKit inference with provider=fdagent...
+  🔗 Streaming via livekit_inference.py into room: eval-d5637196
+  ❌ livekit_inference.py failed with exit code -6
+
+============================================================
+📊 Evaluation Summary (fdagent)
+   Completed: 0, Failed: 1, Skipped: 0
+   📄 Summary saved: /mnt/c/Users/chera/Downloads/Samsung Prism/third_party/Full-Duplex-Bench/v3/fdb_v3_data_released/evaluation_summary_fdagent.json
