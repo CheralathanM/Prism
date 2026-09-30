@@ -59,6 +59,8 @@ class AgentSettings:
     gemini_reasoning_effort: str = DEFAULT_REASONING_EFFORT
     gemini_tts_model: str = DEFAULT_GEMINI_TTS_MODEL
     gemini_voice: str = DEFAULT_GEMINI_VOICE
+    tts_streaming: bool = True
+    tts_prebuffer_ms: int = 200
     whisper_model: str = DEFAULT_WHISPER_MODEL
     # openai stack (optional)
     reasoner_model: str = DEFAULT_MODEL
@@ -85,6 +87,8 @@ class AgentSettings:
             gemini_reasoning_effort=env.get("FDAGENT_GEMINI_REASONING_EFFORT", d.gemini_reasoning_effort),
             gemini_tts_model=env.get("FDAGENT_GEMINI_TTS_MODEL", d.gemini_tts_model),
             gemini_voice=env.get("FDAGENT_GEMINI_VOICE", d.gemini_voice),
+            tts_streaming=env.get("FDAGENT_TTS_STREAMING", "1") not in ("0", "false", "False"),
+            tts_prebuffer_ms=int(env.get("FDAGENT_TTS_PREBUFFER_MS", d.tts_prebuffer_ms)),
             whisper_model=env.get("FDAGENT_WHISPER_MODEL", d.whisper_model),
             reasoner_model=env.get("FDAGENT_REASONER_MODEL", d.reasoner_model),
             stt_model=env.get("FDAGENT_STT_MODEL", d.stt_model),
@@ -195,12 +199,17 @@ def build_stack(settings: AgentSettings, journal: Journal, prewarmed: Prewarmed,
         from fdagent.voice.local_whisper import LocalWhisperSTT
         from fdagent.voice.speech_sink import PrerenderedSpeechSink
 
+        def attempt(a: dict[str, Any]) -> None:  # per-HTTP-attempt planner status/retries
+            journal.annotate(name="planner_attempt", t=time.monotonic(), wall=time.time(), **a)
+
         reasoner = GeminiReasoner(FDB_TOOL_SPECS, model=settings.gemini_planner_model,
-                                  reasoning_effort=settings.gemini_reasoning_effort, on_warning=warn)
+                                  reasoning_effort=settings.gemini_reasoning_effort, on_warning=warn,
+                                  on_attempt=attempt)
         whisper = LocalWhisperSTT(transcriber=prewarmed.whisper)  # lightweight per-room wrapper
-        # No TTS plugin: speech is pre-rendered by Gemini TTS and played via session.say(audio=...).
+        # No TTS plugin: speech comes from Gemini TTS (streamed) and plays via session.say(audio=...).
         session = session_factory(vad=prewarmed.vad, stt=whisper, **session_kw)
-        sink = PrerenderedSpeechSink(session, GeminiTTS(model=settings.gemini_tts_model, voice=settings.gemini_voice))
+        sink = PrerenderedSpeechSink(session, GeminiTTS(model=settings.gemini_tts_model, voice=settings.gemini_voice),
+                                     streaming=settings.tts_streaming, prebuffer_ms=settings.tts_prebuffer_ms)
         return reasoner, session, sink
 
     from livekit.plugins import openai
@@ -251,6 +260,10 @@ async def entrypoint(ctx: agents.JobContext) -> None:
     bridge = IngressBridge(runtime.post, on_final=heartbeat.on_user_final)
     session.on("user_state_changed", lambda ev: bridge.on_user_state(ev.new_state))
     session.on("user_input_transcribed", lambda ev: bridge.on_transcript(ev.transcript, ev.is_final))
+    # Observability only: when LiveKit actually starts/stops playing audio, and TTS first-audio marks.
+    session.on("agent_state_changed", lambda ev: runtime.mark(name="agent_state", state=ev.new_state))
+    if hasattr(sink, "observer"):
+        sink.observer = runtime.mark
 
     await runtime.start()
     ctx.add_shutdown_callback(runtime.aclose)

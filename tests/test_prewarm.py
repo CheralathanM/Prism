@@ -127,7 +127,7 @@ def test_room_entrypoint_performs_no_cold_model_loading(monkeypatch, tmp_path):
     asyncio.run(main())
     [(session, room, agent)] = started
     assert session.kw["vad"] is pw.vad and session.kw["stt"]._transcriber is pw.whisper
-    assert set(session.handlers) == {"user_state_changed", "user_input_transcribed"}
+    assert set(session.handlers) == {"user_state_changed", "user_input_transcribed", "agent_state_changed"}
     assert room is ctx.room and isinstance(agent, la.KernelDrivenAgent)
     assert pw.whisper.loads == 0
     names = [r.get("name") for r in Journal.load(tmp_path / "eval-prewarm1.jsonl") if r["kind"] == "note"]
