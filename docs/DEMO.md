@@ -12,6 +12,12 @@ python -m fdagent.extensions.incar.ui        # then open http://127.0.0.1:8765 (
 ```
 
 Tick **Voice** if you want the agent's lines spoken aloud; the browser voices them locally.
+
+**Speaking instead of clicking (🎤 Mic, Chrome or Edge):** click **🎤 Mic off**, allow the microphone,
+and say "Take me to the museum". While the agent is answering, say "Actually, go to the harbour
+instead". Wear **headphones** if Voice is on, otherwise the mic picks up the agent's voice and
+interrupts it. If the page shows an error after clicking Mic, restart the UI server so it has the
+latest code.
 Do one dry run first (**Run demo**), then press **Reset session**.
 
 ## 1. Recommended 3–5 minute sequence

@@ -66,3 +66,33 @@ def test_ui_runs_interruption_demo_and_replays_identically(tmp_path):
     # Journal replay: kernel decisions identical, and the view re-renders the same events.
     assert replayed["ok"] and replayed["identical"] and replayed["steps"] > 0
     assert _strip(after) == _strip(live)
+
+
+async def _mic_flow(tmp_path):
+    """Microphone path: speech onset is posted first, the final text later (started=True)."""
+    demo = DemoApp(journal_dir=tmp_path, route_delay_s=1.5, speech_cps=10.0)
+    async with TestClient(TestServer(demo.make_app())) as client:
+        await client.post("/api/speech_start")
+        await client.post("/api/say", json={"text": "Take me to the museum, please.", "started": True})
+        for _ in range(200):
+            if demo.session.kernel.state.agent_speaking:
+                break
+            await asyncio.sleep(0.02)
+        await client.post("/api/speech_start")          # driver talks over the agent
+        await asyncio.sleep(0.3)
+        await client.post("/api/say", json={"text": "Actually, go to the harbour instead.", "started": True})
+        for _ in range(400):
+            if demo.session.view.state == "Completed" and not demo.session.view.inflight:
+                break
+            await asyncio.sleep(0.02)
+        history = await (await client.get("/api/history")).json()
+        return demo.session.backend.navigation_log, history
+
+
+def test_ui_microphone_path_barges_in_and_navigates_once(tmp_path):
+    nav, history = asyncio.run(_mic_flow(tmp_path))
+    assert nav == ["harbour"]
+    steps = [e["step"] for e in history if e["type"] == "interrupt"]
+    assert "barge_in" in steps and "superseded" in steps
+    assert [e["text"] for e in history if e["type"] == "user"] == [
+        "Take me to the museum, please.", "Actually, go to the harbour instead."]

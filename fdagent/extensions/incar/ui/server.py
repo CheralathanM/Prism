@@ -109,8 +109,13 @@ class DemoSession:
             await self.runtime.aclose()
             self.journal.close()
 
-    def say(self, text: str) -> None:
+    def speech_started(self) -> None:
         self.runtime.post(UserSpeechStarted())
+
+    def say(self, text: str, started: bool = False) -> None:
+        """One driver utterance. ``started`` = the microphone already reported speech onset."""
+        if not started:
+            self.runtime.post(UserSpeechStarted())
         self.runtime.post(UserTranscript(text))
         self.runtime.post(UserTurnEnded())
 
@@ -258,7 +263,16 @@ class DemoApp:
             return web.json_response({"ok": False, "error": "empty"}, status=400)
         if self.session is None or not self.session.running:
             await self.new_session()
-        self.session.say(text)
+        self.session.say(text, started=bool(body.get("started")))
+        return web.json_response({"ok": True})
+
+    async def speech_start(self, request: web.Request) -> web.Response:
+        """Microphone heard the driver start talking (lets a spoken interruption barge in at once)."""
+        if self.busy:
+            return web.json_response({"ok": False, "error": f"{self.busy} in progress"}, status=409)
+        if self.session is None or not self.session.running:
+            await self.new_session()
+        self.session.speech_started()
         return web.json_response({"ok": True})
 
     async def reset(self, request: web.Request) -> web.Response:
@@ -289,6 +303,7 @@ class DemoApp:
         app.add_routes([
             web.get("/", self.index), web.get("/api/events", self.events), web.get("/api/history", self.history),
             web.get("/api/status", self.status), web.post("/api/run", self.run), web.post("/api/say", self.say),
+            web.post("/api/speech_start", self.speech_start),
             web.post("/api/reset", self.reset), web.post("/api/replay", self.replay),
         ])
         app.on_cleanup.append(self.on_cleanup)
