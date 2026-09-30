@@ -28,8 +28,8 @@ DEFAULT_FDB_V3_DIR = REPO_ROOT / "third_party" / "Full-Duplex-Bench" / "v3"
 DEFAULT_TOOL_LOG = "/tmp/agent_tool_calls.log"
 
 
-def _s(name: str, desc: str, required: bool = True) -> ToolParam:
-    return ToolParam(name, "string", required, desc)
+def _s(name: str, desc: str, required: bool = True, fmt: str = "") -> ToolParam:
+    return ToolParam(name, "string", required, desc, fmt)
 
 
 def _n(name: str, desc: str, required: bool = True, integer: bool = False) -> ToolParam:
@@ -40,7 +40,7 @@ FDB_TOOL_SPECS: tuple[ToolSpec, ...] = (
     # Travel & identity
     ToolSpec("search_flights", "Search available flights to a destination on a date.",
              (_s("destination", "City or airport, e.g. 'London' or 'LHR'"),
-              _s("date", "Travel date as spoken or ISO, e.g. 'August 20' or '2026-08-20'"))),
+              _s("date", "Travel date as spoken or ISO, e.g. 'August 20' or '2026-08-20'", fmt="date"))),
     ToolSpec("book_flight", "Book a flight ticket for a passenger.",
              (_s("passenger_name", "Full name of the passenger"),), state_changing=True),
     ToolSpec("update_identity_doc", "Update the user's identity document on file (simulated).",

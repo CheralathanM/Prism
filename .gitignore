@@ -16,3 +16,5 @@ results/**/audio/
 # Per-room journals from local runs (curated runs go under results/<run_id>/)
 results/journals/
 
+# Local smoke-test artifacts (may contain service URLs in logs; never commit)
+results/local_smoke/

@@ -26,6 +26,7 @@ import os
 import re
 from typing import Any, Callable, Iterable
 
+from fdagent.adapters.arg_normalization import normalize_args
 from fdagent.adapters.tool_protocol import to_openai_tool
 from fdagent.core.actions import RequestReasoning
 from fdagent.core.events import ProposedCall
@@ -146,7 +147,9 @@ def coerce_args(spec: ToolSpec, args: dict[str, Any]) -> tuple[dict[str, Any], l
             else:
                 warnings.append(f"{spec.name}: could not read '{k}'={v!r} as a boolean")
         out[k] = v
-    return out, warnings
+    # Deterministic, format-aware canonicalization (e.g. spoken dates) so identical intents
+    # produce identical desired-call keys; unparseable values are left for the kernel's gate.
+    return normalize_args(spec, out), warnings
 
 
 # ── prompt / parsing ────────────────────────────────────────────────────────

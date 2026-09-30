@@ -15,6 +15,8 @@ class ToolParam:
     type: str  # "string" | "number" | "integer" | "boolean"
     required: bool = True
     description: str = ""
+    # Optional semantic format for deterministic argument normalization (e.g. "date").
+    format: str = ""
 
 
 @dataclass(frozen=True)
