@@ -96,3 +96,17 @@ def test_ui_microphone_path_barges_in_and_navigates_once(tmp_path):
     assert "barge_in" in steps and "superseded" in steps
     assert [e["text"] for e in history if e["type"] == "user"] == [
         "Take me to the museum, please.", "Actually, go to the harbour instead."]
+
+
+def test_scripted_planner_asks_again_when_destination_not_understood():
+    from types import SimpleNamespace
+
+    from fdagent.extensions.incar.demo import ScriptedCarPlanner
+
+    conv = [{"role": "user", "text": "Take me to the museum"},
+            {"role": "agent", "text": "Okay, planning a route to the museum.", "kind": "progress"},
+            {"role": "user", "text": "No, take me to the thunder"}]          # misheard destination
+    req = SimpleNamespace(snapshot={"conversation": conv, "calls": []})
+    draft = asyncio.run(ScriptedCarPlanner().propose(req))
+    assert draft.reply_kind == "clarify" and "didn't catch" in draft.reply
+    assert [c.args for c in draft.calls][0] == {"destination": "museum"}   # plan kept, nothing cancelled

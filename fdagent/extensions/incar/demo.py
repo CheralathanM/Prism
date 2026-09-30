@@ -48,6 +48,12 @@ class ScriptedCarPlanner:
         dest = max(hits)[1]
         calls = (ProposedCall("plan_route", {"destination": dest}),
                  ProposedCall("start_navigation", {"route_id": {"$ref": [0, "route_id"]}}, depends_on=(0,)))
+        last = snap["conversation"][-1] if snap["conversation"] else None
+        if last and last["role"] == "user" and not any(p in last["text"].lower() for p in PLACES):
+            # The driver just said something without a destination we know (e.g. a misheard name):
+            # keep the current plan untouched and ask, rather than silently repeating the old one.
+            return Draft(calls, reply="Sorry, I didn't catch a destination. I can go to the "
+                         + ", ".join(PLACES[:-1]) + " or " + PLACES[-1] + ".", reply_kind="clarify")
         state = {c["tool"]: c for c in snap["calls"]}
         nav = state.get("start_navigation")
         if nav and nav["status"] == "succeeded" and nav["result"].get("navigating_to") == dest:

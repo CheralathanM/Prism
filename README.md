@@ -172,8 +172,8 @@ Controls:
 - **Voice** reads agent lines aloud with the browser's built-in speech synthesis and stops
   immediately on interruption.
 
-Session journals go to `results/ui_journals/` (gitignored). By default the museum route has a
-5 s mock latency (`--route-delay`), which leaves time to interrupt by hand.
+Session journals go to `results/ui_journals/` (gitignored). By default the museum route has an
+8 s mock latency (`--route-delay`), which leaves time to interrupt by hand.
 
 ## Tests
 
@@ -182,7 +182,7 @@ python -m pytest -q                                            # unit, race, ada
 FDAGENT_RUN_STT_REGRESSION=1 python -m pytest -q tests/test_stt_regression.py   # needs local models
 ```
 
-Current: 174 passed, 2 skipped (Windows). `tests/test_integrity.py` fails if benchmark scenario IDs or expected argument values appear in agent
+Current: 175 passed, 2 skipped (Windows). `tests/test_integrity.py` fails if benchmark scenario IDs or expected argument values appear in agent
 code or tests.
 
 ## Known limitations

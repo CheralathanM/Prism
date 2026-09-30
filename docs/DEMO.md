@@ -18,6 +18,9 @@ and say "Take me to the museum". While the agent is answering, say "Actually, go
 instead". Wear **headphones** if Voice is on, otherwise the mic picks up the agent's voice and
 interrupts it. If the page shows an error after clicking Mic, restart the UI server so it has the
 latest code.
+Interrupt **while the first route is still being planned** (within ~8 s). If recognition mishears
+the destination, the agent says it didn't catch it and keeps the current plan; just repeat it.
+"Library" is recognized more reliably than "harbour" if your accent gives trouble.
 Do one dry run first (**Run demo**), then press **Reset session**.
 
 ## 1. Recommended 3–5 minute sequence
@@ -26,7 +29,7 @@ Do one dry run first (**Run demo**), then press **Reset session**.
 |---|---|---|
 | 0:00–0:40 | Architecture slide (deck slide 3), then the UI | "Every model and tool runs asynchronously, but one deterministic kernel is the only thing allowed to change state. This page is just a live view of that kernel's journal." Point at the four areas. |
 | 0:40–1:00 | **Say: “Take me to the museum”** | Agent state goes **Planning**, then **Speaking**. The tool log shows `plan_route(destination="museum") → dispatched`, plus a gate hold on `start_navigation` (waiting for its dependency). |
-| 1:00–1:15 | Let the agent start "Okay, planning a route to the museum." | The museum route is slow (5 s mock latency), so it is still running. |
+| 1:00–1:15 | Let the agent start "Okay, planning a route to the museum." | The museum route is slow (8 s mock latency), so it is still running. |
 | 1:15–1:30 | **Interrupt: “Actually, go to the harbour instead”** while it is speaking | The state flips to **Interrupted** and the agent's line is struck through as INTERRUPTED. The interruption panel turns red. |
 | 1:30–2:00 | Interruption panel | Read the steps: speech stopped → new intent admitted (generation, correction cue "actually") → previous response cancelled → **old action superseded**. |
 | 2:00–2:30 | Tool log | `plan_route(museum)`: superseded, cancel requested. `plan_route(harbour)`: completed. `start_navigation(route_id="R-harbour")`: navigation started. A few seconds later the museum route finishes anyway and shows **late result rejected**; it is never applied. |

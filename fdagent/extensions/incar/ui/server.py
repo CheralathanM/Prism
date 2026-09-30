@@ -146,7 +146,7 @@ async def _until(pred, timeout: float) -> bool:
 
 class DemoApp:
     def __init__(self, journal_dir: Path = DEFAULT_JOURNAL_DIR, planner: str = "scripted",
-                 route_delay_s: float = 5.0, speech_cps: float = 13.0, interrupt_after_s: float = 1.2) -> None:
+                 route_delay_s: float = 8.0, speech_cps: float = 13.0, interrupt_after_s: float = 1.2) -> None:
         self.hub = Hub()
         self.journal_dir, self.planner = Path(journal_dir), planner
         self.route_delay_s, self.speech_cps, self.interrupt_after_s = route_delay_s, speech_cps, interrupt_after_s
@@ -315,7 +315,7 @@ def main() -> None:
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8765)
     ap.add_argument("--planner", choices=("scripted", "gemini"), default="scripted")
-    ap.add_argument("--route-delay", type=float, default=5.0, help="mock latency of the museum route (s)")
+    ap.add_argument("--route-delay", type=float, default=8.0, help="mock latency of the museum route (s)")
     ap.add_argument("--journal-dir", default=str(DEFAULT_JOURNAL_DIR))
     args = ap.parse_args()
     if args.planner == "gemini":

@@ -36,6 +36,8 @@ button:disabled { opacity: .45; cursor: default; }
 .sep { width: 1px; height: 26px; background: var(--line); }
 #status { font-size: 13px; color: var(--muted); padding: 6px 20px; border-bottom: 1px solid var(--line); }
 #status b { color: var(--ink); font-weight: 600; }
+#hint { font-size: 13px; color: var(--muted); padding: 4px 20px 6px; border-bottom: 1px solid var(--line); }
+#hint b { color: var(--ink); }
 main { display: grid; grid-template-columns: 1.15fr 1fr 1.1fr; gap: 16px; padding: 16px 20px; }
 @media (max-width: 1000px) { main { grid-template-columns: 1fr; } }
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-width: 0; }
@@ -106,6 +108,7 @@ main { display: grid; grid-template-columns: 1.15fr 1fr 1.1fr; gap: 16px; paddin
   </div>
 </header>
 <div id="status">Connecting…</div>
+<div id="hint">Destinations the demo knows: <b>museum</b>, <b>harbour</b>, <b>library</b>, <b>beach</b>, <b>convention centre</b>. Mic: speak clearly, and interrupt while the first route is still being planned.</div>
 <div id="banner"></div>
 <main>
   <section class="card">
@@ -261,7 +264,7 @@ function setMic(on, note) {
   if (note) { $("banner").style.display = "block"; $("banner").textContent = note; }
 }
 function startRec() {
-  rec = new SR(); rec.lang = "en-GB"; rec.continuous = true; rec.interimResults = true;
+  rec = new SR(); rec.lang = navigator.language || "en-US"; rec.continuous = true; rec.interimResults = true;
   rec.onresult = (e) => {
     for (let i = e.resultIndex; i < e.results.length; i++) {
       const r = e.results[i], text = r[0].transcript.trim();
