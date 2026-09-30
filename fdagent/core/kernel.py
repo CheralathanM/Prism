@@ -16,7 +16,7 @@ from __future__ import annotations
 import copy
 from typing import Any, Callable
 
-from .actions import Action, RequestReasoning, Speak, StartTimer, StopSpeaking
+from .actions import Action, DiscardStaleSpeech, RequestReasoning, Speak, StartTimer, StopSpeaking
 from .admission import admit_result
 from .config import KernelConfig
 from .events import (
@@ -162,6 +162,8 @@ class SessionKernel:
             s.partial = ev.text
             return []
         s.partial = ""
+        # Every final transcript (even empty or filler-only) settles one ended speech segment.
+        self._settle_transcript()
         text = ev.text.strip()
         if not text:
             return []
@@ -173,12 +175,23 @@ class SessionKernel:
         self._bump_generation("transcript", correction_cue=cue)
         s.transcript.append({"generation": s.generation, "text": text})
         s.conversation.append({"role": "user", "text": text})
-        return [self._request_reasoning("transcript")]
+        # Anything queued for an older generation (e.g. a clarification planned before these
+        # words arrived) is obsolete; drop it before it is played.
+        return [DiscardStaleSpeech(below_generation=s.generation, reason="newer_transcript"),
+                self._request_reasoning("transcript")]
+
+    def _settle_transcript(self) -> None:
+        s = self.state
+        if s.pending_transcripts:
+            epoch = s.pending_transcripts.pop(0)
+            self._note("transcript_settled", epoch=epoch, still_pending=len(s.pending_transcripts))
+        else:
+            s.transcript_credit += 1  # arrived before its end-of-speech event
 
     def _on_turn_ended(self, ev: UserTurnEnded) -> list[Action]:
         s = self.state
         s.user_speaking = False
-        return [
+        actions: list[Action] = [
             StartTimer(
                 timer_id=f"stability:{s.speech_epoch}",
                 kind="stability",
@@ -187,6 +200,19 @@ class SessionKernel:
                 epoch=s.speech_epoch,
             )
         ]
+        if s.transcript_credit > 0:
+            s.transcript_credit -= 1
+        else:
+            s.pending_transcripts.append(s.speech_epoch)
+            self._note("transcript_pending", epoch=s.speech_epoch, pending=len(s.pending_transcripts))
+            actions.append(StartTimer(
+                timer_id=f"transcript:{s.speech_epoch}",
+                kind="transcript_deadline",
+                delay_s=self.config.transcript_timeout_s,
+                generation=s.generation,
+                epoch=s.speech_epoch,
+            ))
+        return actions
 
     def _on_agent_speech_started(self, ev: AgentSpeechStarted) -> list[Action]:
         self.state.agent_speaking = True
@@ -221,6 +247,12 @@ class SessionKernel:
                 actions.append(Speak(self.config.backchannel_text, "backchannel", s.generation))
                 self._note("backchannel", generation=s.generation)
             return actions
+
+        if ev.kind == "transcript_deadline":
+            if ev.epoch in s.pending_transcripts:
+                s.pending_transcripts.remove(ev.epoch)
+                self._note("transcript_timeout", epoch=ev.epoch, still_pending=len(s.pending_transcripts))
+            return []
 
         if ev.kind == "tool_timeout":
             op = s.ops.get(ev.call_id or "")

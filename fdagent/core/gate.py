@@ -27,6 +27,10 @@ def gate_check(
             return "user_speaking"
         if not state.stable:
             return "intent_not_stable"
+        # Silence alone is not enough: words already spoken may still be in the STT pipeline
+        # (e.g. an argument said in a later segment) and could change the call.
+        if state.pending_transcripts:
+            return "transcript_pending"
     for dep in dc.depends_on:
         op = state.op_for_key(dep)
         if op is None or op.status != OpStatus.SUCCEEDED:

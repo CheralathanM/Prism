@@ -20,6 +20,7 @@ from typing import Any, Callable
 from fdagent.core.actions import (
     Action,
     AdvisoryCancel,
+    DiscardStaleSpeech,
     DispatchTool,
     RequestReasoning,
     Speak,
@@ -144,6 +145,8 @@ class SessionRuntime:
             self.speech.enqueue(a)  # type: ignore[union-attr]
         elif isinstance(a, StopSpeaking):
             self.speech.stop()  # type: ignore[union-attr]
+        elif isinstance(a, DiscardStaleSpeech):
+            self.speech.discard_below(a.below_generation)  # type: ignore[union-attr]
         else:
             raise TypeError(f"unhandled action {a!r}")
 

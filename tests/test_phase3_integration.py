@@ -240,12 +240,13 @@ def test_L1_ingress_bridge_translates_livekit_events():
     b.on_user_state("speaking")
     b.on_user_state("speaking")  # duplicate state change is ignored
     b.on_transcript("uh", is_final=False)
-    b.on_transcript("  ", is_final=True)  # empty final dropped
+    b.on_transcript("  ", is_final=True)  # empty final is normalized to "" but still forwarded
     b.on_transcript("rooms in Eastvale", is_final=True)
     b.on_user_state("listening")
     b.on_user_state("away")  # not speaking → no second turn end
-    assert [type(e).__name__ for e in posted] == ["UserSpeechStarted", "UserTranscript", "UserTranscript", "UserTurnEnded"]
-    assert (posted[1].final, posted[2].text) == (False, "rooms in Eastvale")
+    assert [type(e).__name__ for e in posted] == ["UserSpeechStarted", "UserTranscript", "UserTranscript",
+                                                  "UserTranscript", "UserTurnEnded"]
+    assert (posted[1].final, posted[2].text, posted[2].final, posted[3].text) == (False, "", True, "rooms in Eastvale")
 
 
 class FakeHandle:

@@ -30,6 +30,9 @@ class IngressBridge:
     def on_transcript(self, text: str, is_final: bool) -> None:
         if is_final:
             if not text.strip():
+                # Still forwarded: an empty final settles its speech segment in the kernel
+                # (otherwise the segment would block dispatch until its deadline).
+                self._post(UserTranscript("", final=True))
                 return
             if self._on_final:
                 self._on_final(text)

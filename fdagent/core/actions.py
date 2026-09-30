@@ -27,6 +27,15 @@ class StopSpeaking(Action):
 
 
 @dataclass(frozen=True)
+class DiscardStaleSpeech(Action):
+    """Drop queued (not yet started) utterances planned for a generation older than
+    ``below_generation``. Speech already playing is left to barge-in handling."""
+
+    below_generation: int
+    reason: str
+
+
+@dataclass(frozen=True)
 class RequestReasoning(Action):
     request_id: str
     generation: int

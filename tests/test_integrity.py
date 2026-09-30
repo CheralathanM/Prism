@@ -62,6 +62,7 @@ def test_no_benchmark_argument_values_in_tests():
         for side in ("original_param", "corrected_param"):
             values |= {v for v in (s.get("state_rollback_details") or {}).get(side, {}).values() if isinstance(v, str)}
     values = {v for v in values if len(v) >= 3 and not v.startswith("$") and v.lower() not in param_names}
+    values |= {s["id"] for s in scenarios}  # scenario identifiers don't belong in tests either
     hits = {}
     for p in Path(__file__).parent.glob("*.py"):
         if p.name == Path(__file__).name:

@@ -29,10 +29,26 @@ class SpeechChannel:
         self._queue: asyncio.Queue[Speak] = asyncio.Queue()
         self._current: asyncio.Task | None = None
         self._interrupt_requested = False
+        self._min_generation = 0  # queued utterances below this generation are stale
         self._worker = asyncio.create_task(self._run(), name="speech")
 
     def enqueue(self, a: Speak) -> None:
         self._queue.put_nowait(a)
+
+    def discard_below(self, generation: int) -> None:
+        """Drop queued utterances planned for an older generation (they are also skipped if
+        dequeued later). The utterance currently playing is untouched: barge-in handles it."""
+        self._min_generation = max(self._min_generation, generation)
+        kept = []
+        while not self._queue.empty():
+            a = self._queue.get_nowait()
+            if a.generation >= self._min_generation:
+                kept.append(a)
+            else:
+                self._mark(name="speech_dropped_stale", speech_kind=a.kind, generation=a.generation,
+                           floor=self._min_generation, text=a.text)
+        for a in kept:
+            self._queue.put_nowait(a)
 
     def stop(self) -> None:
         while not self._queue.empty():
@@ -44,6 +60,10 @@ class SpeechChannel:
     async def _run(self) -> None:
         while True:
             a = await self._queue.get()
+            if a.generation < self._min_generation:
+                self._mark(name="speech_dropped_stale", speech_kind=a.kind, generation=a.generation,
+                           floor=self._min_generation, text=a.text)
+                continue
             self._post(AgentSpeechStarted())
             self._mark(name="speech_start", speech_kind=a.kind, generation=a.generation, text=a.text)
             self._current = asyncio.create_task(self._sink.say(a.text))
