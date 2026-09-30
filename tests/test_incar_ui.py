@@ -110,3 +110,25 @@ def test_scripted_planner_asks_again_when_destination_not_understood():
     draft = asyncio.run(ScriptedCarPlanner().propose(req))
     assert draft.reply_kind == "clarify" and "didn't catch" in draft.reply
     assert [c.args for c in draft.calls][0] == {"destination": "museum"}   # plan kept, nothing cancelled
+
+
+async def _round_trip(tmp_path):
+    demo = DemoApp(journal_dir=tmp_path, route_delay_s=0.3, speech_cps=40.0)
+    async with TestClient(TestServer(demo.make_app())) as client:
+        trips = ("Take me to the museum", "Go to the beach instead", "Take me to the museum")
+        for n, text in enumerate(trips, start=1):
+            await client.post("/api/say", json={"text": text})
+            for _ in range(300):                          # wait for this trip's navigation to start
+                await asyncio.sleep(0.02)
+                if len(demo.session.backend.navigation_log) >= n and not demo.session.kernel.state.agent_speaking:
+                    break
+        await demo.session.runtime.idle(timeout_s=5)
+        history = await (await client.get("/api/history")).json()
+        return demo.session.backend.navigation_log, history
+
+
+def test_returning_to_an_earlier_destination_is_a_new_trip(tmp_path):
+    nav, history = asyncio.run(_round_trip(tmp_path))
+    assert nav == ["museum", "beach", "museum"]
+    finals = [e["text"] for e in history if e["type"] == "agent" and e["text"].startswith("Navigating")]
+    assert finals[-1].startswith("Navigating to the museum")

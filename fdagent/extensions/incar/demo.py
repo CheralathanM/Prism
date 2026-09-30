@@ -41,13 +41,20 @@ class ScriptedCarPlanner:
     async def propose(self, request) -> Draft:
         await asyncio.sleep(0.05)
         snap = request.snapshot
-        said = " ".join(c["text"] for c in snap["conversation"] if c["role"] == "user").lower()
-        hits = [(said.rfind(p), p) for p in PLACES if p in said]
-        if not hits:
+        # Destination per driver turn (the last place named in that turn), consecutive repeats merged.
+        trips: list[str] = []
+        for turn in (c["text"].lower() for c in snap["conversation"] if c["role"] == "user"):
+            hits = [(turn.rfind(p), p) for p in PLACES if p in turn]
+            if hits and (not trips or trips[-1] != max(hits)[1]):
+                trips.append(max(hits)[1])
+        if not trips:
             return Draft(reply="Where would you like to go?", reply_kind="clarify")
-        dest = max(hits)[1]
-        calls = (ProposedCall("plan_route", {"destination": dest}),
-                 ProposedCall("start_navigation", {"route_id": {"$ref": [0, "route_id"]}}, depends_on=(0,)))
+        dest = trips[-1]
+        # Going back to an earlier destination is a new trip, not a repeat of the old calls.
+        occ = trips.count(dest) - 1
+        calls = (ProposedCall("plan_route", {"destination": dest}, occurrence=occ),
+                 ProposedCall("start_navigation", {"route_id": {"$ref": [0, "route_id"]}}, depends_on=(0,),
+                              occurrence=occ))
         last = snap["conversation"][-1] if snap["conversation"] else None
         if last and last["role"] == "user" and not any(p in last["text"].lower() for p in PLACES):
             # The driver just said something without a destination we know (e.g. a misheard name):
@@ -60,6 +67,10 @@ class ScriptedCarPlanner:
             eta = state["plan_route"]["result"]["eta_minutes"]
             return Draft(calls, reply=f"Navigating to the {dest}. You'll arrive in about {eta} minutes.")
         if not snap["calls"] or all(c["status"] == "planned" for c in snap["calls"]):
+            return Draft(calls, reply=f"Okay, planning a route to the {dest}.", reply_kind="progress")
+        new_trip = not any(c["tool"] == "plan_route" and c["args"].get("destination") == dest
+                           and c.get("occurrence", 0) == occ for c in snap["calls"])
+        if new_trip and all(c["status"] in ("succeeded", "failed", "superseded") for c in snap["calls"]):
             return Draft(calls, reply=f"Okay, planning a route to the {dest}.", reply_kind="progress")
         return Draft(calls)
 

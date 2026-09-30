@@ -15,8 +15,8 @@ Tick **Voice** if you want the agent's lines spoken aloud; the browser voices th
 
 **Speaking instead of clicking (🎤 Mic, Chrome or Edge):** click **🎤 Mic off**, allow the microphone,
 and say "Take me to the museum". While the agent is answering, say "Actually, go to the harbour
-instead". Wear **headphones** if Voice is on, otherwise the mic picks up the agent's voice and
-interrupts it. If the page shows an error after clicking Mic, restart the UI server so it has the
+instead". Turning the mic on switches Voice off automatically, because with speakers the mic hears the agent
+and it interrupts itself. Re-tick Voice only if you wear **headphones**. If the page shows an error after clicking Mic, restart the UI server so it has the
 latest code.
 Interrupt **while the first route is still being planned** (within ~8 s). If recognition mishears
 the destination, the agent says it didn't catch it and keeps the current plan; just repeat it.

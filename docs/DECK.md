@@ -92,7 +92,7 @@ Covered by kernel scenario tests T1–T10, runtime race tests and journal-replay
 
 # 7 · Validation and results (local, unofficial)
 
-- **Tests:** 175 passed, 2 skipped (Windows). The suite covers kernel scenarios, races, adapters,
+- **Tests:** 176 passed, 2 skipped (Windows). The suite covers kernel scenarios, races, adapters,
   integrity checks and the extension. Journal replay is identical.
 - **Six-case validation:** pipeline correct **6/6**; exact match **4/6**. Both failures are STT
   errors ("PO999" was heard as "P0999", and "Seoul" as "soil").

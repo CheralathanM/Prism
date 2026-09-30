@@ -168,7 +168,9 @@ Controls:
   needs Chrome or Edge and microphone permission; the browser sends the audio to its own cloud
   speech service, which is free and needs no key. Your first recognized words are sent as speech
   onset, so talking over the agent is a real barge-in; the final text becomes the transcript.
-  **Use headphones when Voice is on**, or the mic hears the agent.
+  Turning the mic on switches Voice off, so the mic can't hear the agent; re-tick Voice only with
+  headphones. As a second guard, recognised text that mostly repeats what the agent is saying
+  is ignored as echo.
 - **Voice** reads agent lines aloud with the browser's built-in speech synthesis and stops
   immediately on interruption.
 
@@ -182,7 +184,7 @@ python -m pytest -q                                            # unit, race, ada
 FDAGENT_RUN_STT_REGRESSION=1 python -m pytest -q tests/test_stt_regression.py   # needs local models
 ```
 
-Current: 175 passed, 2 skipped (Windows). `tests/test_integrity.py` fails if benchmark scenario IDs or expected argument values appear in agent
+Current: 176 passed, 2 skipped (Windows). `tests/test_integrity.py` fails if benchmark scenario IDs or expected argument values appear in agent
 code or tests.
 
 ## Known limitations

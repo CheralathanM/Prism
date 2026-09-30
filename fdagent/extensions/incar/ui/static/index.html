@@ -183,7 +183,8 @@ function agentStatus(ev) {
   const d = msgs[ev.id]; if (!d) return;
   const tag = d.querySelector(".tag"); tag.className = `tag ${ev.status}`; tag.textContent = ev.status;
   d.classList.toggle("interrupted", ev.status === "interrupted");
-  if (ev.status === "speaking") speak(ev.text);
+  if (ev.status === "speaking") { speak(ev.text); agentSaid = {text: ev.text, until: Infinity}; }
+  else agentSaid = {text: agentSaid.text, until: Date.now() + 2000};   // allow for trailing echo
   if (ev.status === "interrupted") hush();
 }
 function toolEvent(ev) {
@@ -257,7 +258,18 @@ $("replay").onclick = () => post("/api/replay");
 // Microphone: browser speech recognition (Chrome/Edge). First words -> speech onset (barge-in);
 // final text -> transcript. Use headphones if Voice is on, or the mic will hear the agent.
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-let rec = null, micOn = false, onsetSent = false;
+let rec = null, micOn = false, onsetSent = false, agentSaid = {text: "", until: 0};
+const STOP = new Set("a an the to of and or i you it is in on at me my we be can go okay ok so".split(" "));
+const words = (t) => t.toLowerCase().replace(/[^a-z\s]/g, " ").split(/\s+/).filter((w) => w && !STOP.has(w));
+// Speakers + mic: the recognizer can hear the agent. Ignore text that mostly repeats what the agent
+// is saying (or just said); a real interruption uses different words ("actually … harbour instead").
+function isEcho(text) {
+  if (Date.now() > agentSaid.until) return false;
+  const said = new Set(words(agentSaid.text)), heard = words(text);
+  const hit = heard.filter((w) => said.has(w)).length;
+  return heard.length === 0 ? true : hit >= 2 && hit / heard.length >= 0.6;
+}
+const normalize = (t) => t.replace(/\bharbor\b/gi, "harbour").replace(/\bcenter\b/gi, "centre");
 function setMic(on, note) {
   micOn = on; $("mic").classList.toggle("live", on);
   $("mic").textContent = on ? "🎤 Listening… (click to stop)" : "🎤 Mic off";
@@ -269,10 +281,11 @@ function startRec() {
     for (let i = e.resultIndex; i < e.results.length; i++) {
       const r = e.results[i], text = r[0].transcript.trim();
       if (!text) continue;
+      if (isEcho(text)) { if (r.isFinal) onsetSent = false; continue; }
       if (!onsetSent) { onsetSent = true; hush(); post("/api/speech_start"); }
       if (r.isFinal) {
         onsetSent = false;
-        post("/api/say", {text: text.replace(/\bharbor\b/gi, "harbour"), started: true});
+        post("/api/say", {text: normalize(text), started: true});
       }
     }
   };
@@ -283,7 +296,11 @@ function startRec() {
 $("mic").onclick = () => {
   if (!SR) { setMic(false, "This browser has no speech recognition. Use Chrome or Edge, or the buttons."); return; }
   if (micOn) { setMic(false); try { rec.stop(); } catch (_) {} return; }
-  setMic(true); onsetSent = false; startRec();
+  if ($("voice").checked) {
+    $("voice").checked = false;
+    setMic(true, "Voice turned off so the mic does not hear the agent. Re-tick Voice only if you are wearing headphones.");
+  } else setMic(true);
+  onsetSent = false; startRec();
 };
 
 async function refresh() {
